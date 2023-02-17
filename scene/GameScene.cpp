@@ -4,7 +4,11 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	delete model_;
+
+	delete stage_;
+}
 
 void GameScene::Initialize() {
 
@@ -12,6 +16,11 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	model_ = Model::Create();
+
+	// ステージ
+	stage_ = new Stage();
 }
 
 void GameScene::Update() {}
