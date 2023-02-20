@@ -48,6 +48,9 @@ class GameScene {
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
 	// モデル
 	Model* model_ = nullptr;
 

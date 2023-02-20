@@ -21,6 +21,16 @@ void GameScene::Initialize() {
 
 	// ステージ
 	stage_ = new Stage();
+
+	// ステージの初期化
+	stage_->Initialize(model_);
+
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	viewProjection_.eye = { 40.0f, 70.0f, -30.0f };
+	viewProjection_.target = { 40.0f, 20.0f, 10.0f };
+	viewProjection_.UpdateMatrix();
+	viewProjection_.TransferMatrix();
 }
 
 void GameScene::Update() {}
@@ -51,6 +61,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	
+	stage_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
