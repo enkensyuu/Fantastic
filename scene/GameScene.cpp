@@ -12,9 +12,14 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	fan_ = new Fan();
+	fan_->Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//fan_->Update();
+}
 
 void GameScene::Draw() {
 
