@@ -19,9 +19,15 @@ public:
 	void Draw();
 
 private:
-	WorldTransform worldTransform_;
+	static const int fannam = 3;
+
+	WorldTransform worldTransforms_[fannam];
+
+	bool isrotation_[fannam];
+
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
+	uint32_t texture_ = 0;
 };

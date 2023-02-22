@@ -18,7 +18,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	//fan_->Update();
+	fan_->Update();
 }
 
 void GameScene::Draw() {
@@ -47,7 +47,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	fan_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

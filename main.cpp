@@ -55,6 +55,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
+
+	win->SetFullscreen(true);
 #pragma endregion
 
 	// ゲームシーンの初期化
@@ -85,6 +87,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		primitiveDrawer->Reset();
 		// 描画終了
 		dxCommon->PostDraw();
+
+		if (input->TriggerKey(DIK_ESCAPE))
+		{
+			break;
+		}
 	}
 
 	// 各種解放
