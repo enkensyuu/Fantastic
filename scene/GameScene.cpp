@@ -20,6 +20,9 @@ void GameScene::Initialize() {
 	stage2_ = new Stage2;
 	stage2_->Initialize();
 
+	stage3_ = new Stage3;
+	stage3_->Initialize();
+
 	scene_ = TITLE;
 }
 
@@ -41,7 +44,14 @@ void GameScene::Update() {
 		stage1_->Update();
 		break;
 	case FOUR:
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = FIVE;
+		}
 		stage2_->Update();
+		break;
+	case FIVE:
+		stage3_->Update();
 		break;
 	}
 	
@@ -82,6 +92,9 @@ void GameScene::Draw() {
 		break;
 	case FOUR:
 		stage2_->Draw();
+		break;
+	case FIVE:
+		stage3_->Draw();
 		break;
 	}
 	// 3Dオブジェクト描画後処理
