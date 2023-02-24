@@ -9,7 +9,9 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Fan.h"
+#include "Scene.h"
+#include "Stage1.h"
+#include "Stage2.h"
 
 /// <summary>
 /// ゲームシーン
@@ -48,7 +50,10 @@ class GameScene {
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
-	Fan* fan_ = nullptr;
+	Stage1* stage1_ = nullptr;
+	Stage2* stage2_ = nullptr;
+
+	size_t scene_ = TITLE;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -8,7 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class Fan
+class Stage1
 {
 public:
 
@@ -19,11 +19,12 @@ public:
 	void Draw();
 
 private:
-	static const int fannam = 3;
+	static const int num = 3;
 
-	WorldTransform worldTransforms_[fannam];
+	WorldTransform worldTransforms_[num];
+	bool isrotation_[num];
 
-	bool isrotation_[fannam];
+	Vector3 rotationSpeed = { 0.0f,0.0f,1.0f };
 
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
@@ -31,3 +32,4 @@ private:
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
 };
+

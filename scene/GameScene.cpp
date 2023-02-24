@@ -4,7 +4,8 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+}
 
 void GameScene::Initialize() {
 
@@ -13,12 +14,37 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
-	fan_ = new Fan();
-	fan_->Initialize();
+	stage1_ = new Stage1;
+	stage1_->Initialize();
+
+	stage2_ = new Stage2;
+	stage2_->Initialize();
+
+	scene_ = TITLE;
 }
 
 void GameScene::Update() {
-	fan_->Update();
+	switch (scene_)
+	{
+	case TITLE:
+		Initialize();
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = THREE;
+		}
+		break;
+	case THREE:
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = FOUR;
+		}
+		stage1_->Update();
+		break;
+	case FOUR:
+		stage2_->Update();
+		break;
+	}
+	
 }
 
 void GameScene::Draw() {
@@ -47,7 +73,17 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	fan_->Draw();
+	switch (scene_)
+	{
+	case TITLE:
+		break;
+	case THREE:
+		stage1_->Draw();
+		break;
+	case FOUR:
+		stage2_->Draw();
+		break;
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
