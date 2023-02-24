@@ -55,7 +55,7 @@ class GameScene {
 	Model* model_ = nullptr;
 
 	// ステージ
-	Stage* stage_ = nullptr;
+	//Stage* stage_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

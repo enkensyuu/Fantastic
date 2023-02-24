@@ -6,8 +6,6 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete model_;
-
-	delete stage_;
 }
 
 void GameScene::Initialize() {
@@ -18,12 +16,6 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	model_ = Model::Create();
-
-	// ステージ
-	stage_ = new Stage();
-
-	// ステージの初期化
-	stage_->Initialize(model_);
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -62,8 +54,6 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	stage_->Draw(viewProjection_);
-
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
