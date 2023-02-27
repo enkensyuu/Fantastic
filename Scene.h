@@ -6,4 +6,6 @@ enum Scene
 	THREE,
 	FOUR,
 	FIVE,
+	SIX,
+	SEVEN,
 };

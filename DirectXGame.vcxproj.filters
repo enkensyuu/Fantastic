@@ -84,6 +84,12 @@
     <ClCompile Include="Stage3.cpp">
       <Filter>ソース ファイル\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Stage4.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage5.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -186,6 +192,12 @@
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage3.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage4.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage5.h">
       <Filter>ヘッダー ファイル\Stage</Filter>
     </ClInclude>
   </ItemGroup>

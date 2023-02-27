@@ -13,6 +13,8 @@
 #include "Stage1.h"
 #include "Stage2.h"
 #include "Stage3.h"
+#include "Stage4.h"
+#include "Stage5.h"
 
 /// <summary>
 /// ゲームシーン
@@ -54,6 +56,8 @@ class GameScene {
 	Stage1* stage1_ = nullptr;
 	Stage2* stage2_ = nullptr;
 	Stage3* stage3_ = nullptr;
+	Stage4* stage4_ = nullptr;
+	Stage5* stage5_ = nullptr;
 
 	size_t scene_ = TITLE;
 

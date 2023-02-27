@@ -23,6 +23,12 @@ void GameScene::Initialize() {
 	stage3_ = new Stage3;
 	stage3_->Initialize();
 
+	stage4_ = new Stage4;
+	stage4_->Initialize();
+
+	stage5_ = new Stage5;
+	stage5_->Initialize();
+
 	scene_ = TITLE;
 }
 
@@ -51,8 +57,21 @@ void GameScene::Update() {
 		stage2_->Update();
 		break;
 	case FIVE:
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = SIX;
+		}
 		stage3_->Update();
 		break;
+	case SIX:
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = SEVEN;
+		}
+		stage4_->Update();
+		break;
+	case SEVEN:
+		stage5_->Update();
 	}
 	
 }
@@ -95,6 +114,12 @@ void GameScene::Draw() {
 		break;
 	case FIVE:
 		stage3_->Draw();
+		break;
+	case SIX:
+		stage4_->Draw();
+		break;
+	case SEVEN:
+		stage5_->Draw();
 		break;
 	}
 	// 3Dオブジェクト描画後処理
