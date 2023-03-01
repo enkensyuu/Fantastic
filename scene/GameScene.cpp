@@ -87,7 +87,6 @@ void GameScene::Update() {
 	case SEVEN:
 		stage5_->Update();
 	}
-	
 }
 
 void GameScene::Draw() {
@@ -129,6 +128,8 @@ void GameScene::Draw() {
 	switch (scene_)
 	{
 	case TITLE:
+		break;
+	case EXPLANATION:
 		break;
 	case THREE:
 		stage1_->Draw();
