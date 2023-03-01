@@ -109,6 +109,7 @@
     <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="Stage4.cpp" />
     <ClCompile Include="Stage5.cpp" />
+    <ClCompile Include="Wind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Stage3.h" />
     <ClInclude Include="Stage4.h" />
     <ClInclude Include="Stage5.h" />
+    <ClInclude Include="Wind.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">

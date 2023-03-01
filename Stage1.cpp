@@ -1,6 +1,9 @@
 #include "Stage1.h"
 #include <cassert>
 #include "Procession.h"
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 void Stage1::Initialize()
 {
@@ -20,6 +23,8 @@ void Stage1::Initialize()
 	{
 		worldTransforms_[i].Initialize();
 
+		worldTransforms_[i].rotation_ = { 0,XMConvertToRadians(90),0 };
+
 		worldTransforms_[0].translation_ = { 0.0f,10.0f,0.0f };
 		worldTransforms_[1].translation_ = { 10.0f,0.0f,0.0f };
 		worldTransforms_[2].translation_ = { 0.0f,0.0f,10.0f };
@@ -33,17 +38,24 @@ void Stage1::Initialize()
 	}
 
 	viewProjection_.Initialize();
-
 }
 
 void Stage1::Update()
 {
+	// ÉfÉXÉtÉâÉOÇÃóßÇ¡ÇΩíeÇçÌèú
+	winds_.remove_if([](std::unique_ptr<Wind>& bullet)
+		{
+			return bullet->IsDead();
+		}
+	);
 
 	if (input_->TriggerKey(DIK_1))
 	{
 		if (!isrotation_[0])
 		{
 			isrotation_[0] = true;
+			isrotation_[1] = false;
+			isrotation_[2] = false;
 		}
 		else
 		{
@@ -56,6 +68,8 @@ void Stage1::Update()
 		if (!isrotation_[1])
 		{
 			isrotation_[1] = true;
+			isrotation_[0] = false;
+			isrotation_[2] = false;
 		}
 		else
 		{
@@ -68,6 +82,8 @@ void Stage1::Update()
 		if (!isrotation_[2])
 		{
 			isrotation_[2] = true;
+			isrotation_[0] = false;
+			isrotation_[1] = false;
 		}
 		else
 		{
@@ -77,16 +93,19 @@ void Stage1::Update()
 
 	if (isrotation_[0])
 	{
+		WindOn();
 		worldTransforms_[0].rotation_ += rotationSpeed;
 	}
 
 	if (isrotation_[1])
 	{
+		WindOn();
 		worldTransforms_[1].rotation_ += rotationSpeed;
 	}
 
 	if (isrotation_[2])
 	{
+		WindOn();
 		worldTransforms_[2].rotation_ += rotationSpeed;
 	}
 
@@ -98,6 +117,11 @@ void Stage1::Update()
 
 		worldTransforms_[i].TransferMatrix();
 	}
+
+	for (std::unique_ptr<Wind>& wind : winds_)
+	{
+		wind->Update();
+	}
 }
 
 void Stage1::Draw()
@@ -106,4 +130,31 @@ void Stage1::Draw()
 	{
 		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
 	}
+
+	for (std::unique_ptr<Wind>& wind : winds_)
+	{
+		wind->Draw(viewProjection_);
+	}
+}
+
+void Stage1::WindOn()
+{
+	// íeÇÃë¨ìx
+	const float kBulletSpeed = 0.5f;
+	Vector3 velocity(kBulletSpeed, 0, 0);
+
+	// íeÇê∂ê¨ÇµÅAèâä˙âª
+	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();
+
+	for (size_t i = 0; i < _countof(worldTransforms_); i++)
+	{
+		if (isrotation_[i])
+		{
+			newWind->Initialize(worldTransforms_[i].matWorld_, velocity);
+		}
+
+	}
+
+	// íeÇìoò^Ç∑ÇÈ
+	winds_.push_back(std::move(newWind));
 }
