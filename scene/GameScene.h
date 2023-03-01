@@ -59,7 +59,12 @@ class GameScene {
 	Stage4* stage4_ = nullptr;
 	Stage5* stage5_ = nullptr;
 
+	uint32_t textureHandle_[5];
+
 	size_t scene_ = TITLE;
+
+	Sprite* Explanation_ = nullptr;
+	Sprite* Title_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

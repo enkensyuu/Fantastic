@@ -14,6 +14,14 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
+	//テクスチャを入れ込む
+	textureHandle_[0] = TextureManager::Load("exchange.png"); //操作説明
+	textureHandle_[1] = TextureManager::Load("Title.png"); //タイトル
+
+	//スプライトを生成
+	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
+	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
+
 	stage1_ = new Stage1;
 	stage1_->Initialize();
 
@@ -37,6 +45,12 @@ void GameScene::Update() {
 	{
 	case TITLE:
 		Initialize();
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = EXPLANATION;
+		}
+		break;
+	case EXPLANATION:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = THREE;
@@ -88,6 +102,16 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	/// 
+	switch (scene_)
+	{
+	case TITLE:
+		Title_->Draw();
+		break;
+	case EXPLANATION:
+		Explanation_->Draw();
+		break;
+	}
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
