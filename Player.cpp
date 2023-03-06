@@ -5,7 +5,7 @@
 void Player::Initialize()
 {
 	model_ = Model::Create();
-	texture_ = TextureManager::Load("blue.png");
+	texture_ = TextureManager::Load("yellow.png");
 
 	worldTransform_.Initialize();
 	viewProjection_.Initialize();
