@@ -34,6 +34,7 @@ void Stage1::Initialize()
 		worldTransforms_[i].matWorld_ = MatWorld(worldTransforms_[i].scale_, worldTransforms_[i].rotation_, worldTransforms_[i].translation_);
 
 		worldTransforms_[i].TransferMatrix();
+		worldTransforms_[i].TransferColorMatrix();
 
 	}
 
@@ -141,7 +142,7 @@ void Stage1::WindOn()
 {
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
-	Vector3 velocity(kBulletSpeed, 0, 0);
+	velocity = { -kBulletSpeed, 0, 0 };
 
 	// ’e‚ğ¶¬‚µA‰Šú‰»
 	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();

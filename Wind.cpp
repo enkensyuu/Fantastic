@@ -13,8 +13,9 @@ void Wind::Initialize(const Matrix4& position, const Vector3& velocity)
 
 	// ˆø”‚ÅŽó‚¯Žæ‚Á‚½‘¬“x‚ðƒƒ“ƒo•Ï”‚É‘ã“ü
 	velocity_ = velocity;
-	texture_ = TextureManager::Load("Red.png");
-	model_ = Model::Create();
+	/*texture_ = TextureManager::Load("Red.png");
+	model_ = Model::Create();*/
+	model_ = Model::CreateFromOBJ("Wind");
 
 	worldTransform_.Initialize();
 
@@ -26,6 +27,7 @@ void Wind::Initialize(const Matrix4& position, const Vector3& velocity)
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
+
 }
 
 void Wind::Update()
@@ -38,16 +40,18 @@ void Wind::Update()
 	{
 		isDead_ = true;
 	}
+	worldTransform_.SetColor(color);
 
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix();
+	worldTransform_.TransferColorMatrix();
 }
 
 void Wind::Draw(const ViewProjection& viewProjection)
 {
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	model_->Draw(worldTransform_, viewProjection, texture_);
+	model_->Draw(worldTransform_, viewProjection);
 }
 
 Vector3 Wind::GetWorldPosition()
@@ -60,4 +64,9 @@ Vector3 Wind::GetWorldPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Wind::Collision()
+{
+	isDead_ = true;
 }

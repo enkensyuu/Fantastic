@@ -25,6 +25,8 @@ public:
 
 	void WindOn();
 
+	Vector3 GetSpeed() { return velocity; }
+
 private:
 	static const int num = 7;
 
@@ -38,6 +40,8 @@ private:
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
+
+	Vector3 velocity;
 
 	std::list<std::unique_ptr<Wind>> winds_;
 };

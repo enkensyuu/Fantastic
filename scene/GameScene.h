@@ -15,6 +15,7 @@
 #include "Stage3.h"
 #include "Stage4.h"
 #include "Stage5.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -47,6 +48,8 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
+	void CheckAllCollisions();
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -58,6 +61,8 @@ class GameScene {
 	Stage3* stage3_ = nullptr;
 	Stage4* stage4_ = nullptr;
 	Stage5* stage5_ = nullptr;
+
+	Player* player_ = nullptr;
 
 	size_t scene_ = TITLE;
 

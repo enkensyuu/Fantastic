@@ -1,10 +1,34 @@
 ﻿#include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
+#include "Procession.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
+}
+
+void GameScene::CheckAllCollisions()
+{
+	Vector3 posA, posB;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage1_->GetBullets();
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			player_->Collision();
+			//wind->Collision();
+		}
+	}
 }
 
 void GameScene::Initialize() {
@@ -29,6 +53,9 @@ void GameScene::Initialize() {
 	stage5_ = new Stage5;
 	stage5_->Initialize();
 
+	player_ = new Player;
+	player_->Initialize();
+
 	scene_ = TITLE;
 }
 
@@ -48,6 +75,7 @@ void GameScene::Update() {
 			scene_ = FOUR;
 		}
 		stage1_->Update();
+		player_->Update(stage1_->GetSpeed());
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -107,7 +135,9 @@ void GameScene::Draw() {
 	case TITLE:
 		break;
 	case THREE:
+		CheckAllCollisions();
 		stage1_->Draw();
+		player_->Draw();
 		break;
 	case FOUR:
 		stage2_->Draw();
@@ -142,3 +172,4 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
