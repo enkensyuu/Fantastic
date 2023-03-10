@@ -18,7 +18,9 @@ public:
 
 	void Draw();
 
-	void Collision();
+	void MoveCollision();
+
+	void DeadCollision();
 
 	Vector3 GetWorldPosition();
 
@@ -36,6 +38,9 @@ private:
 
 	Vector3 balloonSpeed;
 	Vector3 UpDownSpeed;
+
+	// デスフラグ
+	bool isDead_ = false;
 
 };
 

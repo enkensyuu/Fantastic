@@ -44,9 +44,9 @@ void Stage1::Initialize()
 void Stage1::Update()
 {
 	// デスフラグの立った弾を削除
-	winds_.remove_if([](std::unique_ptr<Wind>& bullet)
+	winds_.remove_if([](std::unique_ptr<Wind>& wind)
 		{
-			return bullet->IsDead();
+			return wind->IsDead();
 		}
 	);
 

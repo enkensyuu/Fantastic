@@ -76,13 +76,21 @@ void Balloon::Update(Vector3 speed)
 
 void Balloon::Draw()
 {
-	model_->Draw(worldTransform_, viewProjection_);
+	if (!isDead_)
+	{
+		model_->Draw(worldTransform_, viewProjection_);
+	}
 }
 
-void Balloon::Collision()
+void Balloon::MoveCollision()
 {
 	isMove_ = true;
 	isUpDown_ = false;
+}
+
+void Balloon::DeadCollision()
+{
+	isDead_ = true;
 }
 
 Vector3 Balloon::GetWorldPosition()

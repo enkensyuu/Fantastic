@@ -44,9 +44,25 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			balloon_->Collision();
+			balloon_->MoveCollision();
 			wind->Collision();
 		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+
+	posA = player_->GetWorldPosition();
+
+	posB = balloon_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		balloon_->DeadCollision();
 	}
 #pragma endregion
 
@@ -127,7 +143,7 @@ void GameScene::Update() {
 	case SEVEN:
 		stage5_->Update();
 	}
-	
+
 }
 
 void GameScene::Draw() {
