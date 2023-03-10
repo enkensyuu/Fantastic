@@ -13,6 +13,7 @@ void Player::Initialize()
 
 	worldTransform_.translation_ = { -5,10,0 };
 	isMove_ = false;
+	isMove2_ = false;
 
 	// çsóÒçXêV
 	worldTransform_.matWorld_ = Mat_Identity();
@@ -27,15 +28,30 @@ void Player::Update(Vector3 speed)
 {
 	playerSpeed = speed;
 	returnSpeed = speed;
+	returnSpeed /= 2;
 
 	if (isMove_)
 	{
 		worldTransform_.translation_ += playerSpeed;
 		stoptimer--;
 	}
-	if (stoptimer < 0)
+	if (stoptimer <= 0)
 	{
 		isMove_ = false;
+		isMove2_ = true;
+		stoptimer = 6 * 5;
+	}
+
+	if (isMove2_)
+	{
+		worldTransform_.translation_ += returnSpeed;
+		stoptimer2--;
+	}
+
+	if (stoptimer2 <= 0)
+	{
+		isMove2_ = false;
+		stoptimer2 = 8 * 5;
 	}
 
 	if (input_->TriggerKey(DIK_R))
@@ -71,5 +87,4 @@ Vector3 Player::GetWorldPosition()
 void Player::Collision()
 {
 	isMove_ = true;
-	stoptimer = 2 * 5;
 }

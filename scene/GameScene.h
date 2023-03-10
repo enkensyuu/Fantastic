@@ -16,13 +16,14 @@
 #include "Stage4.h"
 #include "Stage5.h"
 #include "Player.h"
+#include "Balloon.h"
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
 
-  public: // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -50,7 +51,10 @@ class GameScene {
 
 	void CheckAllCollisions();
 
-  private: // メンバ変数
+private: // メンバ変数
+	WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -63,6 +67,8 @@ class GameScene {
 	Stage5* stage5_ = nullptr;
 
 	Player* player_ = nullptr;
+
+	//Balloon* balloon_ = nullptr;
 
 	size_t scene_ = TITLE;
 

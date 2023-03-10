@@ -56,6 +56,9 @@ void GameScene::Initialize() {
 	player_ = new Player;
 	player_->Initialize();
 
+	//balloon_ = new Balloon;
+	//balloon_->Initialize();
+
 	scene_ = TITLE;
 }
 
@@ -137,7 +140,8 @@ void GameScene::Draw() {
 	case THREE:
 		CheckAllCollisions();
 		stage1_->Draw();
-		player_->Draw();
+		player_->Draw();/*
+		balloon_->Draw();*/
 		break;
 	case FOUR:
 		stage2_->Draw();
