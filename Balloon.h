@@ -20,13 +20,22 @@ public:
 
 	void Collision();
 
+	Vector3 GetWorldPosition();
+
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 	Model* model_ = nullptr;
 
 	bool isMove_ = false;
+	bool isUpDown_ = true;
+	bool isUp_ = true;
+	bool isDown_ = false;
+
+	int changeTime;
+
 	Vector3 balloonSpeed;
+	Vector3 UpDownSpeed;
 
 };
 

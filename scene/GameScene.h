@@ -68,7 +68,7 @@ private: // メンバ変数
 
 	Player* player_ = nullptr;
 
-	//Balloon* balloon_ = nullptr;
+	Balloon* balloon_ = nullptr;
 
 	size_t scene_ = TITLE;
 

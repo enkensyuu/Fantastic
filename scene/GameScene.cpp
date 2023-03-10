@@ -14,6 +14,7 @@ void GameScene::CheckAllCollisions()
 
 	const std::list<std::unique_ptr<Wind>>& wind_ = stage1_->GetBullets();
 
+#pragma region Player&Wind
 	posA = player_->GetWorldPosition();
 
 	for (const std::unique_ptr<Wind>& wind : wind_) {
@@ -26,9 +27,29 @@ void GameScene::CheckAllCollisions()
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
 			player_->Collision();
-			//wind->Collision();
+			wind->Collision();
 		}
 	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+	posA = balloon_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			balloon_->Collision();
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
 }
 
 void GameScene::Initialize() {
@@ -56,8 +77,8 @@ void GameScene::Initialize() {
 	player_ = new Player;
 	player_->Initialize();
 
-	//balloon_ = new Balloon;
-	//balloon_->Initialize();
+	balloon_ = new Balloon;
+	balloon_->Initialize();
 
 	scene_ = TITLE;
 }
@@ -77,8 +98,10 @@ void GameScene::Update() {
 		{
 			scene_ = FOUR;
 		}
+		CheckAllCollisions();
 		stage1_->Update();
 		player_->Update(stage1_->GetSpeed());
+		balloon_->Update(stage1_->GetSpeed());
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -138,10 +161,9 @@ void GameScene::Draw() {
 	case TITLE:
 		break;
 	case THREE:
-		CheckAllCollisions();
 		stage1_->Draw();
-		player_->Draw();/*
-		balloon_->Draw();*/
+		player_->Draw();
+		balloon_->Draw();
 		break;
 	case FOUR:
 		stage2_->Draw();
