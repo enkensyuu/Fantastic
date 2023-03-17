@@ -65,7 +65,9 @@ class GameScene {
 
 	Sprite* Explanation_ = nullptr;
 	Sprite* Title_ = nullptr;
+	Sprite* Space_ = nullptr; //SPACE文字
 
+	int GameTimer_ = 0;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

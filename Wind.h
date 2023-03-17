@@ -32,6 +32,8 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	void Collision();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -52,4 +54,6 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ
 	bool isDead_ = false;
+
+	XMFLOAT4 color = { 1,1,1,0.5f };
 };

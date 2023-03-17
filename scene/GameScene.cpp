@@ -17,10 +17,12 @@ void GameScene::Initialize() {
 	//テクスチャを入れ込む
 	textureHandle_[0] = TextureManager::Load("exchange.png"); //操作説明
 	textureHandle_[1] = TextureManager::Load("Title.png"); //タイトル
+	textureHandle_[2] = TextureManager::Load("space.png"); //Space文字
 
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
+	Space_= Sprite::Create(textureHandle_[2], { 550,800 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -45,6 +47,7 @@ void GameScene::Update() {
 	{
 	case TITLE:
 		Initialize();
+		GameTimer_ += 1;
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = EXPLANATION;
@@ -106,6 +109,10 @@ void GameScene::Draw() {
 	{
 	case TITLE:
 		Title_->Draw();
+		if (GameTimer_ % 30 >= 20)
+		{
+			Space_->Draw();
+		}
 		break;
 	case EXPLANATION:
 		Explanation_->Draw();
