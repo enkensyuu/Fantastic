@@ -13,6 +13,10 @@ void Stage1::Initialize()
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::Create();
+	audio_ = Audio::GetInstance();
+
+	//SEデータ
+	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
@@ -42,6 +46,7 @@ void Stage1::Initialize()
 
 void Stage1::Update()
 {
+	//SEHandle_ = audio_->PlayWave(PropellerSE_, true);
 	// デスフラグの立った弾を削除
 	winds_.remove_if([](std::unique_ptr<Wind>& bullet)
 		{
@@ -90,23 +95,40 @@ void Stage1::Update()
 			isrotation_[2] = false;
 		}
 	}
-
-	if (isrotation_[0])
+  //プロペラSE
+	if (isrotation_[0] ||isrotation_[1] || isrotation_[2])
 	{
 		WindOn();
-		worldTransforms_[0].rotation_ += rotationSpeed;
+		/*SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+
+		if (isrotation_[0])
+		{
+			worldTransforms_[0].rotation_ += rotationSpeed;
+		}
+		else if (isrotation_[1])
+		{
+			worldTransforms_[1].rotation_ += rotationSpeed;
+		}
+		else if (isrotation_[2])
+		{
+			worldTransforms_[2].rotation_ += rotationSpeed;
+		}*/
+		if (HandleFlag == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2])
+			{
+				if (HandleFlag == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+					HandleFlag = true;
+				}
+			}
+		}
 	}
 
-	if (isrotation_[1])
+	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 	{
-		WindOn();
-		worldTransforms_[1].rotation_ += rotationSpeed;
-	}
-
-	if (isrotation_[2])
-	{
-		WindOn();
-		worldTransforms_[2].rotation_ += rotationSpeed;
+		audio_->StopWave(SEHandle_);
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
@@ -157,4 +179,5 @@ void Stage1::WindOn()
 
 	// 弾を登録する
 	winds_.push_back(std::move(newWind));
+
 }

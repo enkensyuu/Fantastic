@@ -4,7 +4,10 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
+GameScene::~GameScene() 
+{ 
+	delete Title_;
+	delete Explanation_;
 }
 
 void GameScene::Initialize() {
