@@ -126,9 +126,11 @@ void Stage1::Update()
 		}
 	}
 
+
 	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 	{
 		audio_->StopWave(SEHandle_);
+		HandleFlag = false;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
