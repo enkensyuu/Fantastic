@@ -10,6 +10,10 @@ void Stage5::Initialize()
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::Create();
+	audio_ = Audio::GetInstance();
+
+	//SEデータ
+	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
@@ -160,6 +164,28 @@ void Stage5::Update()
 	if (isrotation_[6])
 	{
 		worldTransforms_[6].rotation_ += rotationSpeed;
+	}
+
+	//プロペラSE
+	if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3] || isrotation_[4] || isrotation_[5]||isrotation_[6])
+	{
+		if (HandleFlag5 == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3] || isrotation_[4] || isrotation_[5]||isrotation_[6])
+			{
+				if (HandleFlag5 == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+					HandleFlag5 = true;
+				}
+			}
+		}
+	}
+
+	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2] && !isrotation_[3] && !isrotation_[4] && !isrotation_[5]&&!isrotation_[6])
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag5 = false;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
