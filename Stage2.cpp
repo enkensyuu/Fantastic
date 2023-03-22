@@ -8,7 +8,7 @@ void Stage2::Initialize()
 	model_ = model;*/
 	debugText_ = DebugText::GetInstance();
 	input_ = Input::GetInstance();
-	texture_ = TextureManager::Load("white.png");
+	//texture_ = TextureManager::Load("white.png");
 	model_ = Model::Create();
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
@@ -114,6 +114,29 @@ void Stage2::Update()
 
 		worldTransforms_[i].TransferMatrix();
 	}
+
+	//ƒvƒƒyƒ‰SE
+	/*if (isrotation_[0] || isrotation_[1] || isrotation_[2]||isrotation_[3])
+	{
+		WindOn();
+		if (HandleFlag == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2]||isrotation_[3])
+			{
+				if (HandleFlag == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+					HandleFlag = true;
+				}
+			}
+		}
+	}*/
+
+	/*if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2]&&!isrotation_[3])
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag = false;
+	}*/
 }
 
 void Stage2::Draw()
