@@ -4,8 +4,8 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() 
-{ 
+GameScene::~GameScene()
+{
 	delete Title_;
 	delete Explanation_;
 }
@@ -25,7 +25,7 @@ void GameScene::Initialize() {
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
-	Space_= Sprite::Create(textureHandle_[2], { 550,800 });
+	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();

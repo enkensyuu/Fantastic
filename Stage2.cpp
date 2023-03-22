@@ -4,6 +4,8 @@
 
 void Stage2::Initialize()
 {
+	/*assert(model);
+	model_ = model;*/
 	debugText_ = DebugText::GetInstance();
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
@@ -146,4 +148,7 @@ void Stage2::Draw()
 	{
 		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
 	}
+
+	DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage2", DebugText2);
 }

@@ -31,5 +31,8 @@
 		Input* input_ = nullptr;
 		Model* model_ = nullptr;
 		uint32_t texture_ = 0;
+
+		int DebugText5;
+
 	};
 

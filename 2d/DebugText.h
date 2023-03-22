@@ -80,7 +80,7 @@ class DebugText {
 
 	float posX_ = 0.0f;
 	float posY_ = 0.0f;
-	float scale_ = 1.0f;
+	float scale_ = 4.0f;
 	// 書式付き文字列展開用バッファ
 	char buffer[kBufferSize];
 

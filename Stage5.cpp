@@ -178,4 +178,7 @@ void Stage5::Draw()
 	{
 		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
 	}
+
+	DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage5", DebugText5);
 }

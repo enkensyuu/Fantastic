@@ -34,6 +34,8 @@ private:
 	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
 
+	int DebugText3;
+
 	//SE
 	uint32_t PropellerSE_ = 0;
 	uint32_t SEHandle_ = 0;

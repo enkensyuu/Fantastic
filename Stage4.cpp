@@ -10,6 +10,10 @@ void Stage4::Initialize()
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::Create();
+	audio_ = Audio::GetInstance();
+
+	//SEデータ
+	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
@@ -144,6 +148,28 @@ void Stage4::Update()
 		worldTransforms_[5].rotation_ += rotationSpeed;
 	}
 
+	//プロペラSE
+	if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3] || isrotation_[4]||isrotation_[5])
+	{
+		if (HandleFlag4 == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3] || isrotation_[4]||isrotation_[5])
+			{
+				if (HandleFlag4 == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+					HandleFlag4 = true;
+				}
+			}
+		}
+	}
+
+	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2] && !isrotation_[3] && !isrotation_[4]&&!isrotation_[5])
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag4 = false;
+	}
+
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
 		// 行列更新
@@ -160,4 +186,7 @@ void Stage4::Draw()
 	{
 		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
 	}
+
+	DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage4", DebugText4);
 }

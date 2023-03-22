@@ -159,6 +159,9 @@ void Stage1::Draw()
 	{
 		wind->Draw(viewProjection_);
 	}
+
+	DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage1", DebugText);
 }
 
 void Stage1::WindOn()
