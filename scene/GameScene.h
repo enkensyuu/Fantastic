@@ -72,6 +72,8 @@ private: // メンバ変数
 
 	size_t scene_ = TITLE;
 
+	bool isGetGoldKey_ = false;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

@@ -8,6 +8,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "GoldKey.h"
+#include <list>
 
 class Balloon
 {
@@ -24,6 +26,11 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	void KeyShot();
+
+	std::list<std::unique_ptr<GoldKey>>goldKey_;
+	const std::list<std::unique_ptr<GoldKey>>& GetGoldKey() { return goldKeys_; }
+
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
@@ -33,14 +40,16 @@ private:
 	bool isUpDown_ = true;
 	bool isUp_ = true;
 	bool isDown_ = false;
+	bool isShotStop = true;
+	bool isDead_ = false;
+	bool isLockShot = false;
 
 	int changeTime;
 
 	Vector3 balloonSpeed;
 	Vector3 UpDownSpeed;
 
-	// デスフラグ
-	bool isDead_ = false;
+	std::list<std::unique_ptr<GoldKey>> goldKeys_;
 
 };
 

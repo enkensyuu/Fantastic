@@ -28,7 +28,7 @@ public:
 	Vector3 GetSpeed() { return velocity; }
 
 private:
-	static const int num = 7;
+	static const int num = 3;
 
 	WorldTransform worldTransforms_[num];
 	bool isrotation_[num];

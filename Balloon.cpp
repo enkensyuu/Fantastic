@@ -15,6 +15,8 @@ void Balloon::Initialize()
 	isUpDown_ = true;
 	isUp_ = true;
 	isDown_ = false;
+	isShotStop = true;
+	isLockShot = false;
 	changeTime = 12 * 5;
 
 	// 行列更新
@@ -41,7 +43,7 @@ void Balloon::Update(Vector3 speed)
 	if (isUpDown_)
 	{
 		changeTime--;
-		if (changeTime <= 0&&isUp_)
+		if (changeTime <= 0 && isUp_)
 		{
 			isUp_ = false;
 			isDown_ = true;
@@ -66,6 +68,25 @@ void Balloon::Update(Vector3 speed)
 		}
 	}
 
+	if (isDead_)
+	{
+		if (isLockShot)
+		{
+			KeyShot();
+			isShotStop = false;
+		}
+
+		if (!isShotStop)
+		{
+			isLockShot = false;
+		}
+
+		for (std::unique_ptr<GoldKey>& goldKey : goldKeys_)
+		{
+			goldKey->Update(balloonSpeed);
+		}
+	}
+
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -80,6 +101,11 @@ void Balloon::Draw()
 	{
 		model_->Draw(worldTransform_, viewProjection_);
 	}
+
+	for (std::unique_ptr<GoldKey>& goldKey : goldKeys_)
+	{
+		goldKey->Draw(viewProjection_);
+	}
 }
 
 void Balloon::MoveCollision()
@@ -91,6 +117,11 @@ void Balloon::MoveCollision()
 void Balloon::DeadCollision()
 {
 	isDead_ = true;
+
+	if (isShotStop)
+	{
+		isLockShot = true;
+	}
 }
 
 Vector3 Balloon::GetWorldPosition()
@@ -103,4 +134,15 @@ Vector3 Balloon::GetWorldPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Balloon::KeyShot()
+{
+	// 弾を生成し、初期化
+	std::unique_ptr <GoldKey> newGoldKey = std::make_unique<GoldKey>();
+
+	newGoldKey->Initialize(worldTransform_.matWorld_);
+
+	// 弾を登録する
+	goldKeys_.push_back(std::move(newGoldKey));
 }

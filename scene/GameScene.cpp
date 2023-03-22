@@ -13,6 +13,7 @@ void GameScene::CheckAllCollisions()
 	Vector3 posA, posB;
 
 	const std::list<std::unique_ptr<Wind>>& wind_ = stage1_->GetBullets();
+	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
 
 #pragma region Player&Wind
 	posA = player_->GetWorldPosition();
@@ -66,6 +67,45 @@ void GameScene::CheckAllCollisions()
 	}
 #pragma endregion
 
+#pragma region GoldKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+			posA = wind->GetWorldPosition();
+			posB = goldKey->GetWorldPosition();
+
+			if (
+				(posA.x - posB.x) * (posA.x - posB.x) +
+				(posA.y - posB.y) * (posA.y - posB.y) +
+				(posA.z - posB.z) * (posA.z - posB.z)
+				<= (1.0f + 1.0f) * (1.0f + 1.0f)
+				) {
+				goldKey->MoveCollision();
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region Player&GoldKey
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+		posB = goldKey->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			goldKey->GetCollision();
+			isGetGoldKey_ = true;
+		}
+	}
+#pragma endregion
+
 }
 
 void GameScene::Initialize() {
@@ -74,6 +114,8 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
+
+	isGetGoldKey_ = false;
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
