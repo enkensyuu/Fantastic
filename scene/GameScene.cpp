@@ -8,6 +8,7 @@ GameScene::~GameScene()
 {
 	delete Title_;
 	delete Explanation_;
+	delete StageChoice_;
 }
 
 void GameScene::Initialize() {
@@ -21,11 +22,15 @@ void GameScene::Initialize() {
 	textureHandle_[0] = TextureManager::Load("exchange.png"); //操作説明
 	textureHandle_[1] = TextureManager::Load("Title.png"); //タイトル
 	textureHandle_[2] = TextureManager::Load("space.png"); //Space文字
+	textureHandle_[3] = TextureManager::Load("Stage.png"); //ステージ選択
+	textureHandle_[4] = TextureManager::Load("waku.png"); //ステージ選択(枠)
 
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
 	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
+	StageChoice_= Sprite::Create(textureHandle_[3], { 0,0 });
+	Waku_ = Sprite::Create(textureHandle_[4], {100,200});
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -59,11 +64,53 @@ void GameScene::Update() {
 	case EXPLANATION:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
-			scene_ = THREE;
+			scene_ = STAGECHOICE;
 		}
 		break;
+	case STAGECHOICE:
+		if (input_->TriggerKey(DIK_1))
+		{
+			WakuFlag = 1;
+			if (input_->TriggerKey(DIK_RETURN))
+			{
+				scene_ = THREE;
+			}
+		}
+		if (input_->TriggerKey(DIK_B) && WakuFlag == 1)
+		{
+			WakuFlag = 0;
+		}
+
+		if (input_->TriggerKey(DIK_2))
+		{
+			if (input_->TriggerKey(DIK_RETURN))
+			{
+				scene_ = FOUR;
+			}
+		}
+		if (input_->TriggerKey(DIK_3))
+		{
+			if (input_->TriggerKey(DIK_RETURN))
+			{
+				scene_ = FIVE;
+			}
+		}
+		if (input_->TriggerKey(DIK_4))
+		{
+			if (input_->TriggerKey(DIK_RETURN))
+			{
+				scene_ = SIX;
+			}
+		}
+		if (input_->TriggerKey(DIK_5))
+		{
+			if (input_->TriggerKey(DIK_RETURN))
+			{
+				scene_ = SEVEN;
+			}
+		}
 	case THREE:
-		if (input_->TriggerKey(DIK_SPACE))
+		if (input_->TriggerKey(DIK_RETURN))
 		{
 			scene_ = FOUR;
 		}
@@ -120,6 +167,13 @@ void GameScene::Draw() {
 	case EXPLANATION:
 		Explanation_->Draw();
 		break;
+	case STAGECHOICE:
+		StageChoice_->Draw();
+		if (WakuFlag == 1)
+		{
+         Waku_->Draw();
+		}
+		break;
 	}
 
 	// スプライト描画後処理
@@ -140,6 +194,8 @@ void GameScene::Draw() {
 	case TITLE:
 		break;
 	case EXPLANATION:
+		break;
+	case STAGECHOICE:
 		break;
 	case THREE:
 		stage1_->Draw();
