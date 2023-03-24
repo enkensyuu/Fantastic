@@ -106,6 +106,38 @@ void GameScene::CheckAllCollisions()
 	}
 #pragma endregion
 
+#pragma region SilverKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+
+		posA = wind->GetWorldPosition();
+		posB = silverKey_->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			silverKey_->MoveCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region Player&SilverKey
+
+	posA = player_->GetWorldPosition();
+	posB = silverKey_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		silverKey_->GetCollision();
+		isGetGoldKey_ = true;
+	}
+#pragma endregion
 }
 
 void GameScene::Initialize() {
@@ -138,6 +170,9 @@ void GameScene::Initialize() {
 	balloon_ = new Balloon;
 	balloon_->Initialize();
 
+	silverKey_ = new SilverKey;
+	silverKey_->Initialize(10, 20);
+
 	scene_ = TITLE;
 }
 
@@ -160,6 +195,7 @@ void GameScene::Update() {
 		stage1_->Update();
 		player_->Update(stage1_->GetSpeed());
 		balloon_->Update(stage1_->GetSpeed());
+		silverKey_->Update(stage1_->GetSpeed());
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -222,6 +258,7 @@ void GameScene::Draw() {
 		stage1_->Draw();
 		player_->Draw();
 		balloon_->Draw();
+		silverKey_->Draw();
 		break;
 	case FOUR:
 		stage2_->Draw();

@@ -17,6 +17,7 @@
 #include "Stage5.h"
 #include "Player.h"
 #include "Balloon.h"
+#include "SilverKey.h"
 
 /// <summary>
 /// ゲームシーン
@@ -69,6 +70,8 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 
 	Balloon* balloon_ = nullptr;
+
+	SilverKey* silverKey_ = nullptr;
 
 	size_t scene_ = TITLE;
 

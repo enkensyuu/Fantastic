@@ -1,26 +1,21 @@
-#include "GoldKey.h"
+#include "SilverKey.h"
 #include "Procession.h"
 
-void GoldKey::Initialize(const Matrix4& position)
+void SilverKey::Initialize(float x, float y)
 {
-
-	model_ = Model::CreateFromOBJ("GoldKey");
-
-	isMove_ = false;
-	isGet_ = false;
-
-	stopTimer = 6 * 5;
-
-	worldTransform_.Initialize();
+	model_ = Model::CreateFromOBJ("SilverKey");
 
 	worldTransform_.scale_ = { 0.75f,0.75f ,0.75f };
 
 	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
 
-	// 引数で受け取った初期座標をセット
-	worldTransform_.translation_.x = position.m[3][0];
-	worldTransform_.translation_.y = position.m[3][1];
-	worldTransform_.translation_.z = position.m[3][2];
+	isGet_ = false;
+	stopTimer = 6 * 5;
+
+	worldTransform_.Initialize();
+
+	worldTransform_.translation_.x = x;
+	worldTransform_.translation_.y = y;
 
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -29,7 +24,7 @@ void GoldKey::Initialize(const Matrix4& position)
 	viewProjection_.Initialize();
 }
 
-void GoldKey::Update(Vector3 speed)
+void SilverKey::Update(Vector3 speed)
 {
 	Vector3 Speed = speed;
 
@@ -38,6 +33,7 @@ void GoldKey::Update(Vector3 speed)
 		worldTransform_.translation_ += Speed;
 		stopTimer--;
 	}
+
 	if (stopTimer <= 0)
 	{
 		isMove_ = false;
@@ -51,15 +47,15 @@ void GoldKey::Update(Vector3 speed)
 	worldTransform_.TransferMatrix();
 }
 
-void GoldKey::Draw(const ViewProjection& viewProjection)
+void SilverKey::Draw()
 {
 	if (!isGet_)
 	{
-		model_->Draw(worldTransform_, viewProjection);
+		model_->Draw(worldTransform_, viewProjection_);
 	}
 }
 
-Vector3 GoldKey::GetWorldPosition()
+Vector3 SilverKey::GetWorldPosition()
 {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
@@ -71,12 +67,13 @@ Vector3 GoldKey::GetWorldPosition()
 	return worldPos;
 }
 
-void GoldKey::MoveCollision()
+void SilverKey::MoveCollision()
 {
 	isMove_ = true;
 }
 
-void GoldKey::GetCollision()
+
+void SilverKey::GetCollision()
 {
 	isGet_ = true;
 }

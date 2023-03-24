@@ -107,6 +107,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Procession.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="SilverKey.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Procession.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="SilverKey.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />

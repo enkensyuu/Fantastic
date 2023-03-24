@@ -11,17 +11,17 @@
 
 using namespace DirectX;
 
-class GoldKey
+class SilverKey
 {
 public:
-	void Initialize(const Matrix4& position);
+	void Initialize(float x, float y);
 
 	void Update(Vector3 speed);
 
-	void Draw(const ViewProjection& viewProjection);
+	void Draw();
 
 	Vector3 GetWorldPosition();
-
+	
 	void MoveCollision();
 
 	void GetCollision();
@@ -29,10 +29,10 @@ public:
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
-	Model* model_ = nullptr;
-	Vector3 velocity_;
 
-	bool isMove_ = false;
+	Model* model_ = nullptr;
+
+	bool isMove_ = false;;
 	bool isGet_ = false;
 
 	int stopTimer = 6 * 5;

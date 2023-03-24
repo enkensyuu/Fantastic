@@ -55,6 +55,12 @@
     <Filter Include="ソース ファイル\Stage">
       <UniqueIdentifier>{b0a1d8a6-0371-47ee-9889-dfae9b641c4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Key">
+      <UniqueIdentifier>{79ad1674-9ac3-44ee-a328-76b63196d19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Key">
+      <UniqueIdentifier>{fb0e361f-c631-460e-a419-ff2ac29b28aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,7 +106,10 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GoldKey.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverKey.cpp">
+      <Filter>ソース ファイル\Key</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +231,10 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="GoldKey.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverKey.h">
+      <Filter>ヘッダー ファイル\Key</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
