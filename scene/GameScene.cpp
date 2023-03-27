@@ -25,6 +25,7 @@ void GameScene::Initialize() {
 	textureHandle_[3] = TextureManager::Load("Stage.png"); //ステージ選択
 	textureHandle_[4] = TextureManager::Load("waku.png"); //ステージ選択(枠)
 
+
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
@@ -48,6 +49,7 @@ void GameScene::Initialize() {
 	stage5_->Initialize();
 
 	scene_ = TITLE;
+	WakuFlag = 0;
 }
 
 void GameScene::Update() {
@@ -71,11 +73,8 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_1))
 		{
 			WakuFlag = 1;
-			if (input_->TriggerKey(DIK_RETURN))
-			{
-				scene_ = THREE;
-			}
 		}
+
 		if (input_->TriggerKey(DIK_B) && WakuFlag == 1)
 		{
 			WakuFlag = 0;
@@ -110,35 +109,53 @@ void GameScene::Update() {
 			}
 		}
 	case THREE:
-		if (input_->TriggerKey(DIK_RETURN))
+
+		if (input_->TriggerKey(DIK_RETURN)&&WakuFlag==1)
 		{
-			scene_ = FOUR;
+			scene_ = THREE;
 		}
-		stage1_->Update();
+
+		if (scene_ == THREE)
+		{
+			stage1_->Update();
+		}
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = FIVE;
 		}
-		stage2_->Update();
+		if (scene_ == FOUR)
+		{
+            stage2_->Update();
+		}
+		
 		break;
 	case FIVE:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = SIX;
 		}
-		stage3_->Update();
+		if (scene_ == FIVE)
+		{
+			stage3_->Update();
+		}
 		break;
 	case SIX:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = SEVEN;
 		}
-		stage4_->Update();
+		if (scene_ == SIX)
+		{
+			stage4_->Update();
+		}
 		break;
 	case SEVEN:
-		stage5_->Update();
+		if (scene_ == SEVEN)
+		{
+			stage5_->Update();
+		}
 	}
 }
 

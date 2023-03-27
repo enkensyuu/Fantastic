@@ -126,7 +126,7 @@ void Stage1::Update()
 		}
 	}
 
-
+	
 	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 	{
 		audio_->StopWave(SEHandle_);
