@@ -32,6 +32,10 @@ void GameScene::Initialize() {
 	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
 	StageChoice_= Sprite::Create(textureHandle_[3], { 0,0 });
 	Waku_ = Sprite::Create(textureHandle_[4], {100,200});
+	Waku2_ = Sprite::Create(textureHandle_[4], { 705,200 });
+	Waku3_ = Sprite::Create(textureHandle_[4], { 1300,200 });
+	Waku4_ = Sprite::Create(textureHandle_[4], { 100,600 });
+	Waku5_ = Sprite::Create(textureHandle_[4], { 710,600 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -49,7 +53,7 @@ void GameScene::Initialize() {
 	stage5_->Initialize();
 
 	scene_ = TITLE;
-	WakuFlag = 0;
+	RingFlag = 0;
 }
 
 void GameScene::Update() {
@@ -70,49 +74,101 @@ void GameScene::Update() {
 		}
 		break;
 	case STAGECHOICE:
+
+		//番号を押すと選択される
 		if (input_->TriggerKey(DIK_1))
 		{
-			WakuFlag = 1;
+			RingFlag = 1;
+			if (input_->TriggerKey(DIK_RETURN) && RingFlag == 1)
+			{
+				scene_ = THREE;
+			}
 		}
-
-		if (input_->TriggerKey(DIK_B) && WakuFlag == 1)
-		{
-			WakuFlag = 0;
-		}
-
 		if (input_->TriggerKey(DIK_2))
 		{
-			if (input_->TriggerKey(DIK_RETURN))
+			RingFlag = 2;
+			if (input_->TriggerKey(DIK_RETURN) && RingFlag == 2)
 			{
 				scene_ = FOUR;
 			}
 		}
 		if (input_->TriggerKey(DIK_3))
 		{
-			if (input_->TriggerKey(DIK_RETURN))
+			RingFlag = 3;
+			if (input_->TriggerKey(DIK_RETURN) && RingFlag == 3)
 			{
 				scene_ = FIVE;
 			}
 		}
 		if (input_->TriggerKey(DIK_4))
 		{
-			if (input_->TriggerKey(DIK_RETURN))
+			RingFlag = 4;
+			if (input_->TriggerKey(DIK_RETURN) && RingFlag == 4)
 			{
 				scene_ = SIX;
 			}
 		}
 		if (input_->TriggerKey(DIK_5))
 		{
-			if (input_->TriggerKey(DIK_RETURN))
+			RingFlag = 5;
+			if (input_->TriggerKey(DIK_RETURN) && RingFlag == 5)
 			{
 				scene_ = SEVEN;
 			}
 		}
+
+
+		//Bボタンで選択キャンセル
+		if (input_->TriggerKey(DIK_B) && RingFlag == 1)
+		{
+			RingFlag = 0;
+		}
+
+		if (input_->TriggerKey(DIK_B) && RingFlag == 2)
+		{
+			RingFlag = 0;
+		}
+
+		if (input_->TriggerKey(DIK_B) && RingFlag == 3)
+		{
+			RingFlag = 0;
+		}
+
+		if (input_->TriggerKey(DIK_B) && RingFlag == 4)
+		{
+			RingFlag = 0;
+		}
+
+		if (input_->TriggerKey(DIK_B) && RingFlag == 5)
+		{
+			RingFlag = 0;
+		}
 	case THREE:
 
-		if (input_->TriggerKey(DIK_RETURN)&&WakuFlag==1)
+		//ENTERキーを押したらステージ移動
+		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 1)
 		{
 			scene_ = THREE;
+		}
+
+		if (input_->TriggerKey(DIK_RETURN)&&RingFlag==2)
+		{
+			scene_ = FOUR;
+		}
+
+		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 3)
+		{
+			scene_ = FIVE;
+		}
+
+		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 4)
+		{
+			scene_ = SIX;
+		}
+
+		if (input_->TriggerKey(DIK_SPACE) && RingFlag == 5)
+		{
+			scene_ = SEVEN;
 		}
 
 		if (scene_ == THREE)
@@ -120,37 +176,28 @@ void GameScene::Update() {
 			stage1_->Update();
 		}
 		break;
+
 	case FOUR:
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			scene_ = FIVE;
-		}
 		if (scene_ == FOUR)
 		{
             stage2_->Update();
 		}
-		
 		break;
+
 	case FIVE:
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			scene_ = SIX;
-		}
 		if (scene_ == FIVE)
 		{
 			stage3_->Update();
 		}
 		break;
+
 	case SIX:
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			scene_ = SEVEN;
-		}
 		if (scene_ == SIX)
 		{
 			stage4_->Update();
 		}
 		break;
+
 	case SEVEN:
 		if (scene_ == SEVEN)
 		{
@@ -186,12 +233,30 @@ void GameScene::Draw() {
 		break;
 	case STAGECHOICE:
 		StageChoice_->Draw();
-		if (WakuFlag == 1)
+		if (RingFlag == 1)
 		{
          Waku_->Draw();
 		}
+		if (RingFlag == 2)
+		{
+			Waku2_->Draw();
+		}
+		if (RingFlag == 3)
+		{
+			Waku3_->Draw();
+		}
+		if (RingFlag == 4)
+		{
+			Waku4_->Draw();
+		}
+		if (RingFlag == 5)
+		{
+			Waku5_->Draw();
+		}
 		break;
 	}
+	/*DebugText::GetInstance()->SetPos(200, 180);
+	DebugText::GetInstance()->Printf("scene:%d", scene_);*/
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

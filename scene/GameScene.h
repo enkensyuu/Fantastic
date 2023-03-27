@@ -68,8 +68,12 @@ class GameScene {
 	Sprite* Space_ = nullptr; //SPACE文字
 	Sprite* StageChoice_ = nullptr; //ステージ選択
 	Sprite* Waku_ = nullptr; //ステージ選択の枠 
+	Sprite* Waku2_ = nullptr; //ステージ選択の枠(2) 
+	Sprite* Waku3_ = nullptr; //ステージ選択の枠(3) 
+	Sprite* Waku4_ = nullptr; //ステージ選択の枠(4) 
+	Sprite* Waku5_ = nullptr; //ステージ選択の枠(5) 
 
-	int WakuFlag = 0; //枠のフラグ
+	int RingFlag = 0; //枠のフラグ
 	int GameTimer_ = 0;
 	/// <summary>
 	/// ゲームシーン用
