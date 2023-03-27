@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "Balloon.h"
 #include "SilverKey.h"
+#include "WindPower.h"
 
 /// <summary>
 /// ゲームシーン
@@ -72,6 +73,8 @@ private: // メンバ変数
 	Balloon* balloon_ = nullptr;
 
 	SilverKey* silverKey_ = nullptr;
+
+	WindPower* windPower_ = nullptr;
 
 	size_t scene_ = TITLE;
 

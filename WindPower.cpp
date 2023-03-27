@@ -1,78 +1,57 @@
-#include "Player.h"
-#include <cassert>
+#include "WindPower.h"
 #include "Procession.h"
 
-void Player::Initialize()
+void WindPower::Initialize()
 {
-	input_ = Input::GetInstance();
-
-	texture_ = TextureManager::Load("yellow.png");
+	texture_ = TextureManager::Load("white.png");
 	model_ = Model::Create();
+	isMove_ = false;
+	stopTimer_ = 4 * 5;
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 0,10,0 };
-	isMove_ = false;
-	isMove2_ = false;
+	worldTransform_.translation_ = { 10,10,0 };
 
-	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
+	worldTransform_.TransferColorMatrix();
 	worldTransform_.TransferMatrix();
 
 	viewProjection_.Initialize();
 }
 
-void Player::Update(Vector3 speed)
+void WindPower::Update()
 {
-	playerSpeed = speed;
-	returnSpeed = speed;
-	returnSpeed /= 2;
+	Vector3 RotationSpeed = { 0,0,0.1f };
 
 	if (isMove_)
 	{
-		worldTransform_.translation_ += playerSpeed;
-		stoptimer--;
+		worldTransform_.rotation_ -= RotationSpeed;
+		stopTimer_--;
 	}
-	if (stoptimer <= 0)
+
+	if (stopTimer_<=0)
 	{
 		isMove_ = false;
-		isMove2_ = true;
-		stoptimer = 6 * 5;
 	}
 
-	if (isMove2_)
-	{
-		worldTransform_.translation_ += returnSpeed;
-		stoptimer2--;
-	}
-
-	if (stoptimer2 <= 0)
-	{
-		isMove2_ = false;
-		stoptimer2 = 8 * 5;
-	}
-
-	if (input_->TriggerKey(DIK_R))
-	{
-		Initialize();
-	}
-
-	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
 	worldTransform_.TransferMatrix();
-	worldTransform_.TransferColorMatrix();
 }
 
-void Player::Draw()
+void WindPower::Draw()
 {
 	model_->Draw(worldTransform_, viewProjection_, texture_);
 }
 
-Vector3 Player::GetWorldPosition()
+void WindPower::Collision()
+{
+	isMove_ = true;
+	stopTimer_ = 12 * 5;
+}
+
+Vector3 WindPower::GetPosition()
 {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
@@ -82,9 +61,4 @@ Vector3 Player::GetWorldPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
-}
-
-void Player::Collision()
-{
-	isMove_ = true;
 }

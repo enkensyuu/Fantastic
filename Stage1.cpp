@@ -142,7 +142,7 @@ void Stage1::WindOn()
 {
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
-	velocity = { +kBulletSpeed, 0, 0 };
+	velocity = { 0,+kBulletSpeed, 0 };
 
 	// ’e‚ğ¶¬‚µA‰Šú‰»
 	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();
