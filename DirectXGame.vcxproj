@@ -103,6 +103,7 @@
     <ClCompile Include="base\TextureManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="GoldKey.cpp" />
+    <ClCompile Include="MagmaBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Procession.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="GoldKey.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="MagmaBlock.h" />
     <ClInclude Include="math\MathUtility.h" />
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="math\Vector2.h" />

@@ -14,7 +14,7 @@
 class Balloon
 {
 public:
-	void Initialize();
+	void Initialize(float x, float y);
 
 	void Update(Vector3 speed);
 

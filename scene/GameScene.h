@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "Audio.h"
 #include "DirectXCommon.h"
 #include "DebugText.h"
@@ -19,6 +18,7 @@
 #include "Balloon.h"
 #include "SilverKey.h"
 #include "WindPower.h"
+#include "MagmaBlock.h"
 
 /// <summary>
 /// ゲームシーン
@@ -75,6 +75,8 @@ private: // メンバ変数
 	SilverKey* silverKey_ = nullptr;
 
 	WindPower* windPower_ = nullptr;
+
+	MagmaBlock* magmaBlock_ = nullptr;
 
 	size_t scene_ = TITLE;
 

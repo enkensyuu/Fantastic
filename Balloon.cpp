@@ -3,13 +3,13 @@
 #include "Procession.h"
 #include <DirectXMath.h>
 
-void Balloon::Initialize()
+void Balloon::Initialize(float x, float y)
 {
 	model_ = Model::CreateFromOBJ("Balloon");
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 5,10,0 };
+	worldTransform_.translation_ = { x,y,0 };
 
 	isMove_ = false;
 	isUpDown_ = true;

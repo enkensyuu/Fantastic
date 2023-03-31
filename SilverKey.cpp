@@ -5,14 +5,14 @@ void SilverKey::Initialize(float x, float y)
 {
 	model_ = Model::CreateFromOBJ("SilverKey");
 
-	worldTransform_.scale_ = { 0.75f,0.75f ,0.75f };
-
-	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
-
 	isGet_ = false;
 	stopTimer = 6 * 5;
 
 	worldTransform_.Initialize();
+
+	worldTransform_.scale_ = { 0.75f,0.75f ,0.75f };
+
+	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
 
 	worldTransform_.translation_.x = x;
 	worldTransform_.translation_.y = y;
