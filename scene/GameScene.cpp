@@ -1,31 +1,64 @@
 ﻿#include "GameScene.h"
+#include "AxisIndicator.h"
+#include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include <cassert>
-
-GameScene::GameScene() {}
+#include <iomanip>
+#include <random>
+#include <sstream>
 
 GameScene::~GameScene() {
 	delete model_;
+	// BGM解放
+	// 自キャラの解放
+	delete modelPlayer_;
+	delete modelPlayer2_;
+	// 天球データ解放
+	delete modelSkydome_;
+	// ステージ
+	delete stage_;
+	// スプライト
+	delete title_;
+	delete howtoplay_;
+	delete stageClear_;
+	delete gameOver_;
+	delete gameClear_;
+	// 背景スプライト
+	delete backGround1_;
+	delete backGround2_;
+	delete backGround3_;
+	delete backGround4_;
+	delete backGround5_;
+	delete backGround6_;
 }
-
 void GameScene::Initialize() {
-
+	// インスタンス取得
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	debugText_ = DebugText::GetInstance();
 
+	// 3Dモデルの生成
 	model_ = Model::Create();
 
+	// ステージ
+	stage_ = new stage();
+
+	// ステージの初期化
+	stage_->Initialize(model_);
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 	viewProjection_.eye = { 40.0f, 70.0f, -30.0f };
 	viewProjection_.target = { 40.0f, 20.0f, 10.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
+
+	//初期化
+	Parameter({ 14.0f, -10.0f, 54.0f }, { 38.0f, -10.0f, 26.0f }, 1);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	stage_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -39,7 +72,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -53,7 +85,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	
+	stage_->Draw(viewProjection_);
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -66,11 +99,19 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	// デバッグテキストの描画
-	debugText_->DrawAll(commandList);
-	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::Parameter(
+	const Vector3& playerPos1, const Vector3& playerPos2, const int& stageNum) {
+	// 自キャラの初期化
+	Vector3 pos1 = playerPos1;
+	Vector3 pos2 = playerPos2;
+	// ステージの初期化
+	stage_->StageInitialize(filename_[stageNum]); // ステージ読み込み(1)
+
+	isClear = false;
 }
