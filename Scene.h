@@ -8,4 +8,5 @@ enum Scene
 	FIVE,
 	SIX,
 	SEVEN,
+	GameOver,
 };

@@ -30,6 +30,8 @@ void Player::Update(Vector3 speed)
 	returnSpeed = speed;
 	returnSpeed /= 2;
 
+	worldTransform_.translation_.y -= 0.1f;
+
 	if (isMove_)
 	{
 		worldTransform_.translation_ += playerSpeed;
@@ -87,4 +89,9 @@ Vector3 Player::GetWorldPosition()
 void Player::Collision()
 {
 	isMove_ = true;
+}
+
+void Player::DethCollision()
+{
+	isDead_ = true;
 }

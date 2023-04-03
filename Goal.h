@@ -1,34 +1,30 @@
 #pragma once
-#include "Audio.h"
 #include "DirectXCommon.h"
 #include "DebugText.h"
 #include "Input.h"
 #include "Model.h"
 #include "SafeDelete.h"
+#include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <list>
 
-class MagmaBlock
+class Goal
 {
 public:
 	void Initialize(float x,float y);
-
-	void Update();
 
 	void Draw();
 
 	Vector3 GetPosition();
 
-	void Collision();
-
-	bool IsGetCool() { return isCool_; }
-
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
-	bool isCool_ = false;
-
 	Model* model_ = nullptr;
+
 	uint32_t texture_ = 0;
+
 };
+

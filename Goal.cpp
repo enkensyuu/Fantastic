@@ -1,42 +1,32 @@
-#include "MagmaBlock.h"
+#include "Goal.h"
 #include "Procession.h"
 
-void MagmaBlock::Initialize(float x, float y)
+void Goal::Initialize(float x, float y)
 {
 	model_ = Model::Create();
-	texture_ = TextureManager::Load("Red.png");
-
-	isCool_ = false;
+	texture_ = TextureManager::Load("red.png");
 
 	worldTransform_.Initialize();
 
 	worldTransform_.translation_ = { x,y,0 };
 
+
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	worldTransform_.TransferColorMatrix();
 	worldTransform_.TransferMatrix();
+	worldTransform_.TransferColorMatrix();
 
 	viewProjection_.Initialize();
 }
 
-void MagmaBlock::Update()
-{
-	// 行列更新
-	worldTransform_.matWorld_ = Mat_Identity();
-	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
-	worldTransform_.TransferMatrix();
-}
-
-void MagmaBlock::Draw()
+void Goal::Draw()
 {
 	model_->Draw(worldTransform_, viewProjection_, texture_);
 }
 
-Vector3 MagmaBlock::GetPosition()
+Vector3 Goal::GetPosition()
 {
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
@@ -46,9 +36,4 @@ Vector3 MagmaBlock::GetPosition()
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
-}
-
-void MagmaBlock::Collision()
-{
-	isCool_ = true;
 }

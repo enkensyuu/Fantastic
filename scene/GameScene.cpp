@@ -174,6 +174,26 @@ void GameScene::CheckAllCollisions()
 		}
 	}
 #pragma endregion
+
+#pragma region Player&MagmaBlock
+
+	posA = player_->GetWorldPosition();
+	posB = magmaBlock_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		if (!magmaBlock_->IsGetCool())
+		{
+			player_->DethCollision();
+		}
+	}
+
+#pragma endregion
+
 }
 
 void GameScene::Initialize() {
@@ -213,7 +233,7 @@ void GameScene::Initialize() {
 	windPower_->Initialize();
 
 	magmaBlock_ = new MagmaBlock;
-	magmaBlock_->Initialize(-10, 10);
+	magmaBlock_->Initialize(0, -10);
 
 	scene_ = TITLE;
 }
@@ -232,6 +252,10 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = FOUR;
+		}
+		if (player_->IsGetDead())
+		{
+			scene_ = GameOver;
 		}
 		CheckAllCollisions();
 		stage1_->Update();
@@ -263,6 +287,13 @@ void GameScene::Update() {
 		break;
 	case SEVEN:
 		stage5_->Update();
+		break;
+	case GameOver:
+		if (input_->TriggerKey(DIK_R))
+		{
+			scene_ = TITLE;
+		}
+		break;
 	}
 
 }

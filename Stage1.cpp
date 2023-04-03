@@ -27,7 +27,7 @@ void Stage1::Initialize()
 
 		worldTransforms_[0].translation_ = { 0.0f,10.0f,0.0f };
 		worldTransforms_[1].translation_ = { 10.0f,0.0f,0.0f };
-		worldTransforms_[2].translation_ = { 0.0f,0.0f,0.0f };
+		worldTransforms_[2].translation_ = { -10.0f,-10.0f,0.0f };
 
 		// çsóÒçXêV
 		worldTransforms_[i].matWorld_ = Mat_Identity();

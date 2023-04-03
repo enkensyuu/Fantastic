@@ -22,6 +22,10 @@ public:
 
 	void Collision();
 
+	void DethCollision();
+
+	bool IsGetDead() { return isDead_; }
+
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
@@ -31,6 +35,7 @@ private:
 
 	bool isMove_ = false;
 	bool isMove2_ = false;
+	bool isDead_ = false;
 
 	Vector3 playerSpeed;
 	Vector3 returnSpeed;
