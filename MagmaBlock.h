@@ -11,7 +11,7 @@
 class MagmaBlock
 {
 public:
-	void Initialize(float x,float y);
+	void Initialize(float x, float y);
 
 	void Update();
 
@@ -31,4 +31,7 @@ private:
 
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
+
+	float color_ = 1;
+	XMFLOAT4 color;
 };

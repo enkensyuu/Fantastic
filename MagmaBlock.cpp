@@ -3,10 +3,12 @@
 
 void MagmaBlock::Initialize(float x, float y)
 {
-	model_ = Model::Create();
-	texture_ = TextureManager::Load("Red.png");
+	model_ = Model::CreateFromOBJ("MagmaBlock");
+
+	color_ = 1;
 
 	isCool_ = false;
+	color = { color_,color_,color_,1 };
 
 	worldTransform_.Initialize();
 
@@ -15,25 +17,31 @@ void MagmaBlock::Initialize(float x, float y)
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
-	worldTransform_.TransferColorMatrix();
 	worldTransform_.TransferMatrix();
+	worldTransform_.TransferColorMatrix();
 
 	viewProjection_.Initialize();
 }
 
 void MagmaBlock::Update()
 {
+	if (isCool_)
+	{
+		color_ -= 0.01f;
+	}
+	color = { color_,color_,color_,1 };
+	worldTransform_.SetColor(color);
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
+	worldTransform_.TransferColorMatrix();
 	worldTransform_.TransferMatrix();
 }
 
 void MagmaBlock::Draw()
 {
-	model_->Draw(worldTransform_, viewProjection_, texture_);
+	model_->Draw(worldTransform_, viewProjection_);
 }
 
 Vector3 MagmaBlock::GetPosition()

@@ -169,7 +169,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			windPower_->Collision();
+			magmaBlock_->Collision();
 			wind->Collision();
 		}
 	}
@@ -249,10 +249,10 @@ void GameScene::Update() {
 		}
 		break;
 	case THREE:
-		if (input_->TriggerKey(DIK_SPACE))
+		/*if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = FOUR;
-		}
+		}*/
 		if (player_->IsGetDead())
 		{
 			scene_ = GameOver;
@@ -263,6 +263,7 @@ void GameScene::Update() {
 		balloon_->Update(stage1_->GetSpeed());
 		silverKey_->Update(stage1_->GetSpeed());
 		windPower_->Update();
+		magmaBlock_->Update();
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
