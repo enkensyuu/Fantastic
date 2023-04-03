@@ -12,8 +12,11 @@ void Stage1::Initialize()
 	debugText_ = DebugText::GetInstance();
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
+	//textureHandle2_[0] = TextureManager::Load("1.png"); //ステージ1
 	model_ = Model::Create();
 	audio_ = Audio::GetInstance();
+
+	//BackGroud_ = Sprite::Create(textureHandle2_[0], { 0,0 });
 
 	//SEデータ
 	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
@@ -95,12 +98,11 @@ void Stage1::Update()
 			isrotation_[2] = false;
 		}
 	}
-  //プロペラSE
-	if (isrotation_[0] ||isrotation_[1] || isrotation_[2])
+	//プロペラSE
+	if (isrotation_[0] || isrotation_[1] || isrotation_[2])
 	{
 		WindOn();
 		/*SEHandle_ = audio_->PlayWave(PropellerSE_, false);
-
 		if (isrotation_[0])
 		{
 			worldTransforms_[0].rotation_ += rotationSpeed;
@@ -126,7 +128,7 @@ void Stage1::Update()
 		}
 	}
 
-	
+
 	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 	{
 		audio_->StopWave(SEHandle_);

@@ -59,7 +59,7 @@ class GameScene {
 	Stage4* stage4_ = nullptr;
 	Stage5* stage5_ = nullptr;
 
-	uint32_t textureHandle_[10];
+	uint32_t textureHandle_[15];
 
 	size_t scene_ = TITLE;
 
@@ -67,6 +67,11 @@ class GameScene {
 	Sprite* Title_ = nullptr;
 	Sprite* Space_ = nullptr; //SPACE文字
 	Sprite* StageChoice_ = nullptr; //ステージ選択
+	Sprite* BackGroudStage1_ = nullptr; //ステージ1(背景)
+	Sprite* BackGroudStage2_ = nullptr; //ステージ2(背景)
+	Sprite* BackGroudStage3_ = nullptr; //ステージ3(背景)
+	Sprite* BackGroudStage4_ = nullptr; //ステージ4(背景)
+	Sprite* BackGroudStage5_ = nullptr; //ステージ5(背景)
 	Sprite* Waku_ = nullptr; //ステージ選択の枠 
 	Sprite* Waku2_ = nullptr; //ステージ選択の枠(2) 
 	Sprite* Waku3_ = nullptr; //ステージ選択の枠(3) 

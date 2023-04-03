@@ -32,7 +32,9 @@ private:
 	WorldTransform worldTransforms_[num];
 	bool isrotation_[num];
 
-	Vector3 rotationSpeed = { 0.0f,0.0f,1.0f };
+	Vector3 rotationSpeed = { 0.0f,0.0f,1.0f};
+
+	//uint32_t textureHandle2_[10];
 
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
@@ -40,6 +42,7 @@ private:
 	Model* model_ = nullptr;
 	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
+	//Sprite* BackGroud_ = nullptr; 
 
 	int DebugText;
 

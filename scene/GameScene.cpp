@@ -24,18 +24,24 @@ void GameScene::Initialize() {
 	textureHandle_[2] = TextureManager::Load("space.png"); //Space文字
 	textureHandle_[3] = TextureManager::Load("Stage.png"); //ステージ選択
 	textureHandle_[4] = TextureManager::Load("waku.png"); //ステージ選択(枠)
+	textureHandle_[5] = TextureManager::Load("1.png"); //背景1
+	textureHandle_[6] = TextureManager::Load("2.png"); //背景2
+	textureHandle_[7] = TextureManager::Load("3.png"); //背景3
 
 
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
 	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
-	StageChoice_= Sprite::Create(textureHandle_[3], { 0,0 });
-	Waku_ = Sprite::Create(textureHandle_[4], {100,200});
+	StageChoice_ = Sprite::Create(textureHandle_[3], { 0,0 });
+	Waku_ = Sprite::Create(textureHandle_[4], { 100,200 });
 	Waku2_ = Sprite::Create(textureHandle_[4], { 705,200 });
 	Waku3_ = Sprite::Create(textureHandle_[4], { 1300,200 });
 	Waku4_ = Sprite::Create(textureHandle_[4], { 100,600 });
 	Waku5_ = Sprite::Create(textureHandle_[4], { 710,600 });
+	BackGroudStage1_ = Sprite::Create(textureHandle_[5], { 0,0 });
+	BackGroudStage2_ = Sprite::Create(textureHandle_[6], { 0,0 });
+	BackGroudStage3_ = Sprite::Create(textureHandle_[7], { 0,0 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -151,7 +157,7 @@ void GameScene::Update() {
 			scene_ = THREE;
 		}
 
-		if (input_->TriggerKey(DIK_RETURN)&&RingFlag==2)
+		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 2)
 		{
 			scene_ = FOUR;
 		}
@@ -180,7 +186,7 @@ void GameScene::Update() {
 	case FOUR:
 		if (scene_ == FOUR)
 		{
-            stage2_->Update();
+			stage2_->Update();
 		}
 		break;
 
@@ -235,7 +241,7 @@ void GameScene::Draw() {
 		StageChoice_->Draw();
 		if (RingFlag == 1)
 		{
-         Waku_->Draw();
+			Waku_->Draw();
 		}
 		if (RingFlag == 2)
 		{
@@ -252,6 +258,21 @@ void GameScene::Draw() {
 		if (RingFlag == 5)
 		{
 			Waku5_->Draw();
+		}
+	case THREE:
+		if (scene_ == THREE)
+		{
+			BackGroudStage1_->Draw();
+	    }
+	case FOUR:
+		if (scene_ == FOUR)
+		{
+			BackGroudStage2_->Draw();
+		}
+	case FIVE:
+		if (scene_ == FIVE)
+		{
+			BackGroudStage3_->Draw();
 		}
 		break;
 	}
