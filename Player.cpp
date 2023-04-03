@@ -11,7 +11,7 @@ void Player::Initialize()
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 0,10,0 };
+	worldTransform_.translation_ = { -20,-10,0 };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -29,6 +29,11 @@ void Player::Update(Vector3 speed)
 	playerSpeed = speed;
 	returnSpeed = speed;
 	returnSpeed /= 2;
+
+	if (g_)
+	{
+		worldTransform_.translation_.y -= 0.1f;
+	}
 
 	if (isMove_)
 	{
@@ -87,4 +92,14 @@ Vector3 Player::GetWorldPosition()
 void Player::Collision()
 {
 	isMove_ = true;
+}
+
+void Player::StopCollision()
+{
+	g_ = false;
+}
+
+void Player::StopCollision2()
+{
+	g_ = true;
 }

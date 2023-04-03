@@ -156,6 +156,36 @@ void GameScene::CheckAllCollisions()
 		}
 	}
 #pragma endregion
+
+#pragma region Player&Block
+	posA = block_->GetPosition();
+
+	posB = player_->GetWorldPosition();
+
+	player_->StopCollision2();
+
+	if (posA.y + 1 > posB.y - 1 && posA.y - 1 < posB.y + 1)
+	{
+		player_->StopCollision();
+	}
+
+#pragma endregion
+
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+		posB = goal_->GetPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			isGoal_ = true;
+		}
+#pragma endregion
 }
 
 void GameScene::Initialize() {
@@ -194,6 +224,12 @@ void GameScene::Initialize() {
 	windPower_ = new WindPower;
 	windPower_->Initialize();
 
+	block_ = new Block;
+	block_->Initialize();
+
+	goal_ = new Goal;
+	goal_->Initialize();
+
 	scene_ = TITLE;
 }
 
@@ -208,16 +244,17 @@ void GameScene::Update() {
 		}
 		break;
 	case THREE:
-		if (input_->TriggerKey(DIK_SPACE))
+		if (isGoal_)
 		{
 			scene_ = FOUR;
 		}
 		CheckAllCollisions();
+		if (input_->TriggerKey(DIK_R))
+		{
+			Initialize();
+		}
 		stage1_->Update();
 		player_->Update(stage1_->GetSpeed());
-		balloon_->Update(stage1_->GetSpeed());
-		silverKey_->Update(stage1_->GetSpeed());
-		windPower_->Update();
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -279,9 +316,8 @@ void GameScene::Draw() {
 	case THREE:
 		stage1_->Draw();
 		player_->Draw();
-		balloon_->Draw();
-		silverKey_->Draw();
-		windPower_->Draw();
+		block_->Draw();
+		goal_->Draw();
 		break;
 	case FOUR:
 		stage2_->Draw();

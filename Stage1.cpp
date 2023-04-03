@@ -23,11 +23,13 @@ void Stage1::Initialize()
 	{
 		worldTransforms_[i].Initialize();
 
-		worldTransforms_[i].rotation_ = { 0,XMConvertToRadians(90),0 };
+		worldTransforms_[0].rotation_ = { XMConvertToRadians(90),0,0 };
+		worldTransforms_[1].rotation_ = { 0,XMConvertToRadians(90),0 };
+		worldTransforms_[2].rotation_ = { 0,XMConvertToRadians(90),0 };
 
-		worldTransforms_[0].translation_ = { 0.0f,10.0f,0.0f };
-		worldTransforms_[1].translation_ = { 10.0f,0.0f,0.0f };
-		worldTransforms_[2].translation_ = { 0.0f,0.0f,0.0f };
+		worldTransforms_[0].translation_ = { -5.0f,-18.0f,0.0f };
+		worldTransforms_[1].translation_ = { -25.0f,-15.0f,0.0f };
+		worldTransforms_[2].translation_ = { -5.0f,-7.0f,0.0f };
 
 		// s—ñXV
 		worldTransforms_[i].matWorld_ = Mat_Identity();
@@ -37,7 +39,6 @@ void Stage1::Initialize()
 		worldTransforms_[i].TransferColorMatrix();
 
 	}
-
 	viewProjection_.Initialize();
 }
 
@@ -50,7 +51,7 @@ void Stage1::Update()
 		}
 	);
 
-	if (input_->TriggerKey(DIK_1))
+	if (input_->TriggerKey(DIK_UP))
 	{
 		if (!isrotation_[0])
 		{
@@ -64,7 +65,7 @@ void Stage1::Update()
 		}
 	}
 
-	else if (input_->TriggerKey(DIK_2))
+	else if (input_->TriggerKey(DIK_RIGHT))
 	{
 		if (!isrotation_[1])
 		{
@@ -78,7 +79,7 @@ void Stage1::Update()
 		}
 	}
 
-	else if (input_->TriggerKey(DIK_3))
+	else if (input_->TriggerKey(DIK_LEFT))
 	{
 		if (!isrotation_[2])
 		{
@@ -142,18 +143,26 @@ void Stage1::WindOn()
 {
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
-	velocity = { 0,+kBulletSpeed, 0 };
 
 	// ’e‚ğ¶¬‚µA‰Šú‰»
 	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();
 
-	for (size_t i = 0; i < _countof(worldTransforms_); i++)
+	if (isrotation_[0])
 	{
-		if (isrotation_[i])
-		{
-			newWind->Initialize(worldTransforms_[i].matWorld_, velocity);
-		}
+		velocity = { 0,+kBulletSpeed, 0 };
+		newWind->Initialize(worldTransforms_[0].matWorld_, velocity);
+	}
 
+	if (isrotation_[1])
+	{
+		velocity = { +kBulletSpeed, 0,0 };
+		newWind->Initialize(worldTransforms_[1].matWorld_, velocity);
+	}
+
+	if (isrotation_[2])
+	{
+		velocity = { -kBulletSpeed, 0,0 };
+		newWind->Initialize(worldTransforms_[2].matWorld_, velocity);
 	}
 
 	// ’e‚ğ“o˜^‚·‚é

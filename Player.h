@@ -22,6 +22,11 @@ public:
 
 	void Collision();
 
+	void StopCollision();
+	void StopCollision2();
+
+	bool GetG() { return g_; }
+
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
@@ -34,6 +39,8 @@ private:
 
 	Vector3 playerSpeed;
 	Vector3 returnSpeed;
+
+	bool g_ = true;
 
 	int stoptimer;
 	int stoptimer2;

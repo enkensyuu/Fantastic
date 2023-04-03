@@ -19,6 +19,8 @@
 #include "Balloon.h"
 #include "SilverKey.h"
 #include "WindPower.h"
+#include "Block.h"
+#include "Goal.h"
 
 /// <summary>
 /// ゲームシーン
@@ -75,6 +77,12 @@ private: // メンバ変数
 	SilverKey* silverKey_ = nullptr;
 
 	WindPower* windPower_ = nullptr;
+
+	Goal* goal_ = nullptr;
+
+	bool isGoal_ = false;
+
+	Block* block_ = nullptr;
 
 	size_t scene_ = TITLE;
 
