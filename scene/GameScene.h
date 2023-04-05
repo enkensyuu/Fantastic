@@ -19,6 +19,7 @@
 #include "SilverKey.h"
 #include "WindPower.h"
 #include "MagmaBlock.h"
+#include "Door.h"
 
 /// <summary>
 /// ゲームシーン
@@ -78,9 +79,12 @@ private: // メンバ変数
 
 	MagmaBlock* magmaBlock_ = nullptr;
 
+	Door* door_ = nullptr;
+
 	size_t scene_ = TITLE;
 
 	bool isGetGoldKey_ = false;
+	bool isOpen_;
 
 	/// <summary>
 	/// ゲームシーン用

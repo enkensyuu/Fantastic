@@ -5,33 +5,28 @@
 #include "Input.h"
 #include "Model.h"
 #include "SafeDelete.h"
-#include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class WindPower
+class Door
 {
 public:
-	void Initialize();
+	void Initialize(float x, float y);
 
-	void Update();
+	void Update(bool flag);
 
 	void Draw();
-
-	void Collision();
-
-	Vector3 GetPosition();
-
-	bool IsStop() { return isMove_; }
 
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
+	Input* input_ = nullptr;
+
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
 
-	bool isMove_ = false;
+	float startY;
 
-	int stopTimer_;
+
 };

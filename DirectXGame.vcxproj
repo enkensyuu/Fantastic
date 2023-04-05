@@ -102,6 +102,7 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\TextureManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="GoldKey.cpp" />
     <ClCompile Include="MagmaBlock.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="base\SafeDelete.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="GoldKey.h" />
     <ClInclude Include="input\Input.h" />

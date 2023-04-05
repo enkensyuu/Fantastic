@@ -102,6 +102,7 @@ void GameScene::CheckAllCollisions()
 			) {
 			goldKey->GetCollision();
 			isGetGoldKey_ = true;
+			isOpen_ = true;
 		}
 	}
 #pragma endregion
@@ -136,6 +137,7 @@ void GameScene::CheckAllCollisions()
 		) {
 		silverKey_->GetCollision();
 		isGetGoldKey_ = true;
+		isOpen_ = true;
 	}
 #pragma endregion
 
@@ -153,7 +155,13 @@ void GameScene::CheckAllCollisions()
 			) {
 			windPower_->Collision();
 			wind->Collision();
+			isOpen_ = true;
 		}
+	}
+
+	if (!windPower_->IsStop())
+	{
+		isOpen_ = false;
 	}
 #pragma endregion
 
@@ -204,6 +212,7 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	isGetGoldKey_ = false;
+	isOpen_ = false;
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -235,6 +244,9 @@ void GameScene::Initialize() {
 	magmaBlock_ = new MagmaBlock;
 	magmaBlock_->Initialize(0, -10);
 
+	door_ = new Door;
+	door_->Initialize(15, 10);
+
 	scene_ = TITLE;
 }
 
@@ -264,6 +276,7 @@ void GameScene::Update() {
 		silverKey_->Update(stage1_->GetSpeed());
 		windPower_->Update();
 		magmaBlock_->Update();
+		door_->Update(isOpen_);
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -336,6 +349,7 @@ void GameScene::Draw() {
 		silverKey_->Draw();
 		windPower_->Draw();
 		magmaBlock_->Draw();
+		door_->Draw();
 		break;
 	case FOUR:
 		stage2_->Draw();

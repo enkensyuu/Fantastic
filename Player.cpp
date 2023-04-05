@@ -11,7 +11,7 @@ void Player::Initialize()
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 0,10,0 };
+	worldTransform_.translation_ = { 10,10,0 };
 	isMove_ = false;
 	isMove2_ = false;
 
