@@ -85,6 +85,7 @@ private: // メンバ変数
 
 	bool isGetGoldKey_ = false;
 	bool isOpen_;
+	bool isKeyOpen_;
 
 	/// <summary>
 	/// ゲームシーン用

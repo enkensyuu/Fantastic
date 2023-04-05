@@ -10,7 +10,7 @@ void WindPower::Initialize()
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 10,10,0 };
+	worldTransform_.translation_ = { -10,10,0 };
 
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);

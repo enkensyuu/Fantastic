@@ -25,7 +25,7 @@ void Stage1::Initialize()
 
 		worldTransforms_[i].rotation_ = { 0,XMConvertToRadians(90),0 };
 
-		worldTransforms_[0].translation_ = { 0.0f,10.0f,0.0f };
+		worldTransforms_[0].translation_ = { 5.0f,10.0f,0.0f };
 		worldTransforms_[1].translation_ = { 10.0f,0.0f,0.0f };
 		worldTransforms_[2].translation_ = { -5.0f,-10.0f,0.0f };
 

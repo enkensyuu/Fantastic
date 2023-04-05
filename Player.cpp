@@ -11,7 +11,7 @@ void Player::Initialize()
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 10,10,0 };
+	worldTransform_.translation_ = { -10,10,0 };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -30,7 +30,7 @@ void Player::Update(Vector3 speed)
 	returnSpeed = speed;
 	returnSpeed /= 2;
 
-	worldTransform_.translation_.y -= 0.1f;
+	//worldTransform_.translation_.y -= 0.1f;
 
 	if (isMove_)
 	{
@@ -94,4 +94,10 @@ void Player::Collision()
 void Player::DethCollision()
 {
 	isDead_ = true;
+}
+
+void Player::GetStop()
+{
+	isMove_ = false;
+	isMove2_ = false;
 }

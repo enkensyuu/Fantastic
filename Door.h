@@ -13,9 +13,11 @@ class Door
 public:
 	void Initialize(float x, float y);
 
-	void Update(bool flag);
+	void Update(bool flag, bool flag2);
 
 	void Draw();
+
+	Vector3 GetPosition();
 
 private:
 	WorldTransform worldTransform_;

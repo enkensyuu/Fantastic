@@ -102,7 +102,7 @@ void GameScene::CheckAllCollisions()
 			) {
 			goldKey->GetCollision();
 			isGetGoldKey_ = true;
-			isOpen_ = true;
+			isKeyOpen_ = true;
 		}
 	}
 #pragma endregion
@@ -137,7 +137,7 @@ void GameScene::CheckAllCollisions()
 		) {
 		silverKey_->GetCollision();
 		isGetGoldKey_ = true;
-		isOpen_ = true;
+		isKeyOpen_ = true;
 	}
 #pragma endregion
 
@@ -202,6 +202,38 @@ void GameScene::CheckAllCollisions()
 
 #pragma endregion
 
+#pragma region Player&Door
+	posA = player_->GetWorldPosition();
+	posB = door_->GetPosition();
+
+	if (posA.x - 1 < posB.x + 1.5f && posA.x + 1 > posB.x - 1.5f)
+	{
+		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+		{
+			player_->GetStop();
+		}
+	}
+#pragma endregion
+
+#pragma region Wind&Door
+
+	posA = door_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (posA.x - 1 < posB.x + 1.5f && posA.x + 1 > posB.x - 1.5f)
+		{
+			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+			{
+				wind->Collision();
+			}
+		}
+	}
+
+#pragma endregion
+
+
 }
 
 void GameScene::Initialize() {
@@ -213,6 +245,7 @@ void GameScene::Initialize() {
 
 	isGetGoldKey_ = false;
 	isOpen_ = false;
+	isKeyOpen_ = false;
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -233,10 +266,10 @@ void GameScene::Initialize() {
 	player_->Initialize();
 
 	balloon_ = new Balloon;
-	balloon_->Initialize(5, 10);
+	balloon_->Initialize(-5, 10);
 
 	silverKey_ = new SilverKey;
-	silverKey_->Initialize(10, 20);
+	silverKey_->Initialize(-10, 20);
 
 	windPower_ = new WindPower;
 	windPower_->Initialize();
@@ -276,7 +309,7 @@ void GameScene::Update() {
 		silverKey_->Update(stage1_->GetSpeed());
 		windPower_->Update();
 		magmaBlock_->Update();
-		door_->Update(isOpen_);
+		door_->Update(isOpen_, isKeyOpen_);
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))

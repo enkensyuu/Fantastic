@@ -28,14 +28,14 @@ void Door::Initialize(float x, float y)
 	viewProjection_.Initialize();
 }
 
-void Door::Update(bool flag)
+void Door::Update(bool flag, bool flag2)
 {
-	if (flag)
+	if (flag || flag2)
 	{
 		worldTransform_.translation_.y += 0.05f;
 	}
 
-	else
+	else if (!flag || !flag2)
 	{
 		worldTransform_.translation_.y -= 0.05f;
 	}
@@ -59,4 +59,16 @@ void Door::Update(bool flag)
 void Door::Draw()
 {
 	model_->Draw(worldTransform_, viewProjection_, texture_);
+}
+
+Vector3 Door::GetPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
 }

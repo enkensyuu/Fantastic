@@ -24,7 +24,10 @@ public:
 
 	void DethCollision();
 
+	void GetStop();
+
 	bool IsGetDead() { return isDead_; }
+
 
 private:
 	WorldTransform worldTransform_;
