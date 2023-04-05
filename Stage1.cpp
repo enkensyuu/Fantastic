@@ -98,6 +98,15 @@ void Stage1::Update()
 			isrotation_[2] = false;
 		}
 	}
+
+	//ESC‚ð‰Ÿ‚µ‚½‚ç’âŽ~
+	if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		isrotation_[0] = false;
+		isrotation_[1] = false;
+		isrotation_[2] = false;
+	}
+
 	//ƒvƒƒyƒ‰SE
 	if (isrotation_[0] || isrotation_[1] || isrotation_[2])
 	{
@@ -148,6 +157,7 @@ void Stage1::Update()
 	{
 		wind->Update();
 	}
+
 }
 
 void Stage1::Draw()

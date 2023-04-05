@@ -88,10 +88,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画終了
 		dxCommon->PostDraw();
 
-		if (input->TriggerKey(DIK_ESCAPE))
+		/*if (input->TriggerKey(DIK_ESCAPE))
 		{
 			break;
-		}
+		}*/
 	}
 
 	// 各種解放

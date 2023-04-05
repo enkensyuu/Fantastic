@@ -59,7 +59,7 @@ class GameScene {
 	Stage4* stage4_ = nullptr;
 	Stage5* stage5_ = nullptr;
 
-	uint32_t textureHandle_[15];
+	uint32_t textureHandle_[20];
 
 	size_t scene_ = TITLE;
 
@@ -77,9 +77,21 @@ class GameScene {
 	Sprite* Waku3_ = nullptr; //ステージ選択の枠(3) 
 	Sprite* Waku4_ = nullptr; //ステージ選択の枠(4) 
 	Sprite* Waku5_ = nullptr; //ステージ選択の枠(5) 
+	Sprite* Pause_ = nullptr; //Pause
+	Sprite* PauseScene_ = nullptr; //Pause画面
+	Sprite* PauseSelect_ = nullptr; //PauseSelect画面
+	Sprite* PauseSelect2_ = nullptr; //PauseSelect画面(2)
+	Sprite* PauseSelect3_ = nullptr; //PauseSelect画面(3)
+	Sprite* PauseSelect4_ = nullptr; //PauseSelect画面(4)
+	Sprite* PauseSelect5_ = nullptr; //PauseSelect画面(5)
+	Sprite* PauseSelect6_ = nullptr; //PauseSelect画面(6)
 
 	int RingFlag = 0; //枠のフラグ
+	int PauseFlag = 0; //Pause画面のフラグ
 	int GameTimer_ = 0;
+	int Select = 0;
+	int SelectFlag = 0;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

@@ -27,6 +27,9 @@ void GameScene::Initialize() {
 	textureHandle_[5] = TextureManager::Load("1.png"); //背景1
 	textureHandle_[6] = TextureManager::Load("2.png"); //背景2
 	textureHandle_[7] = TextureManager::Load("3.png"); //背景3
+	textureHandle_[8] = TextureManager::Load("Pause.png"); //Pause
+	textureHandle_[9] = TextureManager::Load("ScenePause.png");//Pause画面
+	textureHandle_[10] = TextureManager::Load("Yazirushi.png");//Pause画面(Select)
 
 
 	//スプライトを生成
@@ -42,6 +45,14 @@ void GameScene::Initialize() {
 	BackGroudStage1_ = Sprite::Create(textureHandle_[5], { 0,0 });
 	BackGroudStage2_ = Sprite::Create(textureHandle_[6], { 0,0 });
 	BackGroudStage3_ = Sprite::Create(textureHandle_[7], { 0,0 });
+	Pause_ = Sprite::Create(textureHandle_[8], { 10,10 });
+	PauseScene_= Sprite::Create(textureHandle_[9], { 600,80 });
+	PauseSelect_ = Sprite::Create(textureHandle_[10], { 770,330 });
+	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,425 });
+	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 615,515 });
+	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 615,615});
+	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 602,715 });
+	PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,810 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -60,6 +71,8 @@ void GameScene::Initialize() {
 
 	scene_ = TITLE;
 	RingFlag = 0;
+	PauseFlag = 0;
+	SelectFlag = 0;
 }
 
 void GameScene::Update() {
@@ -177,10 +190,103 @@ void GameScene::Update() {
 			scene_ = SEVEN;
 		}
 
-		if (scene_ == THREE)
+		if(scene_ == THREE)
+		 {
+		    stage1_->Update();
+		 }
+		
+		//Pause画面
+		if (input_->PushKey(DIK_ESCAPE))
 		{
-			stage1_->Update();
+			PauseFlag = 1;
 		}
+
+		//Pause画面の下移動
+		if (input_->TriggerKey(DIK_DOWN))
+		{
+			if (PauseFlag == 1)
+			{
+				Select++;
+				SelectFlag = 1;
+			}
+		}
+
+		if (input_->TriggerKey(DIK_S))
+		{
+			if (PauseFlag == 1)
+			{
+				Select++;
+				SelectFlag = 1;
+			}
+		}
+
+		//Pause画面の上移動
+		if (input_->TriggerKey(DIK_UP))
+		{
+			if (PauseFlag == 1)
+			{
+				Select--;
+				SelectFlag = 1;
+			}
+		}
+
+		if (input_->TriggerKey(DIK_W))
+		{
+			if (PauseFlag == 1)
+			{
+				Select--;
+				SelectFlag = 1;
+			}
+		}
+
+		if (Select <= 1)
+		{
+			Select = 1;
+		}
+
+		if (Select > 6)
+		{
+			Select = 1;
+		}
+
+		//Pauseの処理//
+		
+		//ゲームを続ける
+		if (input_->TriggerKey(DIK_RETURN) && Select == 1)
+		{
+			PauseFlag = 0;
+		}
+
+		//リセット
+		if (input_->TriggerKey(DIK_RETURN) && Select == 2)
+		{
+			stage1_->Initialize();
+			PauseFlag = 0;
+		}
+
+		//画面の大きさ変更
+		/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
+		{
+
+		}*/
+
+		//ゲーム説明の戻る
+		if (input_->TriggerKey(DIK_RETURN)&&Select == 4)
+		{
+			scene_ = EXPLANATION;
+		}
+
+		//ステージ選択に戻る
+		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+		{
+			scene_ = STAGECHOICE;
+		}
+
+		//ゲームをやめる
+		/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+		{
+
+		}*/
 		break;
 
 	case FOUR:
@@ -259,16 +365,23 @@ void GameScene::Draw() {
 		{
 			Waku5_->Draw();
 		}
+		break;
 	case THREE:
 		if (scene_ == THREE)
 		{
 			BackGroudStage1_->Draw();
+			Pause_->Draw();
+
+			DebugText::GetInstance()->SetPos(1700, 30);
+			DebugText::GetInstance()->Printf("Select:%d", Select);
 	    }
+		break;
 	case FOUR:
 		if (scene_ == FOUR)
 		{
 			BackGroudStage2_->Draw();
 		}
+		break;
 	case FIVE:
 		if (scene_ == FIVE)
 		{
@@ -327,6 +440,64 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	switch (scene_)
+	{
+	case TITLE:
+		break;
+	case EXPLANATION:
+		break;
+	case STAGECHOICE:
+		break;
+	case THREE:
+		if (PauseFlag == 1)
+		{
+			PauseScene_->Draw();
+		}
+		if (PauseFlag == 1)
+		{
+			if (SelectFlag == 1)
+			{
+				if (Select == 1)
+				{
+					PauseSelect_->Draw();
+				}
+
+				if (Select == 2)
+				{
+					PauseSelect2_->Draw();
+				}
+
+				if (Select == 3)
+				{
+					PauseSelect3_->Draw();
+				}
+
+				if (Select == 4)
+				{
+					PauseSelect4_->Draw();
+				}
+
+				if (Select == 5)
+				{
+					PauseSelect5_->Draw();
+				}
+
+				if (Select == 6)
+				{
+					PauseSelect6_->Draw();
+				}
+			}
+		}
+		break;
+	case FOUR:
+		break;
+	case FIVE:
+		break;
+	case SIX:
+		break;
+	case SEVEN:
+		break;
+	}
 
 	// デバッグテキストの描画
 	debugText_->DrawAll(commandList);
