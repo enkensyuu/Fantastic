@@ -86,9 +86,13 @@ class GameScene {
 	Sprite* PauseSelect5_ = nullptr; //PauseSelect画面(5)
 	Sprite* PauseSelect6_ = nullptr; //PauseSelect画面(6)
 
+
+
 	int RingFlag = 0; //枠のフラグ
 	int PauseFlag = 0; //Pause画面のフラグ
 	int GameTimer_ = 0;
+	int StageTimer = 0;
+	int StageTimerUpDown = 0;
 	int Select = 0;
 	int SelectFlag = 0;
 
