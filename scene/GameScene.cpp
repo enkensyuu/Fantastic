@@ -47,13 +47,13 @@ void GameScene::Initialize() {
 	stage_->Initialize(model_);
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 40.0f, 70.0f, -30.0f };
-	viewProjection_.target = { 40.0f, 20.0f, 10.0f };
+	viewProjection_.eye = { 40.0f, 80.0f, -125.0f};
+	viewProjection_.target = { 40.0f, 40.0f, 0.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
 
 	//初期化
-	Parameter({ 14.0f, -10.0f, 54.0f }, { 38.0f, -10.0f, 26.0f }, 1);
+	Parameter({ 14.0f, -10.0f, 54.0f }, { 38.0f, -10.0f, 26.0f }, 0);
 }
 
 void GameScene::Update() {

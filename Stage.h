@@ -5,8 +5,8 @@
 
 class stage {
 private: // ’è”
-	static const int STAGE_WIDTH = 20;
-	static const int STAGE_HEIGHT = 20;
+	static const int STAGE_WIDTH = 32;
+	static const int STAGE_HEIGHT = 18;
 
 public:
 	// —ñ‹“
@@ -63,6 +63,9 @@ private:
 	void PushStageBlockList(std::list<std::unique_ptr<StageData>>& blocks_, int type, int line, int row, float depth);
 
 private:
+
+	WorldTransform worldTransform;
+
 	// ƒ‚ƒfƒ‹
 	Model* model_ = nullptr;
 	Model* modelFloor_ = nullptr;

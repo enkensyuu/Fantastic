@@ -14,6 +14,10 @@ void stage::Initialize(Model* model) {
 
 	// ステージの床を初期化
 	LoadFloorBlock();
+
+	worldTransform.Initialize();
+	worldTransform.TransferColorMatrix();
+	worldTransform.TransferMatrix();
 }
 
 void stage::StageInitialize(const std::string stageNum) {
@@ -38,21 +42,15 @@ void stage::StageInitialize(const std::string stageNum) {
 
 void stage::Update() {
 	isGoal_ = false;
-
 }
 
 void stage::Draw(ViewProjection viewProjection) {
 	// ステージ描画
-	//for (std::unique_ptr<StageData>& block : stageBlocks_) {
-	//	if (block->type_ == BLOCK) {
-	//		// 壁描画
-	//		model_->Draw(block->worldTransform_, viewProjection);
-	//	}
-	//}
-
-	// 床描画
-	for (std::unique_ptr<StageData>& block : floorBlocks_) {
-		modelFloor_->Draw(block->worldTransform_, viewProjection);
+	for (std::unique_ptr<StageData>& block : stageBlocks_) {
+		if (block->type_ == BLOCK) {
+			// 壁描画
+			model_->Draw(block->worldTransform_, viewProjection);
+		}
 	}
 }
 
@@ -97,7 +95,7 @@ void stage::LoadStageCommands() {
 
 		while (mapLine != STAGE_WIDTH) {
 			// コマンド読み込み
-			if (word.find("NONE") == 0 || word.find("0") == 0 || word.find("7") == 0) {
+			if (word.find("NONE") == 0 || word.find("0") == 0) {
 				// ステージのブロックを追加
 				PushStageBlockList(stageBlocks_, NONE, mapLine, mapRow, -10.0f);
 				// インクリメント
@@ -106,12 +104,6 @@ void stage::LoadStageCommands() {
 			else if (word.find("BLOCK") == 0 || word.find("1") == 0) {
 				// ステージのブロックを追加
 				PushStageBlockList(stageBlocks_, BLOCK, mapLine, mapRow, -10.0f);
-				// インクリメント
-				mapLine++;
-			}
-			else if (word.find("GOAL") == 0 || word.find("6") == 0) {
-				// ステージのブロックを追加
-				PushStageBlockList(stageBlocks_, GOAL, mapLine, mapRow, -10.0f);
 				// インクリメント
 				mapLine++;
 			}
@@ -160,9 +152,9 @@ void stage::PushStageBlockList(std::list<std::unique_ptr<StageData>>& blocks_, i
 	newBlock->type_ = type;
 	// 座標
 	Vector3 pos;
-	pos.x = 2.0f + (4.0f * line);
-	pos.y = depth;
-	pos.z = 78.0f - (4.0f * row);
+	pos.x = -20.0f + (4.0f * line);
+	pos.y = 80.0f - (4.0f * row);
+	pos.z = depth;
 
 	// 初期化する
 	InitializeStageBlock(newBlock, pos, line, row);

@@ -4,10 +4,15 @@
 #include "Matrix4.h"
 #include <d3d12.h>
 #include <wrl.h>
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
 	Matrix4 matWorld;           // ローカル → ワールド変換行列
+
+	XMFLOAT4 color = { 1,1,1,1 };
 };
 
 /// <summary>
@@ -45,4 +50,12 @@ struct WorldTransform {
 	/// 行列を転送する
 	/// </summary>
 	void TransferMatrix();
+
+	XMFLOAT4 color_ = { 1.0f,1.0f,1.0f,1.0f };
+	void SetColor(XMFLOAT4& color) { this->color_ = color; }
+
+	void TransferColorMatrix()
+	{
+		constMap->color = color_;
+	}
 };
