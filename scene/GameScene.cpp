@@ -31,6 +31,7 @@ void GameScene::Initialize() {
 	textureHandle_[9] = TextureManager::Load("ScenePause.png");//Pause画面
 	textureHandle_[10] = TextureManager::Load("Yazirushi.png");//Pause画面(Select)
 	textureHandle_[11] = TextureManager::Load("4.png"); //背景4
+	//textureHandle_[12] = TextureManager::Load("5.png"); //背景5
 
 
 	//スプライトを生成
@@ -145,7 +146,7 @@ void GameScene::Update() {
 		//マイナスに行かないようにする
 		if (StageTimer < 1)
 		{
-			StageTimer = 1;
+			StageTimer = 5;
 		}
 
 		//ステージタイマーを初期化
