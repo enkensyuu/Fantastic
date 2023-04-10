@@ -2,6 +2,7 @@
 #include "AxisIndicator.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
+#include "Procession.h"
 #include <cassert>
 #include <iomanip>
 #include <random>
@@ -42,12 +43,15 @@ void GameScene::Initialize() {
 
 	// ステージ
 	stage_ = new stage();
-
-	// ステージの初期化
 	stage_->Initialize(model_);
+
+	// プレイヤー
+	player_ = new Player;
+	player_->Initialize();
+
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 40.0f, 80.0f, -125.0f};
+	viewProjection_.eye = { 40.0f, 40.0f, -125.0f};
 	viewProjection_.target = { 40.0f, 40.0f, 0.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
@@ -58,6 +62,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	stage_->Update();
+	player_->Update({ 0,0,0 });
 }
 
 void GameScene::Draw() {
@@ -86,6 +91,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	stage_->Draw(viewProjection_);
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

@@ -6,6 +6,7 @@
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "stage.h"
+#include "Player.h"
 #include <memory>
 
 /// <summary>
@@ -38,6 +39,9 @@ public: // メンバ関数
 	void Reset(const Vector3& playerPos1, const Vector3& playerPos2);
 
 private: // メンバ変数
+	WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -80,10 +84,11 @@ private: // メンバ変数
 	// 3Dモデル
 	Model* model_ = nullptr;
 
-	// ビュープロジェクション
-	ViewProjection viewProjection_;
 	// カメラ上方向の角度
 	float viewAngle = 0.0f;
+
+	// プレイヤー
+	Player* player_ = nullptr;
 
 	// モデル
 	Model* modelPlayer_ = nullptr;

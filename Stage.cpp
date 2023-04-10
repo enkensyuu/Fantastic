@@ -97,13 +97,13 @@ void stage::LoadStageCommands() {
 			// コマンド読み込み
 			if (word.find("NONE") == 0 || word.find("0") == 0) {
 				// ステージのブロックを追加
-				PushStageBlockList(stageBlocks_, NONE, mapLine, mapRow, -10.0f);
+				PushStageBlockList(stageBlocks_, NONE, mapLine, mapRow, -50.0f);
 				// インクリメント
 				mapLine++;
 			}
 			else if (word.find("BLOCK") == 0 || word.find("1") == 0) {
 				// ステージのブロックを追加
-				PushStageBlockList(stageBlocks_, BLOCK, mapLine, mapRow, -10.0f);
+				PushStageBlockList(stageBlocks_, BLOCK, mapLine, mapRow, -20.0f);
 				// インクリメント
 				mapLine++;
 			}

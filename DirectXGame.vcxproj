@@ -103,6 +103,8 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MyMathUtility.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Procession.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="stage.cpp" />
@@ -137,6 +139,8 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Procession.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="stage.h" />
   </ItemGroup>
