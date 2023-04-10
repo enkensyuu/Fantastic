@@ -294,10 +294,10 @@ void GameScene::Update() {
 		}
 		break;
 	case THREE:
-		/*if (input_->TriggerKey(DIK_SPACE))
+		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = FOUR;
-		}*/
+		}
 		if (player_->IsGetDead())
 		{
 			scene_ = GameOver;

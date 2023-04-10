@@ -4,18 +4,26 @@
 void WindPower::Initialize()
 {
 	texture_ = TextureManager::Load("white.png");
+	texture2_ = TextureManager::Load("Red.png");
 	model_ = Model::Create();
+	model2_ = Model::Create();
 	isMove_ = false;
 	stopTimer_ = 4 * 5;
 
-	worldTransform_.Initialize();
+	for (size_t i = 0; i < _countof(worldTransform_); i++)
+	{
 
-	worldTransform_.translation_ = { -10,10,0 };
+		worldTransform_[i].Initialize();
 
-	worldTransform_.matWorld_ = Mat_Identity();
-	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-	worldTransform_.TransferColorMatrix();
-	worldTransform_.TransferMatrix();
+		worldTransform_[0].translation_ = { -10,10,0 };
+		worldTransform_[1].translation_ = { -10,8,0 };
+
+		worldTransform_[i].matWorld_ = Mat_Identity();
+		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);
+		worldTransform_[i].TransferColorMatrix();
+		worldTransform_[i].TransferMatrix();
+
+	}
 
 	viewProjection_.Initialize();
 }
@@ -26,7 +34,7 @@ void WindPower::Update()
 
 	if (isMove_)
 	{
-		worldTransform_.rotation_ -= RotationSpeed;
+		worldTransform_[0].rotation_ -= RotationSpeed;
 		stopTimer_--;
 	}
 
@@ -35,14 +43,23 @@ void WindPower::Update()
 		isMove_ = false;
 	}
 
-	worldTransform_.matWorld_ = Mat_Identity();
-	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-	worldTransform_.TransferMatrix();
+	for (size_t i = 0; i < _countof(worldTransform_); i++)
+	{
+
+		worldTransform_[i].matWorld_ = Mat_Identity();
+		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);
+		worldTransform_[i].TransferMatrix();
+
+	}
 }
 
 void WindPower::Draw()
 {
-	model_->Draw(worldTransform_, viewProjection_, texture_);
+	for (size_t i = 0; i < _countof(worldTransform_); i++)
+	{
+		model_->Draw(worldTransform_[0], viewProjection_, texture_);
+		model2_->Draw(worldTransform_[1], viewProjection_, texture2_);
+	}
 }
 
 void WindPower::Collision()
@@ -56,9 +73,9 @@ Vector3 WindPower::GetPosition()
 	// ワールド座標を入れる変数
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
+	worldPos.x = worldTransform_[0].translation_.x;
+	worldPos.y = worldTransform_[0].translation_.y;
+	worldPos.z = worldTransform_[0].translation_.z;
 
 	return worldPos;
 }

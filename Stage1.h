@@ -23,7 +23,7 @@ public:
 	std::list<std::unique_ptr<Wind>>wind_;
 	const std::list<std::unique_ptr<Wind>>& GetBullets() { return winds_; }
 
-	void WindOn();
+	void WindOn(const Matrix4& position, const Vector3& velocity);
 
 	Vector3 GetSpeed() { return velocity; }
 
@@ -40,6 +40,9 @@ private:
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
+
+	// ’e‚Ì‘¬“x
+	const float kBulletSpeed = 0.5f;
 
 	Vector3 velocity;
 

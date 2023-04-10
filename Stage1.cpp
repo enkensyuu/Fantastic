@@ -23,11 +23,13 @@ void Stage1::Initialize()
 	{
 		worldTransforms_[i].Initialize();
 
-		worldTransforms_[i].rotation_ = { 0,XMConvertToRadians(90),0 };
+		worldTransforms_[0].rotation_ = { XMConvertToRadians(90),0,0 };
+		worldTransforms_[1].rotation_ = { 0,XMConvertToRadians(90),0 };
+		worldTransforms_[2].rotation_ = { 0,XMConvertToRadians(90),0 };
 
-		worldTransforms_[0].translation_ = { 5.0f,10.0f,0.0f };
-		worldTransforms_[1].translation_ = { 10.0f,0.0f,0.0f };
-		worldTransforms_[2].translation_ = { -5.0f,-10.0f,0.0f };
+		worldTransforms_[0].translation_ = { -5.0f,-10.0f,0.0f };
+		worldTransforms_[1].translation_ = { -25.0f,-15.0f,0.0f };
+		worldTransforms_[2].translation_ = { -5.0f,-7.0f,0.0f };
 
 		// çsóÒçXêV
 		worldTransforms_[i].matWorld_ = Mat_Identity();
@@ -37,7 +39,6 @@ void Stage1::Initialize()
 		worldTransforms_[i].TransferColorMatrix();
 
 	}
-
 	viewProjection_.Initialize();
 }
 
@@ -50,7 +51,7 @@ void Stage1::Update()
 		}
 	);
 
-	if (input_->TriggerKey(DIK_1))
+	if (input_->TriggerKey(DIK_UP))
 	{
 		if (!isrotation_[0])
 		{
@@ -64,49 +65,38 @@ void Stage1::Update()
 		}
 	}
 
-	else if (input_->TriggerKey(DIK_2))
+	else if (input_->TriggerKey(DIK_RIGHT))
 	{
 		if (!isrotation_[1])
 		{
 			isrotation_[1] = true;
-			isrotation_[0] = false;
-			isrotation_[2] = false;
-		}
-		else
-		{
-			isrotation_[1] = false;
-		}
-	}
-
-	else if (input_->TriggerKey(DIK_3))
-	{
-		if (!isrotation_[2])
-		{
 			isrotation_[2] = true;
 			isrotation_[0] = false;
-			isrotation_[1] = false;
 		}
 		else
 		{
+			isrotation_[1] = false;
 			isrotation_[2] = false;
 		}
 	}
-
 	if (isrotation_[0])
 	{
-		WindOn();
+		velocity = { 0,+kBulletSpeed,0 };
+		WindOn(worldTransforms_[0].matWorld_, velocity);
 		worldTransforms_[0].rotation_ += rotationSpeed;
 	}
 
 	if (isrotation_[1])
 	{
-		WindOn();
+		velocity = { +kBulletSpeed,0,0 };
+		WindOn(worldTransforms_[1].matWorld_, velocity);
 		worldTransforms_[1].rotation_ += rotationSpeed;
 	}
 
 	if (isrotation_[2])
 	{
-		WindOn();
+		velocity = { +kBulletSpeed,0,0 };
+		WindOn(worldTransforms_[2].matWorld_, velocity);
 		worldTransforms_[2].rotation_ += rotationSpeed;
 	}
 
@@ -138,23 +128,13 @@ void Stage1::Draw()
 	}
 }
 
-void Stage1::WindOn()
+void Stage1::WindOn(const Matrix4& position, const Vector3& velocity)
 {
-	// íeÇÃë¨ìx
-	const float kBulletSpeed = 0.5f;
-	velocity = { +kBulletSpeed,0, 0 };
 
 	// íeÇê∂ê¨ÇµÅAèâä˙âª
 	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();
 
-	for (size_t i = 0; i < _countof(worldTransforms_); i++)
-	{
-		if (isrotation_[i])
-		{
-			newWind->Initialize(worldTransforms_[i].matWorld_, velocity);
-		}
-
-	}
+	newWind->Initialize(position, velocity);
 
 	// íeÇìoò^Ç∑ÇÈ
 	winds_.push_back(std::move(newWind));
