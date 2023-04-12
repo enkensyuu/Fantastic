@@ -37,6 +37,15 @@ private:
 
 	int stoptimer;
 	int stoptimer2;
+
+	// 半径
+	float radius_ = 1.5f;
+
+	//死亡フラグ
+	bool isDead_;
+
+public: //アクセッサ、インライン関数
+	bool IsDead() const { return isDead_; }
+	Vector3 GetPosition() const { return worldTransform_.translation_; }
+	float GetRadius() const { return radius_; }
 };
-
-

@@ -173,3 +173,18 @@ void stage::CheckBlock(int line, int row) {
 		}
 	}
 }
+
+Vector3 stage::GetBlockPosition(int line, int row) {
+	// 範囲for
+	for (std::unique_ptr<StageData>& block : stageBlocks_) {
+		// ブロックと壁の時は返す
+		if (block->type_ == BLOCK) {
+			// 指定した番号に合った座標を返す
+			if (block->line_ == line && block->row_ == row) {
+				return block->worldTransform_.translation_;
+			}
+		}
+	}
+	// なかったら0を返す
+	return Vector3(0, 0, 0);
+}

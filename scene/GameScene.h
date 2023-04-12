@@ -36,6 +36,8 @@ public: // メンバ関数
 
 	void Parameter(const Vector3& playerPos1, const Vector3& playerPos2, const int& stageNum);
 
+	bool CollisionStageFlag(Player* p, stage* s);
+
 	void Reset(const Vector3& playerPos1, const Vector3& playerPos2);
 
 private: // メンバ変数
