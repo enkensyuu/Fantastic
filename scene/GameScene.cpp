@@ -19,7 +19,7 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	//テクスチャを入れ込む
-	textureHandle_[0] = TextureManager::Load("exchange.png"); //操作説明
+	textureHandle_[0] = TextureManager::Load("exchange.png"); //ゲーム説明
 	textureHandle_[1] = TextureManager::Load("Title.png"); //タイトル
 	textureHandle_[2] = TextureManager::Load("space.png"); //Space文字
 	textureHandle_[3] = TextureManager::Load("Stage.png"); //ステージ選択
@@ -31,6 +31,7 @@ void GameScene::Initialize() {
 	textureHandle_[9] = TextureManager::Load("ScenePause.png");//Pause画面
 	textureHandle_[10] = TextureManager::Load("Yazirushi.png");//Pause画面(Select)
 	textureHandle_[11] = TextureManager::Load("4.png"); //背景4
+	textureHandle_[12] = TextureManager::Load("Operation.png"); //操作説明
 	//textureHandle_[12] = TextureManager::Load("5.png"); //背景5
 
 
@@ -39,10 +40,10 @@ void GameScene::Initialize() {
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
 	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
 	StageChoice_ = Sprite::Create(textureHandle_[3], { 0,0 });
-	Waku_ = Sprite::Create(textureHandle_[4], { 100,200 });
-	Waku2_ = Sprite::Create(textureHandle_[4], { 705,200 });
+	Waku_ = Sprite::Create(textureHandle_[4], { 102,200 });
+	Waku2_ = Sprite::Create(textureHandle_[4], { 700,200 });
 	Waku3_ = Sprite::Create(textureHandle_[4], { 1300,200 });
-	Waku4_ = Sprite::Create(textureHandle_[4], { 100,600 });
+	Waku4_ = Sprite::Create(textureHandle_[4], { 104,604 });
 	Waku5_ = Sprite::Create(textureHandle_[4], { 710,600 });
 	BackGroudStage1_ = Sprite::Create(textureHandle_[5], { 0,0 });
 	BackGroudStage2_ = Sprite::Create(textureHandle_[6], { 0,0 });
@@ -56,6 +57,7 @@ void GameScene::Initialize() {
 	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 615,615});
 	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 602,715 });
 	PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,810 });
+	Operation_= Sprite::Create(textureHandle_[12], {0,0});
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -93,10 +95,17 @@ void GameScene::Update() {
 	case EXPLANATION:
 		if (input_->TriggerKey(DIK_SPACE))
 		{
-			scene_ = STAGECHOICE;
+			scene_ = OPERATION;
 			StageTimer = 0;
 		}
 		break;
+
+	case OPERATION:
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = STAGECHOICE;
+			StageTimer = 0;
+		}
 
 	case STAGECHOICE:
 		Select = 0;
@@ -157,31 +166,7 @@ void GameScene::Update() {
 			StageTimer = 1;
 		}
 		
-		//Bボタンで選択キャンセル
-		if (input_->TriggerKey(DIK_B) && StageTimer == 1)
-		{
-			StageTimer = 0;
-		}
 
-		if (input_->TriggerKey(DIK_B) && StageTimer == 2)
-		{
-			StageTimer = 0;
-		}
-
-		if (input_->TriggerKey(DIK_B) && StageTimer == 3)
-		{
-			StageTimer = 0;
-		}
-
-		if (input_->TriggerKey(DIK_B) && StageTimer == 4)
-		{
-			StageTimer = 0;
-		}
-
-		if (input_->TriggerKey(DIK_B) && StageTimer == 5)
-		{
-			StageTimer = 0;
-		}
 	case THREE: //ステージ1//
 
 		//ENTERキーを押したらステージ移動
@@ -291,7 +276,7 @@ void GameScene::Update() {
 		}*/
 
 		//ゲーム説明の戻る
-		if (input_->TriggerKey(DIK_RETURN)&&Select == 4)
+		if (input_->TriggerKey(DIK_RETURN)&& Select == 4)
 		{
 			scene_ = EXPLANATION;
 			PauseFlag = 0;
@@ -380,7 +365,7 @@ void GameScene::Update() {
 			//リセット
 			if (input_->TriggerKey(DIK_RETURN) && Select == 2)
 			{
-				stage1_->Initialize();
+				stage2_->Initialize();
 				PauseFlag = 0;
 			}
 
@@ -479,7 +464,7 @@ void GameScene::Update() {
 			//リセット
 			if (input_->TriggerKey(DIK_RETURN) && Select == 2)
 			{
-				stage1_->Initialize();
+				stage3_->Initialize();
 				PauseFlag = 0;
 			}
 
@@ -578,7 +563,7 @@ void GameScene::Update() {
 			//リセット
 			if (input_->TriggerKey(DIK_RETURN) && Select == 2)
 			{
-				stage1_->Initialize();
+				stage4_->Initialize();
 				PauseFlag = 0;
 			}
 
@@ -676,7 +661,7 @@ void GameScene::Update() {
 			//リセット
 			if (input_->TriggerKey(DIK_RETURN) && Select == 2)
 			{
-				stage1_->Initialize();
+				stage5_->Initialize();
 				PauseFlag = 0;
 			}
 
@@ -731,6 +716,9 @@ void GameScene::Draw() {
 		break;
 	case EXPLANATION:
 		Explanation_->Draw();
+		break;
+	case OPERATION:
+		Operation_->Draw();
 		break;
 	case STAGECHOICE:
 		StageChoice_->Draw();

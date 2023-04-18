@@ -63,7 +63,8 @@ class GameScene {
 
 	size_t scene_ = TITLE;
 
-	Sprite* Explanation_ = nullptr;
+	Sprite* Explanation_ = nullptr; //説明 
+	Sprite* Operation_ = nullptr;  //ゲーム説明
 	Sprite* Title_ = nullptr;
 	Sprite* Space_ = nullptr; //SPACE文字
 	Sprite* StageChoice_ = nullptr; //ステージ選択
