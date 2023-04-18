@@ -51,6 +51,9 @@ struct WorldTransform {
 	/// </summary>
 	void TransferMatrix();
 
+	//1frameにおける更新処理
+	void Update(WorldTransform worldTransform);
+
 	XMFLOAT4 color_ = { 1.0f,1.0f,1.0f,1.0f };
 	void SetColor(XMFLOAT4& color) { this->color_ = color; }
 

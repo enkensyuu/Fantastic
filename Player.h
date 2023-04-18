@@ -8,23 +8,27 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MyMathUtility.h"
 
 class Player
 {
 public:
-	void Initialize();
+	void Initialize(Model* model, Vector3 pos = { 0.0f, 0.0f, 0.0f });
 
-	void Update(Vector3 speed);
+	void Update();
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	Vector3 GetWorldPosition();
 
 	void Collision();
 
+	void OnCollisionStage(bool collisionFlag);
+
 private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
 	uint32_t texture_ = 0;
@@ -37,6 +41,9 @@ private:
 
 	int stoptimer;
 	int stoptimer2;
+
+	// 前フレーム座標
+	Vector3 prePos_{};
 
 	// 半径
 	float radius_ = 1.5f;

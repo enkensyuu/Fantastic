@@ -2,16 +2,15 @@
 #include <cassert>
 #include "Procession.h"
 
-void Player::Initialize()
+void Player::Initialize(Model* model, Vector3 pos)
 {
 	input_ = Input::GetInstance();
-
 	texture_ = TextureManager::Load("yellow.png");
-	model_ = Model::Create();
+	model_ = model;
 
 	worldTransform_.Initialize();
+	worldTransform_.translation_ = pos;
 
-	worldTransform_.translation_ = { 0,0,55 };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -24,84 +23,42 @@ void Player::Initialize()
 	viewProjection_.Initialize();
 }
 
-void Player::Update(Vector3 speed)
+void Player::Update()
 {
-	playerSpeed = speed;
-	returnSpeed = speed;
-	returnSpeed /= 2;
+	Vector3 move = MyMathUtility::MySetVector3Zero();
+	float moveSpeed = 0.4f;
 
-	if (isMove_)
-	{
-		worldTransform_.translation_ += playerSpeed;
-		stoptimer--;
+	// キーボード入力による移動処理
+	Matrix4 matTrans = MyMathUtility::MySetMatrix4Identity();
+	if (input_->PushKey(DIK_A)) {
+		move.x = -moveSpeed;
 	}
-	if (stoptimer <= 0)
-	{
-		isMove_ = false;
-		isMove2_ = true;
-		stoptimer = 6 * 5;
+	if (input_->PushKey(DIK_D)) {
+		move.x = moveSpeed;
 	}
-
-	if (isMove2_)
-	{
-		worldTransform_.translation_ += returnSpeed;
-		stoptimer2--;
+	if (input_->PushKey(DIK_W)) {
+		move.y = moveSpeed;
+	}
+	if (input_->PushKey(DIK_S)) {
+		move.y = -moveSpeed;
 	}
 
-	if (stoptimer2 <= 0)
-	{
-		isMove2_ = false;
-		stoptimer2 = 8 * 5;
-	}
-
-	if (input_->TriggerKey(DIK_R))
-	{
-		Initialize();
-	}
-
-	// ここは新たに書き足したところ
-	if (input_->PushKey(DIK_W))
-	{
-		worldTransform_.translation_ += {0, 1, 0};
-	}
-
-	if (input_->PushKey(DIK_A))
-	{
-		worldTransform_.translation_ += {-1, 0, 0};
-	}
-
-	if (input_->PushKey(DIK_S))
-	{
-		worldTransform_.translation_ += {0, -1, 0};
-	}
-
-	if (input_->PushKey(DIK_D))
-	{
-		worldTransform_.translation_ += {1, 0, 0};
-	}
-
-	if (input_->PushKey(DIK_U))
-	{
-		worldTransform_.translation_ += {0, 0, 1};
-	}
-
-	if (input_->PushKey(DIK_J))
-	{
-		worldTransform_.translation_ += {0, 0, -1};
-	}
-	// ここまで書き足したところ
-
-	// 行列更新
-	worldTransform_.matWorld_ = Mat_Identity();
-	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-
-	worldTransform_.TransferMatrix();
-	worldTransform_.TransferColorMatrix();
+	worldTransform_.translation_ += move;
+	worldTransform_.Update(worldTransform_);
 }
 
-void Player::Draw()
+void Player::Draw(ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection_, texture_);
+}
+
+void Player::OnCollisionStage(bool collisionFlag) {
+	if (collisionFlag) {
+		worldTransform_.translation_ = prePos_;
+		worldTransform_.Update(worldTransform_);
+	}
+	// 前フレーム座標
+	prePos_ = worldTransform_.translation_;
 }
 
 Vector3 Player::GetWorldPosition()

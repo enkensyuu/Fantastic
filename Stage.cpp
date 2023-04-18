@@ -174,6 +174,13 @@ void stage::CheckBlock(int line, int row) {
 	}
 }
 
+bool stage::CheckFloorBlock(int line, int row) {
+	if (line < 0 || line > 19 || row < 0 || row > 19) {
+		return true;
+	}
+	return false;
+}
+
 Vector3 stage::GetBlockPosition(int line, int row) {
 	// ”ÍˆÍfor
 	for (std::unique_ptr<StageData>& block : stageBlocks_) {

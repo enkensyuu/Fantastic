@@ -47,11 +47,10 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = new Player;
-	player_->Initialize();
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 40.0f, 40.0f, -125.0f};
+	viewProjection_.eye = { 40.0f, 80.0f, -125.0f};
 	viewProjection_.target = { 40.0f, 40.0f, 0.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
@@ -62,7 +61,9 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	stage_->Update();
-	player_->Update({ 0,0,0 });
+	player_->Update();
+	CollisionStageFlag(player_, stage_);
+	player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
 }
 
 void GameScene::Draw() {
@@ -91,7 +92,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	stage_->Draw(viewProjection_);
-	player_->Draw();
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -122,46 +123,46 @@ void GameScene::Parameter(
 	isClear = false;
 }
 
-//bool GameScene::CollisionStageFlag(Player* p, stage* s) {
-//	// 各座標変数の宣言
-//	Vector3 pPos = p->GetPosition();
-//	float pRadius = p->GetRadius();
-//	float pX1, pX2, pZ1, pZ2;
-//	// プレイヤーの矩形座標
-//	pX1 = pPos.x - pRadius;
-//	pX2 = pPos.x + pRadius;
-//	pZ1 = pPos.z - pRadius;
-//	pZ2 = pPos.z + pRadius;
-//
-//	// プレイヤーLeftTop座標
-//	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pZ1 / 4) - 19) * -1) };
-//	int isFloor = 0;
-//
-//	for (int i = 0; i < 2; i++) {
-//		for (int j = 0; j < 2; j++) {
-//			// 足元のブロックを判別
-//			if (s->CheckFloorBlock(pLT[0] + i, pLT[1] + j)) {
-//				isFloor++;
-//			}
-//			if (isFloor == 4) {
-//				p->IsDead();
-//			}
-//			s->CheckBlock(pLT[0] + i, pLT[1] + j);
-//			// 各座標変数の宣言
-//			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
-//			float bRadius = s->GetRadius();
-//			float bX1, bX2, bZ1, bZ2;
-//			// ブロックの矩形座標
-//			bX1 = bPos.x - bRadius;
-//			bX2 = bPos.x + bRadius;
-//			bZ1 = bPos.z - bRadius;
-//			bZ2 = bPos.z + bRadius;
-//
-//			// 当たり判定
-//			if (pX1 < bX2 && pX2 > bX1 && pZ1 < bZ2 && pZ2 > bZ1) {
-//				return true;
-//			}
-//		}
-//	}
-//	return false;
-//}
+bool GameScene::CollisionStageFlag(Player* p, stage* s) {
+	// 各座標変数の宣言
+	Vector3 pPos = p->GetPosition();
+	float pRadius = p->GetRadius();
+	float pX1, pX2, pY1, pY2;
+	// プレイヤーの矩形座標
+	pX1 = pPos.x - pRadius;
+	pX2 = pPos.x + pRadius;
+	pY1 = pPos.y - pRadius;
+	pY2 = pPos.y + pRadius;
+
+	// プレイヤーLeftTop座標
+	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 19) * -1) };
+	int isFloor = 0;
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			// 足元のブロックを判別
+			if (s->CheckFloorBlock(pLT[0] + i, pLT[1] + j)) {
+				isFloor++;
+			}
+			if (isFloor == 4) {
+				p->IsDead();
+			}
+			s->CheckBlock(pLT[0] + i, pLT[1] + j);
+			// 各座標変数の宣言
+			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+			float bRadius = s->GetRadius();
+			float bX1, bX2, bY1, bY2;
+			// ブロックの矩形座標
+			bX1 = bPos.x - bRadius;
+			bX2 = bPos.x + bRadius;
+			bY1 = bPos.y - bRadius;
+			bY2 = bPos.y + bRadius;
+
+			// 当たり判定
+			if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
