@@ -32,23 +32,24 @@ void GameScene::Initialize() {
 	textureHandle_[10] = TextureManager::Load("Yazirushi.png");//Pause画面(Select)
 	textureHandle_[11] = TextureManager::Load("4.png"); //背景4
 	textureHandle_[12] = TextureManager::Load("Operation.png"); //操作説明
-	//textureHandle_[12] = TextureManager::Load("5.png"); //背景5
+	textureHandle_[13] = TextureManager::Load("5.png"); //背景5
 
 
 	//スプライトを生成
 	Explanation_ = Sprite::Create(textureHandle_[0], { 0,0 });
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
-	Space_ = Sprite::Create(textureHandle_[2], { 550,800 });
+	Space_ = Sprite::Create(textureHandle_[2], { 550,600 });
 	StageChoice_ = Sprite::Create(textureHandle_[3], { 0,0 });
 	Waku_ = Sprite::Create(textureHandle_[4], { 102,200 });
 	Waku2_ = Sprite::Create(textureHandle_[4], { 700,200 });
 	Waku3_ = Sprite::Create(textureHandle_[4], { 1300,200 });
 	Waku4_ = Sprite::Create(textureHandle_[4], { 104,604 });
-	Waku5_ = Sprite::Create(textureHandle_[4], { 710,600 });
+	Waku5_ = Sprite::Create(textureHandle_[4], { 705,600 });
 	BackGroudStage1_ = Sprite::Create(textureHandle_[5], { 0,0 });
 	BackGroudStage2_ = Sprite::Create(textureHandle_[6], { 0,0 });
 	BackGroudStage3_ = Sprite::Create(textureHandle_[7], { 0,0 });
 	BackGroudStage4_ = Sprite::Create(textureHandle_[11], { 0,0 });
+	BackGroudStage5_ = Sprite::Create(textureHandle_[13], { 0,0 });
 	Pause_ = Sprite::Create(textureHandle_[8], { 10,10 });
 	PauseScene_= Sprite::Create(textureHandle_[9], { 600,80 });
 	PauseSelect_ = Sprite::Create(textureHandle_[10], { 770,330 });
@@ -774,7 +775,11 @@ void GameScene::Draw() {
 			Pause_->Draw();
 		}
 	case SEVEN:
-		Pause_->Draw();
+		if (scene_ == SEVEN)
+		{
+			BackGroudStage5_->Draw();
+			Pause_->Draw();
+		}
 		break;
 	}
 	/*DebugText::GetInstance()->SetPos(200, 180);
