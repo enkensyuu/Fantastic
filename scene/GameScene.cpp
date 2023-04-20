@@ -27,7 +27,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			player_->Collision();
+			player_->Collision(stage1_->GetSpeed());
 			wind->Collision();
 		}
 	}
@@ -45,7 +45,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			balloon_->MoveCollision();
+			balloon_->MoveCollision(stage1_->GetSpeed());
 			wind->Collision();
 		}
 	}
@@ -80,7 +80,7 @@ void GameScene::CheckAllCollisions()
 				(posA.z - posB.z) * (posA.z - posB.z)
 				<= (1.0f + 1.0f) * (1.0f + 1.0f)
 				) {
-				goldKey->MoveCollision();
+				goldKey->MoveCollision(stage1_->GetSpeed());
 			}
 		}
 	}
@@ -98,7 +98,7 @@ void GameScene::CheckAllCollisions()
 			(posA.x - posB.x) * (posA.x - posB.x) +
 			(posA.y - posB.y) * (posA.y - posB.y) +
 			(posA.z - posB.z) * (posA.z - posB.z)
-			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
 			) {
 			goldKey->GetCollision();
 			isGetGoldKey_ = true;
@@ -117,9 +117,9 @@ void GameScene::CheckAllCollisions()
 			(posA.x - posB.x) * (posA.x - posB.x) +
 			(posA.y - posB.y) * (posA.y - posB.y) +
 			(posA.z - posB.z) * (posA.z - posB.z)
-			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
 			) {
-			silverKey_->MoveCollision();
+			silverKey_->MoveCollision(stage1_->GetSpeed());
 		}
 	}
 #pragma endregion
@@ -272,7 +272,7 @@ void GameScene::Initialize() {
 	silverKey_->Initialize(-10, 20);
 
 	windPower_ = new WindPower;
-	windPower_->Initialize();
+	windPower_->Initialize(-5,-5);
 
 	magmaBlock_ = new MagmaBlock;
 	magmaBlock_->Initialize(0, -10);
@@ -304,9 +304,9 @@ void GameScene::Update() {
 		}
 		CheckAllCollisions();
 		stage1_->Update();
-		player_->Update(stage1_->GetSpeed());
-		balloon_->Update(stage1_->GetSpeed());
-		silverKey_->Update(stage1_->GetSpeed());
+		player_->Update();
+		balloon_->Update();
+		silverKey_->Update();
 		windPower_->Update();
 		magmaBlock_->Update();
 		door_->Update(isOpen_, isKeyOpen_);

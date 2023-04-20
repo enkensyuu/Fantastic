@@ -1,7 +1,7 @@
 #include "WindPower.h"
 #include "Procession.h"
 
-void WindPower::Initialize()
+void WindPower::Initialize(float x, float y)
 {
 	texture_ = TextureManager::Load("white.png");
 	texture2_ = TextureManager::Load("Red.png");
@@ -15,8 +15,8 @@ void WindPower::Initialize()
 
 		worldTransform_[i].Initialize();
 
-		worldTransform_[0].translation_ = { -10,10,0 };
-		worldTransform_[1].translation_ = { -10,8,0 };
+		worldTransform_[0].translation_ = { x,y,0 };
+		worldTransform_[1].translation_ = { x,y,0 };
 
 		worldTransform_[i].matWorld_ = Mat_Identity();
 		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);

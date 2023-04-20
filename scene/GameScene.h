@@ -79,6 +79,11 @@ private: // メンバ変数
 
 	MagmaBlock* magmaBlock_ = nullptr;
 
+	Vector3 playerSpeed_;
+	Vector3 balloonSpeed_;
+	Vector3 silverKeySpeed_;
+	Vector3 goldKeySpeed;
+
 	Door* door_ = nullptr;
 
 	size_t scene_ = TITLE;

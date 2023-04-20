@@ -16,11 +16,11 @@ class Balloon
 public:
 	void Initialize(float x, float y);
 
-	void Update(Vector3 speed);
+	void Update();
 
 	void Draw();
 
-	void MoveCollision();
+	void MoveCollision(Vector3 speed);
 
 	void DeadCollision();
 

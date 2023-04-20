@@ -14,13 +14,13 @@ class Player
 public:
 	void Initialize();
 
-	void Update(Vector3 speed);
+	void Update();
 
 	void Draw();
 
 	Vector3 GetWorldPosition();
 
-	void Collision();
+	void Collision(Vector3 speed);
 
 	void DethCollision();
 
@@ -42,6 +42,7 @@ private:
 
 	Vector3 playerSpeed;
 	Vector3 returnSpeed;
+	Vector3 acc;
 
 	int stoptimer;
 	int stoptimer2;

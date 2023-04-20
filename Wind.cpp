@@ -13,6 +13,7 @@ void Wind::Initialize(const Matrix4& position, const Vector3& velocity)
 
 	// ˆø”‚Åó‚¯æ‚Á‚½‘¬“x‚ğƒƒ“ƒo•Ï”‚É‘ã“ü
 	velocity_ = velocity;
+
 	/*texture_ = TextureManager::Load("Red.png");
 	model_ = Model::Create();*/
 	model_ = Model::CreateFromOBJ("Wind");

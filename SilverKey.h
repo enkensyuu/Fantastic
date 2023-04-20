@@ -16,13 +16,13 @@ class SilverKey
 public:
 	void Initialize(float x, float y);
 
-	void Update(Vector3 speed);
+	void Update();
 
 	void Draw();
 
 	Vector3 GetWorldPosition();
 	
-	void MoveCollision();
+	void MoveCollision(Vector3 speed);
 
 	void GetCollision();
 
@@ -31,6 +31,7 @@ private:
 	ViewProjection viewProjection_;
 
 	Model* model_ = nullptr;
+	Vector3 Speed;
 
 	bool isMove_ = false;;
 	bool isGet_ = false;

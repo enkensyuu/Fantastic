@@ -24,9 +24,8 @@ void SilverKey::Initialize(float x, float y)
 	viewProjection_.Initialize();
 }
 
-void SilverKey::Update(Vector3 speed)
+void SilverKey::Update()
 {
-	Vector3 Speed = speed;
 
 	if (isMove_)
 	{
@@ -67,9 +66,10 @@ Vector3 SilverKey::GetWorldPosition()
 	return worldPos;
 }
 
-void SilverKey::MoveCollision()
+void SilverKey::MoveCollision(Vector3 speed)
 {
 	isMove_ = true;
+	Speed = speed;
 }
 
 

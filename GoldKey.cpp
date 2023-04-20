@@ -29,10 +29,8 @@ void GoldKey::Initialize(const Matrix4& position)
 	viewProjection_.Initialize();
 }
 
-void GoldKey::Update(Vector3 speed)
+void GoldKey::Update()
 {
-	Vector3 Speed = speed;
-
 	if (isMove_)
 	{
 		worldTransform_.translation_ += Speed;
@@ -71,9 +69,10 @@ Vector3 GoldKey::GetWorldPosition()
 	return worldPos;
 }
 
-void GoldKey::MoveCollision()
+void GoldKey::MoveCollision(Vector3 speed)
 {
 	isMove_ = true;
+	Speed = speed;
 }
 
 void GoldKey::GetCollision()

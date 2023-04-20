@@ -11,7 +11,7 @@ void Player::Initialize()
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { 0,10,0 };
+	worldTransform_.translation_ = { -25.0f,-10.0f,0 };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -24,17 +24,13 @@ void Player::Initialize()
 	viewProjection_.Initialize();
 }
 
-void Player::Update(Vector3 speed)
+void Player::Update()
 {
-	playerSpeed = speed;
-	returnSpeed = speed;
-	returnSpeed /= 2;
-
-	//worldTransform_.translation_.y -= 0.1f;
+	worldTransform_.translation_.y -= 0.1f;
 
 	if (isMove_)
 	{
-		worldTransform_.translation_ += playerSpeed;
+		worldTransform_.translation_ +=playerSpeed;
 		stoptimer--;
 	}
 	if (stoptimer <= 0)
@@ -86,9 +82,12 @@ Vector3 Player::GetWorldPosition()
 	return worldPos;
 }
 
-void Player::Collision()
+void Player::Collision(Vector3 speed)
 {
 	isMove_ = true;
+	playerSpeed = speed;
+	returnSpeed = speed;
+	returnSpeed /= 2;
 }
 
 void Player::DethCollision()

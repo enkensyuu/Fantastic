@@ -12,7 +12,7 @@
 class WindPower
 {
 public:
-	void Initialize();
+	void Initialize(float x,float y);
 
 	void Update();
 

@@ -29,10 +29,8 @@ void Balloon::Initialize(float x, float y)
 	viewProjection_.Initialize();
 }
 
-void Balloon::Update(Vector3 speed)
+void Balloon::Update()
 {
-	balloonSpeed = speed;
-	balloonSpeed /= 2;
 	UpDownSpeed = { 0,0.01f,0 };
 
 	if (isMove_)
@@ -83,7 +81,7 @@ void Balloon::Update(Vector3 speed)
 
 		for (std::unique_ptr<GoldKey>& goldKey : goldKeys_)
 		{
-			goldKey->Update(balloonSpeed);
+			goldKey->Update();
 		}
 	}
 
@@ -108,10 +106,12 @@ void Balloon::Draw()
 	}
 }
 
-void Balloon::MoveCollision()
+void Balloon::MoveCollision(Vector3 speed)
 {
 	isMove_ = true;
 	isUpDown_ = false;
+	balloonSpeed = speed;
+	balloonSpeed /= 2;
 }
 
 void Balloon::DeadCollision()

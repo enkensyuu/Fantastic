@@ -28,8 +28,7 @@ public:
 	Vector3 GetSpeed() { return velocity; }
 
 private:
-	static const int num = 3;
-
+	static const int num = 8;
 	WorldTransform worldTransforms_[num];
 	bool isrotation_[num];
 
@@ -45,6 +44,10 @@ private:
 	const float kBulletSpeed = 0.5f;
 
 	Vector3 velocity;
+	Vector3 Lvelocity;
+	Vector3 Rvelocity;
+	Vector3 Uvelocity;
+	Vector3 Dvelocity;
 
 	std::list<std::unique_ptr<Wind>> winds_;
 };
