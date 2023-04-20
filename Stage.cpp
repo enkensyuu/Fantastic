@@ -97,7 +97,7 @@ void stage::LoadStageCommands() {
 			// コマンド読み込み
 			if (word.find("NONE") == 0 || word.find("0") == 0) {
 				// ステージのブロックを追加
-				PushStageBlockList(stageBlocks_, NONE, mapLine, mapRow, -50.0f);
+				PushStageBlockList(stageBlocks_, NONE, mapLine, mapRow, -20.0f);
 				// インクリメント
 				mapLine++;
 			}
@@ -122,7 +122,7 @@ void stage::LoadFloorBlock() {
 	for (int i = 0; i < STAGE_HEIGHT; i++) {
 		for (int j = 0; j < STAGE_WIDTH; j++) {
 			// ステージのブロックを追加
-			PushStageBlockList(floorBlocks_, BLOCK, j, i, -14.0f);
+			PushStageBlockList(floorBlocks_, BLOCK, j, i, -20.0f);
 		}
 	}
 }
@@ -175,7 +175,7 @@ void stage::CheckBlock(int line, int row) {
 }
 
 bool stage::CheckFloorBlock(int line, int row) {
-	if (line < 0 || line > 19 || row < 0 || row > 19) {
+	if (line < 0 || line > 31 || row < 0 || row > 18) {
 		return true;
 	}
 	return false;

@@ -12,8 +12,8 @@ GameScene::~GameScene() {
 	delete model_;
 	// BGM解放
 	// 自キャラの解放
+	delete player_;
 	delete modelPlayer_;
-	delete modelPlayer2_;
 	// 天球データ解放
 	delete modelSkydome_;
 	// ステージ
@@ -47,22 +47,23 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = new Player;
+	modelPlayer_ = Model::CreateFromOBJ("bplayer", true);
+	player_->Initialize(modelPlayer_, { -20.0f,14.0f,-20.0f });
+
+	//初期化
+	Parameter({ 0.0f, 0.0f, 0.0f }, 0);
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 40.0f, 80.0f, -125.0f};
-	viewProjection_.target = { 40.0f, 40.0f, 0.0f };
+	viewProjection_.eye = { 40.0f, 40.0f, -125.0f };
+	viewProjection_.target = { 40.0f,40.0f, 0.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
-
-	//初期化
-	Parameter({ 14.0f, -10.0f, 54.0f }, { 38.0f, -10.0f, 26.0f }, 0);
 }
 
 void GameScene::Update() {
 	stage_->Update();
 	player_->Update();
-	CollisionStageFlag(player_, stage_);
 	player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
 }
 
@@ -113,10 +114,9 @@ void GameScene::Draw() {
 }
 
 void GameScene::Parameter(
-	const Vector3& playerPos1, const Vector3& playerPos2, const int& stageNum) {
+	const Vector3& playerPos1, const int& stageNum) {
 	// 自キャラの初期化
 	Vector3 pos1 = playerPos1;
-	Vector3 pos2 = playerPos2;
 	// ステージの初期化
 	stage_->StageInitialize(filename_[stageNum]); // ステージ読み込み(1)
 
@@ -135,19 +135,11 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 	pY2 = pPos.y + pRadius;
 
 	// プレイヤーLeftTop座標
-	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 19) * -1) };
+	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
 	int isFloor = 0;
 
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 2; j++) {
-			// 足元のブロックを判別
-			if (s->CheckFloorBlock(pLT[0] + i, pLT[1] + j)) {
-				isFloor++;
-			}
-			if (isFloor == 4) {
-				p->IsDead();
-			}
-			s->CheckBlock(pLT[0] + i, pLT[1] + j);
 			// 各座標変数の宣言
 			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
 			float bRadius = s->GetRadius();

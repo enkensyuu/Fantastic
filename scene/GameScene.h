@@ -34,7 +34,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void Parameter(const Vector3& playerPos1, const Vector3& playerPos2, const int& stageNum);
+	void Parameter(const Vector3& playerPos1, const int& stageNum);
 
 	bool CollisionStageFlag(Player* p, stage* s);
 
@@ -94,7 +94,6 @@ private: // メンバ変数
 
 	// モデル
 	Model* modelPlayer_ = nullptr;
-	Model* modelPlayer2_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	// ステージ
 	stage* stage_ = nullptr;
