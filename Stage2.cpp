@@ -13,7 +13,7 @@ void Stage2::Initialize()
 	audio_ = Audio::GetInstance();
 
 	//SEƒf[ƒ^
-	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
+	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
@@ -164,7 +164,6 @@ void Stage2::Draw()
 	{
 		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
 	}
-
-	DebugText::GetInstance()->SetPos(900, 180);
-	DebugText::GetInstance()->Printf("Stage2", DebugText2);
 }
+	/*DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage2", DebugText2);*/

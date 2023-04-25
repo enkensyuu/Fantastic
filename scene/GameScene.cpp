@@ -33,7 +33,7 @@ void GameScene::Initialize() {
 	textureHandle_[11] = TextureManager::Load("4.png"); //背景4
 	textureHandle_[12] = TextureManager::Load("Operation.png"); //操作説明
 	textureHandle_[13] = TextureManager::Load("5.png"); //背景5
-    
+
 
 
 	//スプライトを生成
@@ -52,14 +52,17 @@ void GameScene::Initialize() {
 	BackGroudStage4_ = Sprite::Create(textureHandle_[11], { 0,0 });
 	BackGroudStage5_ = Sprite::Create(textureHandle_[13], { 0,0 });
 	Pause_ = Sprite::Create(textureHandle_[8], { 10,10 });
-	PauseScene_= Sprite::Create(textureHandle_[9], { 600,80 });
+	PauseScene_ = Sprite::Create(textureHandle_[9], { 600,80 });
 	PauseSelect_ = Sprite::Create(textureHandle_[10], { 770,330 });
 	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,425 });
 	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 615,515 });
-	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 605,615});
+	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 605,615 });
 	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 602,715 });
 	PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,810 });
-	Operation_= Sprite::Create(textureHandle_[12], {0,0});
+	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
+
+	//SEデータ
+	StageSelectSE_ = audio_->LoadWave("SE/StageSelection.mp3");
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -165,26 +168,36 @@ void GameScene::Update() {
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 1)
 		{
+			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			StageHandleFlag = true;
 			scene_ = THREE;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 2)
 		{
+			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			StageHandleFlag = true;
 			scene_ = FOUR;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
 		{
+			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			StageHandleFlag = true;
 			scene_ = FIVE;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 4)
 		{
+			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			StageHandleFlag = true;
 			scene_ = SIX;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 5)
 		{
+			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			StageHandleFlag = true;
 			scene_ = SEVEN;
 		}
 

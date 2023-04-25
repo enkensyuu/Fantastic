@@ -101,6 +101,11 @@ class GameScene {
 	int SceneStageFlag3 = 0; //ステージ3フラグ
 	int SceneStageFlag4 = 0; //ステージ4フラグ
 	int SceneStageFlag5 = 0; //ステージ5フラグ
+	
+
+	uint32_t StageSelectSE_ = 0;
+	uint32_t StageSEHandle_ = 0;
+	uint32_t StageHandleFlag = false;
 
 
 	/// <summary>

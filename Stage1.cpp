@@ -19,7 +19,7 @@ void Stage1::Initialize()
 	//BackGroud_ = Sprite::Create(textureHandle2_[0], { 0,0 });
 
 	//SEƒf[ƒ^
-	PropellerSE_ = audio_->LoadWave("SE/Wind.wav");
+	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
 
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
@@ -179,8 +179,8 @@ void Stage1::Draw()
 		wind->Draw(viewProjection_);
 	}
 
-	DebugText::GetInstance()->SetPos(900, 180);
-	DebugText::GetInstance()->Printf("Stage1", DebugText);
+	/*DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage1", DebugText);*/
 }
 
 void Stage1::WindOn()
