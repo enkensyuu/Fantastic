@@ -153,6 +153,13 @@ void Stage3::Update()
 		HandleFlag3 = false;
 	}
 
+	//Pause‚ð‰Ÿ‚·‚ÆSE’âŽ~
+	if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag3 = true;
+	}
+
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
 		// s—ñXV

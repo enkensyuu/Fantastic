@@ -100,12 +100,12 @@ void Stage1::Update()
 	}
 
 	//ESC‚ð‰Ÿ‚µ‚½‚ç’âŽ~
-	if (input_->TriggerKey(DIK_ESCAPE))
+	/*if (input_->TriggerKey(DIK_ESCAPE))
 	{
 		isrotation_[0] = false;
 		isrotation_[1] = false;
 		isrotation_[2] = false;
-	}
+	}*/
 
 	//ƒvƒƒyƒ‰SE
 	if (isrotation_[0] || isrotation_[1] || isrotation_[2])
@@ -142,6 +142,13 @@ void Stage1::Update()
 	{
 		audio_->StopWave(SEHandle_);
 		HandleFlag = false;
+	}
+
+	//Pause‚ð‰Ÿ‚·‚ÆSE’âŽ~
+	if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag = true;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)

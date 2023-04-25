@@ -119,6 +119,15 @@ void Stage2::Update()
 		worldTransforms_[i].TransferMatrix();
 	}
 
+	//ESC‚ð‰Ÿ‚µ‚½‚ç’âŽ~
+	/*if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		isrotation_[0] = false;
+		isrotation_[1] = false;
+		isrotation_[2] = false;
+		isrotation_[3] = false;
+	}*/
+
 	//ƒvƒƒyƒ‰SE
 	if (isrotation_[0] || isrotation_[1] || isrotation_[2]||isrotation_[3])
 	{
@@ -139,6 +148,13 @@ void Stage2::Update()
 	{
 		audio_->StopWave(SEHandle_);
 		HandleFlag2 = false;
+	}
+
+	//Pause‚ð‰Ÿ‚·‚ÆSE’âŽ~
+	if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag2 = true;
 	}
 }
 
