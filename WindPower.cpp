@@ -5,8 +5,8 @@ void WindPower::Initialize(float x, float y)
 {
 	texture_ = TextureManager::Load("white.png");
 	texture2_ = TextureManager::Load("Red.png");
-	model_ = Model::Create();
-	model2_ = Model::Create();
+	model_ = Model::CreateFromOBJ("WindPowerUp");
+	model2_ = Model::CreateFromOBJ("WindPowerDown");
 	isMove_ = false;
 	stopTimer_ = 4 * 5;
 
@@ -15,8 +15,8 @@ void WindPower::Initialize(float x, float y)
 
 		worldTransform_[i].Initialize();
 
-		worldTransform_[0].translation_ = { x,y,0 };
-		worldTransform_[1].translation_ = { x,y,0 };
+		worldTransform_[0].translation_ = { x,y+2.5f,0 };
+		worldTransform_[1].translation_ = { x,y,3.5f };
 
 		worldTransform_[i].matWorld_ = Mat_Identity();
 		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);
@@ -30,7 +30,7 @@ void WindPower::Initialize(float x, float y)
 
 void WindPower::Update()
 {
-	Vector3 RotationSpeed = { 0,0,0.1f };
+	Vector3 RotationSpeed = { 0,0,0.1f};
 
 	if (isMove_)
 	{
@@ -55,11 +55,8 @@ void WindPower::Update()
 
 void WindPower::Draw()
 {
-	for (size_t i = 0; i < _countof(worldTransform_); i++)
-	{
-		model_->Draw(worldTransform_[0], viewProjection_, texture_);
-		model2_->Draw(worldTransform_[1], viewProjection_, texture2_);
-	}
+		model_->Draw(worldTransform_[0], viewProjection_);
+		model2_->Draw(worldTransform_[1], viewProjection_);
 }
 
 void WindPower::Collision()

@@ -8,6 +8,9 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DirectXMath.h"
+
+using namespace DirectX;
 
 class WindPower
 {
