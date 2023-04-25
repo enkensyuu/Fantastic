@@ -16,6 +16,7 @@ void Player::Initialize(Model* model, Vector3 pos) {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;
+	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 }
 
 void Player::Update() {
@@ -45,6 +46,9 @@ void Player::Update() {
 
 	worldTransform_.translation_ += move;
 	worldTransform_.Update(worldTransform_);
+
+	debugText_->SetPos(50, 90);
+	debugText_->Printf("worldTransform_.translation_:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
