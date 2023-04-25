@@ -48,7 +48,7 @@ void GameScene::Initialize() {
 
 	// プレイヤー
 	player_ = new Player;
-	modelPlayer_ = Model::CreateFromOBJ("bplayer", true);
+	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	player_->Initialize(modelPlayer_, { 0.0f,-10.0f,-20.0f });
 
 	//初期化
