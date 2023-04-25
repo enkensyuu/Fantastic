@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 汎用機能
 	Input* input = nullptr;
 	Audio* audio = nullptr;
-	//DebugText* debugText = nullptr;
+	DebugText* debugText = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
@@ -43,8 +43,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sprite::StaticInitialize(dxCommon->GetDevice(), WinApp::kWindowWidth, WinApp::kWindowHeight);
 
 	// デバッグテキスト初期化
-	//debugText = DebugText::GetInstance();
-	//d/ebugText->Initialize();
+	debugText = DebugText::GetInstance();
+	debugText->Initialize();
 
 	// 3Dモデル静的初期化
 	Model::StaticInitialize();

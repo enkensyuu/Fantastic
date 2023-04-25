@@ -37,6 +37,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	debugText_ = DebugText::GetInstance();
 
 	// 3Dモデルの生成
 	model_ = Model::Create();
@@ -48,15 +49,15 @@ void GameScene::Initialize() {
 	// プレイヤー
 	player_ = new Player;
 	modelPlayer_ = Model::CreateFromOBJ("bplayer", true);
-	player_->Initialize(modelPlayer_, { -20.0f,14.0f,-20.0f });
+	player_->Initialize(modelPlayer_, { 0.0f,-10.0f,-20.0f });
 
 	//初期化
 	Parameter({ 0.0f, 0.0f, 0.0f }, 0);
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
-	viewProjection_.eye = { 40.0f, 40.0f, -125.0f };
-	viewProjection_.target = { 40.0f,40.0f, 0.0f };
+	viewProjection_.eye = { 74.0f, 35.0f, -125.0f };
+	viewProjection_.target = { 74.0f,35.0f, 0.0f };
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
 }
@@ -106,6 +107,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	// デバッグテキストの描画
+	debugText_->DrawAll(commandList);
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -156,5 +159,11 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 			}
 		}
 	}
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf("pLT[0]:(%d,%d)", pLT[0]);
+	debugText_->SetPos(50, 70);
+	debugText_->Printf("pLT[1]:(%d,%d)", pLT[1]);
+
 	return false;
 }

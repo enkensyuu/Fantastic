@@ -152,8 +152,8 @@ void stage::PushStageBlockList(std::list<std::unique_ptr<StageData>>& blocks_, i
 	newBlock->type_ = type;
 	// À•W
 	Vector3 pos;
-	pos.x = -20.0f + (4.0f * line);
-	pos.y = 80.0f - (4.0f * row);
+	pos.x = 2.0f + (4.0f * line);
+	pos.y = 73.0f - (4.0f * row);
 	pos.z = depth;
 
 	// ‰Šú‰»‚·‚é

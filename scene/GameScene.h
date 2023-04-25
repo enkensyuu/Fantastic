@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Audio.h"
 #include "DebugCamera.h"
+#include "DebugText.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "SafeDelete.h"
@@ -38,11 +39,10 @@ public: // メンバ関数
 
 	bool CollisionStageFlag(Player* p, stage* s);
 
-	void Reset(const Vector3& playerPos1, const Vector3& playerPos2);
-
 private: // メンバ変数
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
+	DebugText* debugText_ = nullptr;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
