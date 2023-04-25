@@ -96,6 +96,12 @@ class GameScene {
 	int StageTimerUpDown = 0;
 	int Select = 0;
 	int SelectFlag = 0;
+	int SceneStageFlag1 = 0; //ステージ1フラグ
+	int SceneStageFlag2 = 0; //ステージ2フラグ
+	int SceneStageFlag3 = 0; //ステージ3フラグ
+	int SceneStageFlag4 = 0; //ステージ4フラグ
+	int SceneStageFlag5 = 0; //ステージ5フラグ
+
 
 	/// <summary>
 	/// ゲームシーン用

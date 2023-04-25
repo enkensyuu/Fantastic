@@ -79,6 +79,7 @@ void GameScene::Initialize() {
 	RingFlag = 0;
 	PauseFlag = 0;
 	SelectFlag = 0;
+	SceneStageFlag1 = 0;
 }
 
 void GameScene::Update() {
@@ -106,6 +107,35 @@ void GameScene::Update() {
 		{
 			scene_ = STAGECHOICE;
 			StageTimer = 0;
+			if (SceneStageFlag1 == 1)
+			{
+				scene_ = THREE;
+				SceneStageFlag1 = 0;
+			}
+
+			if (SceneStageFlag2 == 1)
+			{
+				scene_ = FOUR;
+				SceneStageFlag2 = 0;
+			}
+
+			if (SceneStageFlag3 == 1)
+			{
+				scene_ = FIVE;
+				SceneStageFlag3 = 0;
+			}
+
+			if (SceneStageFlag4 == 1)
+			{
+				scene_ = SIX;
+				SceneStageFlag4 = 0;
+			}
+
+			if (SceneStageFlag5 == 1)
+			{
+				scene_ = SEVEN;
+				SceneStageFlag5 = 0;
+			}
 		}
 
 	case STAGECHOICE:
@@ -280,6 +310,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN)&& Select == 4)
 		{
 			scene_ = EXPLANATION;
+			SceneStageFlag1 = 1;
 			PauseFlag = 0;
 		}
 
@@ -379,6 +410,7 @@ void GameScene::Update() {
 			//ゲーム説明の戻る
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
+				SceneStageFlag2 = 1;
 				scene_ = EXPLANATION;
 			}
 
@@ -479,6 +511,7 @@ void GameScene::Update() {
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = EXPLANATION;
+				SceneStageFlag3 = 1;
 			}
 
 			//ステージ選択に戻る
@@ -578,6 +611,7 @@ void GameScene::Update() {
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = EXPLANATION;
+				SceneStageFlag4 = 1;
 			}
 
 			//ステージ選択に戻る
@@ -676,6 +710,7 @@ void GameScene::Update() {
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = EXPLANATION;
+				SceneStageFlag5 = 1;
 			}
 
 			//ステージ選択に戻る
