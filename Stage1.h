@@ -32,7 +32,8 @@ private:
 	WorldTransform worldTransforms_[num];
 	bool isrotation_[num];
 
-	Vector3 rotationSpeed = { 0.0f,0.0f,1.0f };
+	Vector3 rotationSpeedX = { 1.0f,0.0f,0.0f };
+	Vector3 rotationSpeedY = { 0.0f,1.0f,0.0f };
 
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;

@@ -7,7 +7,7 @@ void Player::Initialize()
 	input_ = Input::GetInstance();
 
 	texture_ = TextureManager::Load("yellow.png");
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("Player");
 
 	worldTransform_.Initialize();
 
@@ -67,7 +67,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	model_->Draw(worldTransform_, viewProjection_, texture_);
+	model_->Draw(worldTransform_, viewProjection_);
 }
 
 Vector3 Player::GetWorldPosition()

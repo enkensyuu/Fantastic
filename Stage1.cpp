@@ -12,7 +12,8 @@ void Stage1::Initialize()
 	debugText_ = DebugText::GetInstance();
 	input_ = Input::GetInstance();
 	texture_ = TextureManager::Load("white.png");
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("fan");
+	//model_ = Model::Create();
 
 	Lvelocity = { -kBulletSpeed,0,0 };
 	Rvelocity = { +kBulletSpeed,0,0 };
@@ -28,14 +29,10 @@ void Stage1::Initialize()
 	{
 		worldTransforms_[i].Initialize();
 
-		worldTransforms_[0].rotation_ = { XMConvertToRadians(90),0,0 };
-		worldTransforms_[1].rotation_ = { XMConvertToRadians(90),0,0 };
-		worldTransforms_[2].rotation_ = { 0,XMConvertToRadians(90),0 };
-		worldTransforms_[3].rotation_ = { 0,XMConvertToRadians(90),0 };
-		worldTransforms_[4].rotation_ = { 0,XMConvertToRadians(270),0 };
-		worldTransforms_[5].rotation_ = { 0,XMConvertToRadians(270),0 };
-		worldTransforms_[6].rotation_ = { XMConvertToRadians(270),0,0 };
-		worldTransforms_[7].rotation_ = { XMConvertToRadians(270),0,0 };
+		worldTransforms_[2].rotation_ = { 0,0,XMConvertToRadians(90)};
+		worldTransforms_[3].rotation_ = { 0,0,XMConvertToRadians(90)};
+		worldTransforms_[4].rotation_ = { 0,0,XMConvertToRadians(90)};
+		worldTransforms_[5].rotation_ = { 0,0,XMConvertToRadians(90)};
 
 		worldTransforms_[0].translation_ = { -5.0f,-10.0f,0.0f };
 		worldTransforms_[1].translation_ = { -25.0f,-15.0f,0.0f };
@@ -153,49 +150,49 @@ void Stage1::Update()
 	if (isrotation_[0])
 	{
 		WindOn(worldTransforms_[0].matWorld_, Uvelocity);
-		worldTransforms_[0].rotation_ += rotationSpeed;
+		worldTransforms_[0].rotation_ += rotationSpeedY;
 	}
 
 	if (isrotation_[1])
 	{
 		WindOn(worldTransforms_[1].matWorld_, Uvelocity);
-		worldTransforms_[1].rotation_ += rotationSpeed;
+		worldTransforms_[1].rotation_ += rotationSpeedY;
 	}
 
 	if (isrotation_[2])
 	{
 		WindOn(worldTransforms_[2].matWorld_, Rvelocity);
-		worldTransforms_[2].rotation_ += rotationSpeed;
+		worldTransforms_[2].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[3])
 	{
 		WindOn(worldTransforms_[3].matWorld_, Rvelocity);
-		worldTransforms_[3].rotation_ += rotationSpeed;
+		worldTransforms_[3].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[4])
 	{
 		WindOn(worldTransforms_[4].matWorld_, Lvelocity);
-		worldTransforms_[4].rotation_ += rotationSpeed;
+		worldTransforms_[4].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[5])
 	{
 		WindOn(worldTransforms_[5].matWorld_, Lvelocity);
-		worldTransforms_[5].rotation_ += rotationSpeed;
+		worldTransforms_[5].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[6])
 	{
 		WindOn(worldTransforms_[6].matWorld_, Dvelocity);
-		worldTransforms_[6].rotation_ += rotationSpeed;
+		worldTransforms_[6].rotation_ += rotationSpeedY;
 	}
 
 	if (isrotation_[7])
 	{
 		WindOn(worldTransforms_[7].matWorld_, Dvelocity);
-		worldTransforms_[7].rotation_ += rotationSpeed;
+		worldTransforms_[7].rotation_ += rotationSpeedY;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
@@ -217,7 +214,7 @@ void Stage1::Draw()
 {
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
-		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
+		model_->Draw(worldTransforms_[i], viewProjection_);
 	}
 
 	for (std::unique_ptr<Wind>& wind : winds_)
