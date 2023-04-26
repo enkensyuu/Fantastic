@@ -119,7 +119,7 @@ void GameScene::CheckAllCollisions()
 			(posA.x - posB.x) * (posA.x - posB.x) +
 			(posA.y - posB.y) * (posA.y - posB.y) +
 			(posA.z - posB.z) * (posA.z - posB.z)
-			<= (1.0f + 0.5f) * (1.0f + 1.0f)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
 			) {
 			silverKey_->MoveCollision(stage1_->GetSpeed());
 		}
@@ -135,7 +135,7 @@ void GameScene::CheckAllCollisions()
 		(posA.x - posB.x) * (posA.x - posB.x) +
 		(posA.y - posB.y) * (posA.y - posB.y) +
 		(posA.z - posB.z) * (posA.z - posB.z)
-		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		<= (2.0f + 1.0f) * (1.0f + 1.0f)
 		) {
 		silverKey_->GetCollision();
 		isGetGoldKey_ = true;
@@ -208,7 +208,7 @@ void GameScene::CheckAllCollisions()
 	posA = player_->GetWorldPosition();
 	posB = door_->GetPosition();
 
-	if (posA.x - 1 < posB.x + 1.5f && posA.x + 1 > posB.x - 1.5f)
+	if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
 	{
 		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
 		{
@@ -224,7 +224,7 @@ void GameScene::CheckAllCollisions()
 	for (const std::unique_ptr<Wind>& wind : wind_) {
 		posB = wind->GetWorldPosition();
 
-		if (posA.x - 1 < posB.x + 1.5f && posA.x + 1 > posB.x - 1.5f)
+		if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
 		{
 			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
 			{
@@ -294,7 +294,7 @@ void GameScene::Initialize() {
 	balloon_->Initialize(-5, 10);
 
 	silverKey_ = new SilverKey;
-	silverKey_->Initialize(65, 55);
+	silverKey_->Initialize(65, 60);
 
 	windPower_ = new WindPower;
 	windPower_->Initialize(-5,-5);
@@ -351,6 +351,7 @@ void GameScene::Update() {
 		stage_->Update();
 		door_->Update(isOpen_, isKeyOpen_);
 		player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+		silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
 		debugText_->SetPos(50, 110);
 		debugText_->Printf("pLT[0]:(%d,%d,%d)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 		break;
@@ -513,7 +514,7 @@ bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
 {
 	// 各座標変数の宣言
 	Vector3 pPos = p->GetWorldPosition();
-	float pRadius = 2.0f;
+	float pRadius = 3.0f;
 	float pX1, pX2, pY1, pY2;
 	// プレイヤーの矩形座標
 	pX1 = pPos.x - pRadius;

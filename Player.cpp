@@ -48,7 +48,8 @@ void Player::Update(bool collisionFlag) {
 	{
 		isMove_ = false;
 		isMove2_ = true;
-		stoptimer = 14 * 5;
+		stoptimer = 18 * 5;
+		
 	}
 
 	if (isMove2_)

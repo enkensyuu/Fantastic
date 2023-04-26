@@ -8,7 +8,9 @@ void Goal::Initialize(float x, float y)
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { x,y,0 };
+	worldTransform_.scale_ = { 2,2,2 };
+
+	worldTransform_.translation_ = { x,y,-20.0f };
 
 
 	// çsóÒçXêV

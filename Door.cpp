@@ -32,17 +32,17 @@ void Door::Update(bool flag, bool flag2)
 {
 	if (flag || flag2)
 	{
-		worldTransform_.translation_.y += 0.05f;
+		worldTransform_.translation_.y += 0.5f;
 	}
 
 	else if (!flag || !flag2)
 	{
-		worldTransform_.translation_.y -= 0.05f;
+		worldTransform_.translation_.y -= 0.5f;
 	}
 
-	if (worldTransform_.translation_.y > startY + 5)
+	if (worldTransform_.translation_.y > startY + 10)
 	{
-		worldTransform_.translation_.y = startY + 5;
+		worldTransform_.translation_.y = startY + 10;
 	}
 
 	else if (worldTransform_.translation_.y <= startY)

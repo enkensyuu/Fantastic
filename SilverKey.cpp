@@ -35,10 +35,13 @@ void SilverKey::Update()
 	if (stopTimer <= 0)
 	{
 		isMove_ = false;
-		stopTimer = 6 * 5;
+		stopTimer = 1 * 5;
 	}
 
-	worldTransform_.translation_ -= {0, 0.1f, 0};
+	if (!stopG_)
+	{
+		worldTransform_.translation_ -= {0, 0.2f, 0};
+	}
 
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
