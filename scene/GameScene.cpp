@@ -235,6 +235,21 @@ void GameScene::CheckAllCollisions()
 
 #pragma endregion
 
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+	posB = goal_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		isGoal_ = true;
+	}
+#pragma endregion
 
 }
 
@@ -305,6 +320,9 @@ void GameScene::Initialize() {
 	door_ = new Door;
 	door_->Initialize(110, 55);
 
+	goal_ = new Goal;
+	goal_->Initialize(114,7);
+
 	scene_ = TITLE;
 
 	// 3Dモデルの生成
@@ -336,10 +354,11 @@ void GameScene::Update() {
 		}
 		break;
 	case THREE:
-		/*if (input_->TriggerKey(DIK_SPACE))
+		if (isGoal_)
 		{
 			scene_ = FOUR;
-		}*/
+		}
+
 		if (player_->IsGetDead())
 		{
 			scene_ = GameOver;
@@ -424,6 +443,7 @@ void GameScene::Draw() {
 		player_->Draw(viewProjection_);
 		silverKey_->Draw(viewProjection_);
 		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 		break;
 	case FOUR:
 		//stage2_->Draw();

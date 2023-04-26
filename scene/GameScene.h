@@ -22,6 +22,7 @@
 #include "WindPower.h"
 #include "MagmaBlock.h"
 #include "Door.h"
+#include "Goal.h"
 
 /// <summary>
 /// ゲームシーン
@@ -154,8 +155,11 @@ private: // メンバ変数
 
 	Door* door_ = nullptr;
 
+	Goal* goal_ = nullptr;
+
 	size_t scene_ = TITLE;
 
+	bool isGoal_ = false;
 	bool isGetGoldKey_ = false;
 	bool isOpen_;
 	bool isKeyOpen_;
