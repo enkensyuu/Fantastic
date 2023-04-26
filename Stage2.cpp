@@ -213,16 +213,16 @@ void Stage2::Update()
 	}
 }
 
-void Stage2::Draw()
+void Stage2::Draw(ViewProjection& viewProjection)
 {
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
-		model_->Draw(worldTransforms_[i], viewProjection_, texture_);
+		model_->Draw(worldTransforms_[i], viewProjection, texture_);
 	}
 
 	for (std::unique_ptr<Wind>& wind : winds_)
 	{
-		wind->Draw(viewProjection_);
+		wind->Draw(viewProjection);
 	}
 }
 

@@ -29,19 +29,21 @@ void Stage1::Initialize()
 	{
 		worldTransforms_[i].Initialize();
 
+		worldTransforms_[i].scale_ = { 2.0f,2.0f,2.0f };
+
 		worldTransforms_[2].rotation_ = { 0,0,XMConvertToRadians(90)};
 		worldTransforms_[3].rotation_ = { 0,0,XMConvertToRadians(90)};
 		worldTransforms_[4].rotation_ = { 0,0,XMConvertToRadians(90)};
 		worldTransforms_[5].rotation_ = { 0,0,XMConvertToRadians(90)};
 
-		worldTransforms_[0].translation_ = { -5.0f,-10.0f,0.0f };
-		worldTransforms_[1].translation_ = { -25.0f,-15.0f,0.0f };
-		worldTransforms_[2].translation_ = { -5.0f,-7.0f,0.0f };
-		worldTransforms_[3].translation_ = { -10.0f,0.0f,0.0f };
-		worldTransforms_[4].translation_ = { 15.0f,0.0f,0.0f };
-		worldTransforms_[5].translation_ = { -15.0f,-7.0f,0.0f };
-		worldTransforms_[6].translation_ = { 0.0f,-7.0f,0.0f };
-		worldTransforms_[7].translation_ = { -5.0f,7.0f,0.0f };
+		worldTransforms_[0].translation_ = { -5.0f,-10.0f,-20.0f };
+		worldTransforms_[1].translation_ = { -25.0f,-15.0f,-20.0f };
+		worldTransforms_[2].translation_ = { 3.0f,7.0f,-20.0f };
+		worldTransforms_[3].translation_ = { -10.0f,0.0f,-20.0f };
+		worldTransforms_[4].translation_ = { 15.0f,0.0f,-20.0f };
+		worldTransforms_[5].translation_ = { -15.0f,-7.0f,-20.0f };
+		worldTransforms_[6].translation_ = { 0.0f,-7.0f,-20.0f };
+		worldTransforms_[7].translation_ = { -5.0f,7.0f,-20.0f };
 
 		// çsóÒçXêV
 		worldTransforms_[i].matWorld_ = Mat_Identity();
@@ -210,16 +212,16 @@ void Stage1::Update()
 	}
 }
 
-void Stage1::Draw()
+void Stage1::Draw(ViewProjection& viewProjection)
 {
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
-		model_->Draw(worldTransforms_[i], viewProjection_);
+		model_->Draw(worldTransforms_[i], viewProjection);
 	}
 
 	for (std::unique_ptr<Wind>& wind : winds_)
 	{
-		wind->Draw(viewProjection_);
+		wind->Draw(viewProjection);
 	}
 }
 

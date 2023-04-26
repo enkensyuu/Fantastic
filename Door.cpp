@@ -56,9 +56,9 @@ void Door::Update(bool flag, bool flag2)
 	worldTransform_.TransferMatrix();
 }
 
-void Door::Draw()
+void Door::Draw(ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection_, texture_);
+	model_->Draw(worldTransform_, viewProjection, texture_);
 }
 
 Vector3 Door::GetPosition()

@@ -39,9 +39,9 @@ void MagmaBlock::Update()
 	worldTransform_.TransferMatrix();
 }
 
-void MagmaBlock::Draw()
+void MagmaBlock::Draw(ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection_);
+	model_->Draw(worldTransform_, viewProjection);
 }
 
 Vector3 MagmaBlock::GetPosition()

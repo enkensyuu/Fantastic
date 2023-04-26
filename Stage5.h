@@ -18,7 +18,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	std::list<std::unique_ptr<Wind>>wind_;
 	const std::list<std::unique_ptr<Wind>>& GetBullets() { return winds_; }

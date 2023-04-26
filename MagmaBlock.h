@@ -15,7 +15,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	Vector3 GetPosition();
 

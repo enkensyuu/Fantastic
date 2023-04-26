@@ -14,7 +14,7 @@ class Goal
 public:
 	void Initialize(float x,float y);
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	Vector3 GetPosition();
 

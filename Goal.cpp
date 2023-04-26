@@ -21,9 +21,9 @@ void Goal::Initialize(float x, float y)
 	viewProjection_.Initialize();
 }
 
-void Goal::Draw()
+void Goal::Draw(ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection_, texture_);
+	model_->Draw(worldTransform_, viewProjection, texture_);
 }
 
 Vector3 Goal::GetPosition()

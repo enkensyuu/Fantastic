@@ -53,10 +53,10 @@ void WindPower::Update()
 	}
 }
 
-void WindPower::Draw()
+void WindPower::Draw(ViewProjection& viewProjection)
 {
-		model_->Draw(worldTransform_[0], viewProjection_);
-		model2_->Draw(worldTransform_[1], viewProjection_);
+		model_->Draw(worldTransform_[0], viewProjection);
+		model2_->Draw(worldTransform_[1], viewProjection);
 }
 
 void WindPower::Collision()

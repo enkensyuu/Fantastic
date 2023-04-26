@@ -93,16 +93,16 @@ void Balloon::Update()
 	worldTransform_.TransferColorMatrix();
 }
 
-void Balloon::Draw()
+void Balloon::Draw(ViewProjection& viewProjection)
 {
 	if (!isDead_)
 	{
-		model_->Draw(worldTransform_, viewProjection_);
+		model_->Draw(worldTransform_, viewProjection);
 	}
 
 	for (std::unique_ptr<GoldKey>& goldKey : goldKeys_)
 	{
-		goldKey->Draw(viewProjection_);
+		goldKey->Draw(viewProjection);
 	}
 }
 

@@ -17,7 +17,6 @@
 #include "Stage3.h"
 #include "Stage4.h"
 #include "Stage5.h"
-#include "Player.h"
 #include "Balloon.h"
 #include "SilverKey.h"
 #include "WindPower.h"
@@ -65,10 +64,6 @@ private: // メンバ変数
 	DebugText* debugText_ = nullptr;
 
 	void CheckAllCollisions();
-
-private: // メンバ変数
-	WorldTransform worldTransform_;
-	ViewProjection viewProjection_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -119,7 +114,6 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 
 	// モデル
-	Model* modelPlayer_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	// ステージ
 	stage* stage_ = nullptr;
@@ -143,8 +137,6 @@ private: // メンバ変数
 	Stage3* stage3_ = nullptr;
 	Stage4* stage4_ = nullptr;
 	Stage5* stage5_ = nullptr;
-
-	Player* player_ = nullptr;
 
 	Balloon* balloon_ = nullptr;
 

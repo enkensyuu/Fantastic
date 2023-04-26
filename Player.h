@@ -17,9 +17,9 @@ public:
 	void Initialize();
 
 	//更新
-	void Update();
+	void Update(bool collisionFlag);
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	// 死亡
 	void IsDead() { isDead_ = true; }
@@ -46,15 +46,11 @@ private:
 	//モデル
 	Model* model_ = nullptr;
 
-	// ワールド変換データ
-	WorldTransform worldTransform_;
 	// 前フレーム座標
 	Vector3 prePos_{};
 	// 半径
 	float radius_ = 2.0f;
 	//死亡フラグ
-	bool isDead_;
-	static bool isDeads_;
 	bool isMove_ = false;
 	bool isMove2_ = false;
 	bool isDead_ = false;

@@ -110,8 +110,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Procession.cpp" />
     <ClCompile Include="math\MyMathUtility.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Procession.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="SilverKey.cpp" />
     <ClCompile Include="Stage1.cpp" />
@@ -163,8 +161,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Procession.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Procession.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="SilverKey.h" />
     <ClInclude Include="Stage1.h" />

@@ -18,7 +18,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(ViewProjection& viewProjection);
 
 	void MoveCollision(Vector3 speed);
 

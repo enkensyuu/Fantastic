@@ -10,9 +10,6 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
-}
-
 void GameScene::CheckAllCollisions()
 {
 	Vector3 posA, posB;
@@ -246,7 +243,6 @@ GameScene::~GameScene() {
 	// BGM解放
 	// 自キャラの解放
 	delete player_;
-	delete modelPlayer_;
 	// 天球データ解放
 	delete modelSkydome_;
 	// ステージ
@@ -318,11 +314,6 @@ void GameScene::Initialize() {
 	stage_ = new stage();
 	stage_->Initialize(model_);
 
-	// プレイヤー
-	player_ = new Player;
-	modelPlayer_ = Model::CreateFromOBJ("player", true);
-	player_->Initialize(modelPlayer_, { 10.0f,7.0f,-20.0f });
-
 	//初期化
 	Parameter({ 0.0f, 0.0f, 0.0f }, 0);
 
@@ -345,22 +336,26 @@ void GameScene::Update() {
 		}
 		break;
 	case THREE:
-		if (input_->TriggerKey(DIK_SPACE))
+		/*if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = FOUR;
-		}
+		}*/
 		if (player_->IsGetDead())
 		{
 			scene_ = GameOver;
 		}
 		CheckAllCollisions();
 		stage1_->Update();
-		player_->Update();
+		player_->Update(CollisionStageFlag(player_, stage_));
 		balloon_->Update();
 		silverKey_->Update();
 		windPower_->Update();
 		magmaBlock_->Update();
+		stage_->Update();
 		door_->Update(isOpen_, isKeyOpen_);
+		player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+		debugText_->SetPos(50, 110);
+		debugText_->Printf("pLT[0]:(%d,%d,%d)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -395,11 +390,6 @@ void GameScene::Update() {
 	}
 
 }
-void GameScene::Update() {
-	stage_->Update();
-	player_->Update();
-	player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-}
 
 void GameScene::Draw() {
 
@@ -431,25 +421,26 @@ void GameScene::Draw() {
 	case TITLE:
 		break;
 	case THREE:
-		stage1_->Draw();
-		player_->Draw();
-		balloon_->Draw();
-		silverKey_->Draw();
-		windPower_->Draw();
-		magmaBlock_->Draw();
-		door_->Draw();
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		balloon_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		windPower_->Draw(viewProjection_);
+		magmaBlock_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
 		break;
 	case FOUR:
-		stage2_->Draw();
+		//stage2_->Draw();
 		break;
 	case FIVE:
-		stage3_->Draw();
+		//stage3_->Draw();
 		break;
 	case SIX:
-		stage4_->Draw();
+		//stage4_->Draw();
 		break;
 	case SEVEN:
-		stage5_->Draw();
+		//stage5_->Draw();
 		break;
 	}
 	// 3Dオブジェクト描画後処理
@@ -470,4 +461,56 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::Parameter(
+	const Vector3& playerPos1, const int& stageNum) {
+	// 自キャラの初期化
+	Vector3 pos1 = playerPos1;
+	// ステージの初期化
+	stage_->StageInitialize(filename_[stageNum]); // ステージ読み込み(1)
+
+	isClear = false;
+}
+
+bool GameScene::CollisionStageFlag(Player* p, stage* s) {
+	// 各座標変数の宣言
+	Vector3 pPos = p->GetPosition();
+	float pRadius = p->GetRadius();
+	float pX1, pX2, pY1, pY2;
+	// プレイヤーの矩形座標
+	pX1 = pPos.x - pRadius;
+	pX2 = pPos.x + pRadius;
+	pY1 = pPos.y - pRadius;
+	pY2 = pPos.y + pRadius;
+
+	// プレイヤーLeftTop座標
+	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+	int isFloor = 0;
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			// 各座標変数の宣言
+			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+			float bRadius = s->GetRadius();
+			float bX1, bX2, bY1, bY2;
+			// ブロックの矩形座標
+			bX1 = bPos.x - bRadius;
+			bX2 = bPos.x + bRadius;
+			bY1 = bPos.y - bRadius;
+			bY2 = bPos.y + bRadius;
+
+			// 当たり判定
+			if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+				return true;
+			}
+		}
+	}
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf("pLT[0]:(%d,%d)", pLT[0]);
+	debugText_->SetPos(50, 70);
+	debugText_->Printf("pLT[1]:(%d,%d)", pLT[1]);
+
+	return false;
 }

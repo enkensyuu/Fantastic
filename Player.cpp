@@ -2,17 +2,15 @@
 #include <cassert>
 #include "Procession.h"
 
-bool Player::isDeads_ = false;
+void Player::Initialize() {
 
-	texture_ = TextureManager::Load("yellow.png");
 	model_ = Model::CreateFromOBJ("Player");
-void Player::Initialize(Model* model, Vector3 pos) {
-	// NULLポインタチェック
-	assert(model);
 
 	worldTransform_.Initialize();
 
-	worldTransform_.translation_ = { -25.0f,-10.0f,0 };
+	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
+
+	worldTransform_.translation_ = { 10.0f,7.0f,-20.0f };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -23,21 +21,19 @@ void Player::Initialize(Model* model, Vector3 pos) {
 	worldTransform_.TransferMatrix();
 
 	viewProjection_.Initialize();
-	worldTransform_.Initialize();
-	worldTransform_.translation_ = pos;
-	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 }
 
-void Player::Update() {
-	Vector3 move = MyMathUtility::MySetVector3Zero();
-	float moveSpeed = 1.0f;
-void Player::Update()
-{
-	worldTransform_.translation_.y -= 0.1f;
+void Player::Update(bool collisionFlag) {
+
+	if (!collisionFlag)
+	{
+		worldTransform_.translation_.y -= 0.1f;
+	}
+
 
 	if (isMove_)
 	{
-		worldTransform_.translation_ +=playerSpeed;
+		worldTransform_.translation_ += playerSpeed;
 		stoptimer--;
 	}
 	if (stoptimer <= 0)
@@ -59,18 +55,12 @@ void Player::Update()
 		stoptimer2 = 8 * 5;
 	}
 
-	if (input_->TriggerKey(DIK_R))
-	{
-		Initialize();
-	}
-
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 	worldTransform_.TransferMatrix();
 	worldTransform_.TransferColorMatrix();
-}
 }
 
 Vector3 Player::GetWorldPosition()
@@ -82,10 +72,13 @@ Vector3 Player::GetWorldPosition()
 	worldPos.y = worldTransform_.translation_.y;
 	worldPos.z = worldTransform_.translation_.z;
 
+	return worldPos;
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection);
+}
+
 void Player::Collision(Vector3 speed)
 {
 	isMove_ = true;
@@ -98,12 +91,15 @@ void Player::OnCollisionStage(bool collisionFlag) {
 	if (collisionFlag) {
 		worldTransform_.translation_ = prePos_;
 		worldTransform_.Update(worldTransform_);
+	}
+	// 前フレーム座標
+	prePos_ = worldTransform_.translation_;
+}
+
 void Player::DethCollision()
 {
 	isDead_ = true;
 }
-	// 前フレーム座標
-	prePos_ = worldTransform_.translation_;
 
 void Player::GetStop()
 {

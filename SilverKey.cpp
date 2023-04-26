@@ -46,11 +46,11 @@ void SilverKey::Update()
 	worldTransform_.TransferMatrix();
 }
 
-void SilverKey::Draw()
+void SilverKey::Draw(ViewProjection& viewProjection)
 {
 	if (!isGet_)
 	{
-		model_->Draw(worldTransform_, viewProjection_);
+		model_->Draw(worldTransform_, viewProjection);
 	}
 }
 
