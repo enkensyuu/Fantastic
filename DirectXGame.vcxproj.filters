@@ -40,14 +40,26 @@
     <Filter Include="ソース ファイル\input">
       <UniqueIdentifier>{337d978c-44b1-4af3-811b-c5f6f355f7de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\input">
-      <UniqueIdentifier>{d461f61e-3cc4-4b11-b521-37a61c927ae5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{4c21a99e-f783-4367-bdcb-0ebd1d434719}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\math">
       <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{abeea4b3-8a3f-48a2-9349-af76e8485852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{b0a1d8a6-0371-47ee-9889-dfae9b641c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Key">
+      <UniqueIdentifier>{79ad1674-9ac3-44ee-a328-76b63196d19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Key">
+      <UniqueIdentifier>{fb0e361f-c631-460e-a419-ff2ac29b28aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\base\input">
+      <UniqueIdentifier>{d461f61e-3cc4-4b11-b521-37a61c927ae5}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\stage">
       <UniqueIdentifier>{94b8ff41-e0fc-4664-9263-bdbc5d46dc19}</UniqueIdentifier>
@@ -71,6 +83,51 @@
     </ClCompile>
     <ClCompile Include="scene\GameScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Procession.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage4.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage5.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Wind.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Balloon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldKey.cpp">
+      <Filter>ソース ファイル\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverKey.cpp">
+      <Filter>ソース ファイル\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="WindPower.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MagmaBlock.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="math\MyMathUtility.cpp">
       <Filter>ソース ファイル\math</Filter>
@@ -150,7 +207,7 @@
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>ヘッダー ファイル\input</Filter>
+      <Filter>ヘッダー ファイル\base\input</Filter>
     </ClInclude>
     <ClInclude Include="math\Matrix4.h">
       <Filter>ヘッダー ファイル\math</Filter>
@@ -178,6 +235,54 @@
     </ClInclude>
     <ClInclude Include="3d\TerrainCommon.h">
       <Filter>ヘッダー ファイル\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Procession.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage3.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage4.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage5.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Wind.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Balloon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldKey.h">
+      <Filter>ヘッダー ファイル\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverKey.h">
+      <Filter>ヘッダー ファイル\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="WindPower.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MagmaBlock.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="math\MyMathUtility.h">
       <Filter>ヘッダー ファイル\math</Filter>

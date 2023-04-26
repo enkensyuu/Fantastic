@@ -9,15 +9,35 @@
 #include "stage.h"
 #include "Player.h"
 #include <memory>
+#include "ViewProjection.h"
+#include "WorldTransform.h"
+#include "Scene.h"
+#include "Stage1.h"
+#include "Stage2.h"
+#include "Stage3.h"
+#include "Stage4.h"
+#include "Stage5.h"
+#include "Player.h"
+#include "Balloon.h"
+#include "SilverKey.h"
+#include "WindPower.h"
+#include "MagmaBlock.h"
+#include "Door.h"
 
 /// <summary>
 /// ゲームシーン
 /// </summary>
 class GameScene {
+
 public: // メンバ関数
-  /// <summary>
-  /// デストラクタ
-  /// </summary>
+	/// <summary>
+	/// コンストクラタ
+	/// </summary>
+	GameScene();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~GameScene();
 
 	/// <summary>
@@ -43,6 +63,12 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
+
+	void CheckAllCollisions();
+
+private: // メンバ変数
+	WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -112,4 +138,36 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;
 	// クリアしたか
 	bool isClear = false;
+	Stage1* stage1_ = nullptr;
+	Stage2* stage2_ = nullptr;
+	Stage3* stage3_ = nullptr;
+	Stage4* stage4_ = nullptr;
+	Stage5* stage5_ = nullptr;
+
+	Player* player_ = nullptr;
+
+	Balloon* balloon_ = nullptr;
+
+	SilverKey* silverKey_ = nullptr;
+
+	WindPower* windPower_ = nullptr;
+
+	MagmaBlock* magmaBlock_ = nullptr;
+
+	Vector3 playerSpeed_;
+	Vector3 balloonSpeed_;
+	Vector3 silverKeySpeed_;
+	Vector3 goldKeySpeed;
+
+	Door* door_ = nullptr;
+
+	size_t scene_ = TITLE;
+
+	bool isGetGoldKey_ = false;
+	bool isOpen_;
+	bool isKeyOpen_;
+
+	/// <summary>
+	/// ゲームシーン用
+	/// </summary>
 };

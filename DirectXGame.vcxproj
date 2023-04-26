@@ -98,14 +98,29 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Balloon.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\TextureManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="GoldKey.cpp" />
+    <ClCompile Include="MagmaBlock.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Procession.cpp" />
     <ClCompile Include="math\MyMathUtility.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Procession.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
+    <ClCompile Include="SilverKey.cpp" />
+    <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
+    <ClCompile Include="Stage3.cpp" />
+    <ClCompile Include="Stage4.cpp" />
+    <ClCompile Include="Stage5.cpp" />
+    <ClCompile Include="Wind.cpp" />
+    <ClCompile Include="WindPower.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
@@ -129,11 +144,16 @@
     <ClInclude Include="3d\ViewProjection.h" />
     <ClInclude Include="3d\WorldTransform.h" />
     <ClInclude Include="audio\Audio.h" />
+    <ClInclude Include="Balloon.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\SafeDelete.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="Goal.h" />
+    <ClInclude Include="GoldKey.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="MagmaBlock.h" />
     <ClInclude Include="math\MathUtility.h" />
     <ClInclude Include="math\Matrix4.h" />
     <ClInclude Include="math\MyMathUtility.h" />
@@ -142,7 +162,18 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Procession.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Procession.h" />
     <ClInclude Include="scene\GameScene.h" />
+    <ClInclude Include="SilverKey.h" />
+    <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage2.h" />
+    <ClInclude Include="Stage3.h" />
+    <ClInclude Include="Stage4.h" />
+    <ClInclude Include="Stage5.h" />
+    <ClInclude Include="Wind.h" />
+    <ClInclude Include="WindPower.h" />
     <ClInclude Include="stage.h" />
   </ItemGroup>
   <ItemGroup>

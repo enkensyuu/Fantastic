@@ -1,38 +1,50 @@
 #pragma once
 #include "Audio.h"
+#include "DirectXCommon.h"
 #include "DebugText.h"
 #include "Input.h"
 #include "Model.h"
 #include "MyMathUtility.h"
 #include <memory>
+#include "SafeDelete.h"
+#include "Sprite.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 
-class Player {
+class Player
+{
 public:
-	//初期化
-	void Initialize(Model* model, Vector3 pos = { 0.0f, 0.0f, 0.0f });
+	void Initialize();
 
 	//更新
 	void Update();
 
-	//描画
-	void Draw(ViewProjection& viewProjection);
+	void Draw();
 
 	// 死亡
 	void IsDead() { isDead_ = true; }
+	Vector3 GetWorldPosition();
 
 	// 当たり判定
 	void OnCollisionStage(bool collisionFlag);
+	void Collision(Vector3 speed);
+
+	void DethCollision();
+
+	void GetStop();
+
+	bool IsGetDead() { return isDead_; }
+
 
 private:
-	//インプット
+	WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
 	Input* input_ = nullptr;
 	//デバッグテキスト
 	DebugText* debugText_ = nullptr;
 
 	//モデル
 	Model* model_ = nullptr;
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -43,10 +55,20 @@ private:
 	//死亡フラグ
 	bool isDead_;
 	static bool isDeads_;
+	bool isMove_ = false;
+	bool isMove2_ = false;
+	bool isDead_ = false;
 
 public: //アクセッサ、インライン関数
 	bool IsDead() const { return isDead_; }
 	Vector3 GetPosition() const { return worldTransform_.translation_; }
 	float GetRadius() const { return radius_; }
+	Vector3 playerSpeed;
+	Vector3 returnSpeed;
+	Vector3 acc;
 
+	int stoptimer;
+	int stoptimer2;
 };
+
+
