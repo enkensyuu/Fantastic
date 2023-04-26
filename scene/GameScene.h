@@ -57,6 +57,7 @@ public: // メンバ関数
 	void Parameter(const Vector3& playerPos1, const int& stageNum);
 
 	bool CollisionStageFlag(Player* p, stage* s);
+	bool CollisionKeyFlag(SilverKey* p, stage* s);
 
 private: // メンバ変数
 	WorldTransform worldTransform_;

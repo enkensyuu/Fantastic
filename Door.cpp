@@ -16,8 +16,8 @@ void Door::Initialize(float x, float y)
 
 	startY = y;
 
-	worldTransform_.scale_ = { 1,3,1 };
-	worldTransform_.translation_ = { x,y,0 };
+	worldTransform_.scale_ = { 2,6,2 };
+	worldTransform_.translation_ = { x,y,-20 };
 
 	// çsóÒçXêV
 	worldTransform_.matWorld_ = Mat_Identity();

@@ -25,6 +25,7 @@ public:
 	void MoveCollision(Vector3 speed);
 
 	void GetCollision();
+	void OnCollisionStage(bool collisionFlag);
 
 private:
 	WorldTransform worldTransform_;
@@ -33,6 +34,9 @@ private:
 	Model* model_ = nullptr;
 	Vector3 Speed;
 
+	// 前フレーム座標
+	Vector3 prePos_{};
+	bool stopG_;
 	bool isMove_ = false;;
 	bool isGet_ = false;
 

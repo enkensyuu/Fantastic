@@ -58,8 +58,6 @@ private:
 	bool stopG_;
 
 public: //アクセッサ、インライン関数
-	bool IsDead() const { return isDead_; }
-	Vector3 GetPosition() const { return worldTransform_.translation_; }
 	float GetRadius() const { return radius_; }
 	Vector3 playerSpeed;
 	Vector3 returnSpeed;

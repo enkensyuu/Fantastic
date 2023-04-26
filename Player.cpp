@@ -29,7 +29,7 @@ void Player::Update(bool collisionFlag) {
 
 	if (!stopG_)
 	{
-		worldTransform_.translation_.y -= 0.3f;
+		worldTransform_.translation_.y -= 0.2f;
 	}
 
 	if (collisionFlag)
@@ -48,7 +48,7 @@ void Player::Update(bool collisionFlag) {
 	{
 		isMove_ = false;
 		isMove2_ = true;
-		stoptimer = 12 * 5;
+		stoptimer = 14 * 5;
 	}
 
 	if (isMove2_)
@@ -60,7 +60,7 @@ void Player::Update(bool collisionFlag) {
 	if (stoptimer2 <= 0)
 	{
 		isMove2_ = false;
-		stoptimer2 = 10 * 5;
+		stoptimer2 = 20 * 5;
 	}
 
 	// s—ñXV

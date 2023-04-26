@@ -10,12 +10,11 @@ void SilverKey::Initialize(float x, float y)
 
 	worldTransform_.Initialize();
 
-	worldTransform_.scale_ = { 0.75f,0.75f ,0.75f };
+	worldTransform_.scale_ = { 1.5f,1.5f ,1.5f };
 
 	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
 
-	worldTransform_.translation_.x = x;
-	worldTransform_.translation_.y = y;
+	worldTransform_.translation_ = {x,y,-20};
 
 	worldTransform_.matWorld_ = Mat_Identity();
 	worldTransform_.matWorld_ = MatWorld(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -76,4 +75,19 @@ void SilverKey::MoveCollision(Vector3 speed)
 void SilverKey::GetCollision()
 {
 	isGet_ = true;
+}
+
+void SilverKey::OnCollisionStage(bool collisionFlag)
+{
+	if (collisionFlag) {
+		worldTransform_.translation_ = prePos_;
+		worldTransform_.Update(worldTransform_);
+		stopG_ = true;
+	}
+	else
+	{
+		stopG_ = false;
+	}
+	// 前フレーム座標
+	prePos_ = worldTransform_.translation_;
 }

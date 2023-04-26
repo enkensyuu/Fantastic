@@ -294,7 +294,7 @@ void GameScene::Initialize() {
 	balloon_->Initialize(-5, 10);
 
 	silverKey_ = new SilverKey;
-	silverKey_->Initialize(-10, 20);
+	silverKey_->Initialize(65, 55);
 
 	windPower_ = new WindPower;
 	windPower_->Initialize(-5,-5);
@@ -303,7 +303,7 @@ void GameScene::Initialize() {
 	magmaBlock_->Initialize(0, -10);
 
 	door_ = new Door;
-	door_->Initialize(15, 10);
+	door_->Initialize(110, 55);
 
 	scene_ = TITLE;
 
@@ -347,10 +347,7 @@ void GameScene::Update() {
 		CheckAllCollisions();
 		stage1_->Update();
 		player_->Update(CollisionStageFlag(player_, stage_));
-		balloon_->Update();
 		silverKey_->Update();
-		windPower_->Update();
-		magmaBlock_->Update();
 		stage_->Update();
 		door_->Update(isOpen_, isKeyOpen_);
 		player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
@@ -424,10 +421,7 @@ void GameScene::Draw() {
 		stage_->Draw(viewProjection_);
 		stage1_->Draw(viewProjection_);
 		player_->Draw(viewProjection_);
-		balloon_->Draw(viewProjection_);
 		silverKey_->Draw(viewProjection_);
-		windPower_->Draw(viewProjection_);
-		magmaBlock_->Draw(viewProjection_);
 		door_->Draw(viewProjection_);
 		break;
 	case FOUR:
@@ -475,8 +469,51 @@ void GameScene::Parameter(
 
 bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 	// 各座標変数の宣言
-	Vector3 pPos = p->GetPosition();
+	Vector3 pPos = p->GetWorldPosition();
 	float pRadius = p->GetRadius();
+	float pX1, pX2, pY1, pY2;
+	// プレイヤーの矩形座標
+	pX1 = pPos.x - pRadius;
+	pX2 = pPos.x + pRadius;
+	pY1 = pPos.y - pRadius;
+	pY2 = pPos.y + pRadius;
+
+	// プレイヤーLeftTop座標
+	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+	int isFloor = 0;
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			// 各座標変数の宣言
+			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+			float bRadius = s->GetRadius();
+			float bX1, bX2, bY1, bY2;
+			// ブロックの矩形座標
+			bX1 = bPos.x - bRadius;
+			bX2 = bPos.x + bRadius;
+			bY1 = bPos.y - bRadius;
+			bY2 = bPos.y + bRadius;
+
+			// 当たり判定
+			if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+				return true;
+			}
+		}
+	}
+
+	debugText_->SetPos(50, 50);
+	debugText_->Printf("pLT[0]:(%d,%d)", pLT[0]);
+	debugText_->SetPos(50, 70);
+	debugText_->Printf("pLT[1]:(%d,%d)", pLT[1]);
+
+	return false;
+}
+
+bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
+{
+	// 各座標変数の宣言
+	Vector3 pPos = p->GetWorldPosition();
+	float pRadius = 2.0f;
 	float pX1, pX2, pY1, pY2;
 	// プレイヤーの矩形座標
 	pX1 = pPos.x - pRadius;
