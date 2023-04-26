@@ -27,7 +27,7 @@ void GameScene::CheckAllCollisions()
 			(posA.x - posB.x) * (posA.x - posB.x) +
 			(posA.y - posB.y) * (posA.y - posB.y) +
 			(posA.z - posB.z) * (posA.z - posB.z)
-			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
 			) {
 			player_->Collision(stage1_->GetSpeed());
 			wind->Collision();

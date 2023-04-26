@@ -4,7 +4,7 @@
 
 void Player::Initialize() {
 
-	debugText_= DebugText::GetInstance();
+	debugText_ = DebugText::GetInstance();
 
 	model_ = Model::CreateFromOBJ("Player");
 
@@ -49,7 +49,7 @@ void Player::Update(bool collisionFlag) {
 		isMove_ = false;
 		isMove2_ = true;
 		stoptimer = 18 * 5;
-		
+
 	}
 
 	if (isMove2_)
