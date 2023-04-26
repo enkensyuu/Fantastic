@@ -4,13 +4,15 @@
 
 void Player::Initialize() {
 
+	debugText_= DebugText::GetInstance();
+
 	model_ = Model::CreateFromOBJ("Player");
 
 	worldTransform_.Initialize();
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
-	worldTransform_.translation_ = { 10.0f,7.0f,-20.0f };
+	worldTransform_.translation_ = { 10.0f,17.0f,-20.0f };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -28,6 +30,12 @@ void Player::Update(bool collisionFlag) {
 	if (!collisionFlag)
 	{
 		worldTransform_.translation_.y -= 0.1f;
+	}
+
+	if (collisionFlag)
+	{
+		debugText_->SetPos(50, 130);
+		debugText_->Printf("%f", worldTransform_.translation_.y);
 	}
 
 

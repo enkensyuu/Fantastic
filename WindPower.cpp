@@ -22,7 +22,6 @@ void WindPower::Initialize(float x, float y)
 		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);
 		worldTransform_[i].TransferColorMatrix();
 		worldTransform_[i].TransferMatrix();
-
 	}
 
 	viewProjection_.Initialize();

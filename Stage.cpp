@@ -9,8 +9,6 @@ stage::~stage() {
 void stage::Initialize(Model* model) {
 	// モデル読み込み
 	model_ = model;
-	modelFloor_ = Model::CreateFromOBJ("floor", true);
-	modelGoal_ = Model::CreateFromOBJ("floor", true);
 
 	// ステージの床を初期化
 	LoadFloorBlock();
@@ -153,7 +151,7 @@ void stage::PushStageBlockList(std::list<std::unique_ptr<StageData>>& blocks_, i
 	// 座標
 	Vector3 pos;
 	pos.x = 2.0f + (4.0f * line);
-	pos.y = 71.0f - (4.0f * row);
+	pos.y = 70.0f - (4.0f * row);
 	pos.z = depth;
 
 	// 初期化する
