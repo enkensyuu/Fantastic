@@ -80,6 +80,7 @@ void GameScene::Initialize() {
 	stage5_->Initialize();
 
 	scene_ = TITLE;
+	StageTimer = 1;
 	RingFlag = 0;
 	PauseFlag = 0;
 	SelectFlag = 0;
@@ -110,7 +111,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = STAGECHOICE;
-			StageTimer = 0;
+			StageTimer = 1;
 			if (SceneStageFlag1 == 1)
 			{
 				scene_ = THREE;
@@ -140,12 +141,11 @@ void GameScene::Update() {
 				scene_ = SEVEN;
 				SceneStageFlag5 = 0;
 			}
-
-			
 		}
 
 	case STAGECHOICE:
 		Select = 0;
+		
 		if (input_->TriggerKey(DIK_RIGHT))
 		{
 			StageTimer += 1;
@@ -201,13 +201,14 @@ void GameScene::Update() {
 			scene_ = SEVEN;
 		}
 
+
 		//マイナスに行かないようにする
 		if (StageTimer < 1)
 		{
 			StageTimer = 5;
 		}
 
-		//ステージタイマーを初期化
+		//右端まで行ったら1に戻す
 		if (StageTimer > 5)
 		{
 			StageTimer = 1;
@@ -801,8 +802,8 @@ void GameScene::Draw() {
 			BackGroudStage1_->Draw();
 			Pause_->Draw();
 
-			DebugText::GetInstance()->SetPos(1700, 30);
-			DebugText::GetInstance()->Printf("Select:%d", Select);
+			/*DebugText::GetInstance()->SetPos(1700, 30);
+			DebugText::GetInstance()->Printf("Select:%d", Select);*/
 	    }
 		break;
 	case FOUR:
@@ -834,7 +835,8 @@ void GameScene::Draw() {
 		break;
 	}
 	/*DebugText::GetInstance()->SetPos(200, 180);
-	DebugText::GetInstance()->Printf("scene:%d", scene_);*/
+	DebugText::GetInstance()->Printf("StageTimer:%d", StageTimer);*/
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
