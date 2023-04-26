@@ -55,6 +55,8 @@ private:
 	bool isMove2_ = false;
 	bool isDead_ = false;
 
+	bool stopG_;
+
 public: //アクセッサ、インライン関数
 	bool IsDead() const { return isDead_; }
 	Vector3 GetPosition() const { return worldTransform_.translation_; }

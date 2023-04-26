@@ -20,6 +20,8 @@ void Wind::Initialize(const Matrix4& position, const Vector3& velocity)
 
 	worldTransform_.Initialize();
 
+	worldTransform_.scale_ = { 2,2,2 };
+
 	// 引数で受け取った初期座標をセット
 	worldTransform_.translation_.x = position.m[3][0];
 	worldTransform_.translation_.y = position.m[3][1];

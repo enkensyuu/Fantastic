@@ -12,7 +12,7 @@ void Player::Initialize() {
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
-	worldTransform_.translation_ = { 10.0f,17.0f,-20.0f };
+	worldTransform_.translation_ = { 10.0f,7.0f,-20.0f };
 	isMove_ = false;
 	isMove2_ = false;
 
@@ -27,9 +27,9 @@ void Player::Initialize() {
 
 void Player::Update(bool collisionFlag) {
 
-	if (!collisionFlag)
+	if (!stopG_)
 	{
-		worldTransform_.translation_.y -= 0.1f;
+		worldTransform_.translation_.y -= 0.3f;
 	}
 
 	if (collisionFlag)
@@ -48,7 +48,7 @@ void Player::Update(bool collisionFlag) {
 	{
 		isMove_ = false;
 		isMove2_ = true;
-		stoptimer = 6 * 5;
+		stoptimer = 12 * 5;
 	}
 
 	if (isMove2_)
@@ -60,7 +60,7 @@ void Player::Update(bool collisionFlag) {
 	if (stoptimer2 <= 0)
 	{
 		isMove2_ = false;
-		stoptimer2 = 8 * 5;
+		stoptimer2 = 10 * 5;
 	}
 
 	// 行列更新
@@ -99,6 +99,11 @@ void Player::OnCollisionStage(bool collisionFlag) {
 	if (collisionFlag) {
 		worldTransform_.translation_ = prePos_;
 		worldTransform_.Update(worldTransform_);
+		stopG_ = true;
+	}
+	else
+	{
+		stopG_ = false;
 	}
 	// 前フレーム座標
 	prePos_ = worldTransform_.translation_;

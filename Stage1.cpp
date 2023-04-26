@@ -31,19 +31,15 @@ void Stage1::Initialize()
 
 		worldTransforms_[i].scale_ = { 2.0f,2.0f,2.0f };
 
-		worldTransforms_[2].rotation_ = { 0,0,XMConvertToRadians(90)};
-		worldTransforms_[3].rotation_ = { 0,0,XMConvertToRadians(90)};
-		worldTransforms_[4].rotation_ = { 0,0,XMConvertToRadians(90)};
-		worldTransforms_[5].rotation_ = { 0,0,XMConvertToRadians(90)};
+		worldTransforms_[0].rotation_ = { 0,0,XMConvertToRadians(90) };
+		worldTransforms_[1].rotation_ = { 0,0,XMConvertToRadians(90) };
+		worldTransforms_[2].rotation_ = { 0,0,XMConvertToRadians(90) };
 
-		worldTransforms_[0].translation_ = { -5.0f,-10.0f,-20.0f };
-		worldTransforms_[1].translation_ = { -25.0f,-15.0f,-20.0f };
-		worldTransforms_[2].translation_ = { 3.0f,7.0f,-20.0f };
-		worldTransforms_[3].translation_ = { -10.0f,0.0f,-20.0f };
-		worldTransforms_[4].translation_ = { 15.0f,0.0f,-20.0f };
-		worldTransforms_[5].translation_ = { -15.0f,-7.0f,-20.0f };
-		worldTransforms_[6].translation_ = { 0.0f,-7.0f,-20.0f };
-		worldTransforms_[7].translation_ = { -5.0f,7.0f,-20.0f };
+		worldTransforms_[0].translation_ = { 2.0f,7.0f,-20.0f };
+		worldTransforms_[1].translation_ = { 38.0f,32.0f,-20.0f };
+		worldTransforms_[2].translation_ = { 58.0f,55.0f,-20.0f };
+		worldTransforms_[3].translation_ = { 42.0f,3.0f,-20.0f };
+		worldTransforms_[4].translation_ = { 82.0f,27.0f,-20.0f };
 
 		// s—ñXV
 		worldTransforms_[i].matWorld_ = Mat_Identity();
@@ -65,100 +61,53 @@ void Stage1::Update()
 		}
 	);
 
-	if (input_->TriggerKey(DIK_UP))
+	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
-		if (!isrotation_[0]&& !isrotation_[1])
+		if (!isrotation_[3] && !isrotation_[4])
 		{
-			isrotation_[0] = true;
-			isrotation_[1] = true;
+			isrotation_[0] = false;
+			isrotation_[1] = false;
 			isrotation_[2] = false;
-			isrotation_[3] = false;
-			isrotation_[4] = false;
-			isrotation_[5] = false;
-			isrotation_[6] = false;
-			isrotation_[7] = false;
+			isrotation_[3] = true;
+			isrotation_[4] = true;
 			velocity = Uvelocity;
 		}
 		else
 		{
-			isrotation_[0] = false;
-			isrotation_[1] = false;
+			isrotation_[3] = false;
+			isrotation_[4] = false;
 		}
 	}
 
-	else if (input_->TriggerKey(DIK_RIGHT))
+	else if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
 	{
-		if (!isrotation_[2] && !isrotation_[3])
+		if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 		{
-			isrotation_[0] = false;
-			isrotation_[1] = false;
+			isrotation_[0] = true;
+			isrotation_[1] = true;
 			isrotation_[2] = true;
-			isrotation_[3] = true;
+			isrotation_[3] = false;
 			isrotation_[4] = false;
-			isrotation_[5] = false;
-			isrotation_[6] = false;
-			isrotation_[7] = false;
 			velocity = Rvelocity;
 		}
 		else
 		{
-			isrotation_[2] = false;
-			isrotation_[3] = false;
-		}
-	}
-
-	else if (input_->TriggerKey(DIK_LEFT))
-	{
-		if (!isrotation_[4] && !isrotation_[5])
-		{
 			isrotation_[0] = false;
 			isrotation_[1] = false;
 			isrotation_[2] = false;
-			isrotation_[3] = false;
-			isrotation_[4] = true;
-			isrotation_[5] = true;
-			isrotation_[6] = false;
-			isrotation_[7] = false;
-			velocity = Lvelocity;
-		}
-		else
-		{
-			isrotation_[4] = false;
-			isrotation_[5] = false;
-		}
-	}
-
-	else if (input_->TriggerKey(DIK_DOWN))
-	{
-		if (!isrotation_[6] && !isrotation_[7])
-		{
-			isrotation_[0] = false;
-			isrotation_[1] = false;
-			isrotation_[2] = false;
-			isrotation_[3] = false;
-			isrotation_[4] = false;
-			isrotation_[5] = false;
-			isrotation_[6] = true;
-			isrotation_[7] = true;
-			velocity = Dvelocity;
-		}
-		else
-		{
-			isrotation_[6] = false;
-			isrotation_[7] = false;
 		}
 	}
 
 	if (isrotation_[0])
 	{
-		WindOn(worldTransforms_[0].matWorld_, Uvelocity);
-		worldTransforms_[0].rotation_ += rotationSpeedY;
+		WindOn(worldTransforms_[0].matWorld_, Rvelocity);
+		worldTransforms_[0].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[1])
 	{
-		WindOn(worldTransforms_[1].matWorld_, Uvelocity);
-		worldTransforms_[1].rotation_ += rotationSpeedY;
+		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
+		worldTransforms_[1].rotation_ += rotationSpeedX;
 	}
 
 	if (isrotation_[2])
@@ -169,32 +118,14 @@ void Stage1::Update()
 
 	if (isrotation_[3])
 	{
-		WindOn(worldTransforms_[3].matWorld_, Rvelocity);
-		worldTransforms_[3].rotation_ += rotationSpeedX;
+		WindOn(worldTransforms_[3].matWorld_, Uvelocity);
+		worldTransforms_[3].rotation_ += rotationSpeedY;
 	}
 
 	if (isrotation_[4])
 	{
-		WindOn(worldTransforms_[4].matWorld_, Lvelocity);
-		worldTransforms_[4].rotation_ += rotationSpeedX;
-	}
-
-	if (isrotation_[5])
-	{
-		WindOn(worldTransforms_[5].matWorld_, Lvelocity);
-		worldTransforms_[5].rotation_ += rotationSpeedX;
-	}
-
-	if (isrotation_[6])
-	{
-		WindOn(worldTransforms_[6].matWorld_, Dvelocity);
-		worldTransforms_[6].rotation_ += rotationSpeedY;
-	}
-
-	if (isrotation_[7])
-	{
-		WindOn(worldTransforms_[7].matWorld_, Dvelocity);
-		worldTransforms_[7].rotation_ += rotationSpeedY;
+		WindOn(worldTransforms_[4].matWorld_, Uvelocity);
+		worldTransforms_[4].rotation_ += rotationSpeedY;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
