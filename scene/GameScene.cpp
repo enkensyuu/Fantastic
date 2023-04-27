@@ -355,6 +355,11 @@ void GameScene::Update() {
 	{
 	case TITLE:
 		Initialize();
+		isGoal_ = false;
+
+		debugText_->SetPos(50, 50);
+		debugText_->Printf("PUSH_SPACE");
+
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = THREE;
