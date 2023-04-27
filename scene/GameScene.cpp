@@ -364,13 +364,18 @@ void GameScene::Update() {
 			scene_ = GameOver;
 		}
 		CheckAllCollisions();
+
 		stage1_->Update();
 		player_->Update(CollisionStageFlag(player_, stage_));
 		silverKey_->Update();
 		stage_->Update();
 		door_->Update(isOpen_, isKeyOpen_);
+
 		player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
 		silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+		player_->IsDead();
+
 		debugText_->SetPos(50, 110);
 		debugText_->Printf("pLT[0]:(%d,%d,%d)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 		break;

@@ -16,13 +16,12 @@ class Player
 public:
 	void Initialize();
 
-	//XV
 	void Update(bool collisionFlag);
 
 	void Draw(ViewProjection& viewProjection);
 
-	// €–S
-	void IsDead() { isDead_ = true; }
+	void IsDead();
+
 	Vector3 GetWorldPosition();
 
 	// “–‚½‚è”»’è
@@ -34,7 +33,6 @@ public:
 	void GetStop();
 
 	bool IsGetDead() { return isDead_; }
-
 
 private:
 	WorldTransform worldTransform_;

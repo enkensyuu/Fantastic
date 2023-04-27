@@ -88,6 +88,15 @@ void Player::Draw(ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection);
 }
 
+void Player::IsDead()
+{
+	if (worldTransform_.translation_.x <= -5.0f || worldTransform_.translation_.x >= 154.0f 
+		|| worldTransform_.translation_.y <= -7.0f)
+	{
+		isDead_ = true;
+	}
+}
+
 void Player::Collision(Vector3 speed)
 {
 	isMove_ = true;
