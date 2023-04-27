@@ -9,4 +9,5 @@ enum Scene
 	SIX,
 	SEVEN,
 	GameOver,
+	GameClear,
 };

@@ -32,12 +32,6 @@ void Player::Update(bool collisionFlag) {
 		worldTransform_.translation_.y -= 0.2f;
 	}
 
-	if (collisionFlag)
-	{
-		debugText_->SetPos(50, 130);
-		debugText_->Printf("%f", worldTransform_.translation_.y);
-	}
-
 
 	if (isMove_)
 	{

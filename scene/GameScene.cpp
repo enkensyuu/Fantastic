@@ -103,7 +103,7 @@ void GameScene::CheckAllCollisions()
 			<= (1.0f + 0.5f) * (1.0f + 1.0f)
 			) {
 			goldKey->GetCollision();
-			isGetGoldKey_ = true;
+			isGetKey_ = true;
 			isKeyOpen_ = true;
 		}
 	}
@@ -138,7 +138,7 @@ void GameScene::CheckAllCollisions()
 		<= (2.0f + 1.0f) * (1.0f + 1.0f)
 		) {
 		silverKey_->GetCollision();
-		isGetGoldKey_ = true;
+		isGetKey_ = true;
 		isKeyOpen_ = true;
 	}
 #pragma endregion
@@ -274,7 +274,6 @@ GameScene::~GameScene() {
 	delete backGround3_;
 	delete backGround4_;
 	delete backGround5_;
-	delete backGround6_;
 }
 void GameScene::Initialize() {
 	// インスタンス取得
@@ -283,9 +282,17 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
-	isGetGoldKey_ = false;
+	isGetKey_ = false;
 	isOpen_ = false;
 	isKeyOpen_ = false;
+
+	gameOverTexture_ = TextureManager::Load("Game_Over.png");
+	gameClearTexture_ = TextureManager::Load("GameClear.png");
+	backGroundStage1 = TextureManager::Load("Stage1.png");
+
+	gameOver_ = Sprite::Create(gameOverTexture_, { 0,0 });
+	gameClear_ = Sprite::Create(gameClearTexture_, { 0,0 });
+	backGround1_ = Sprite::Create(backGroundStage1, { 0,0 });
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -356,13 +363,24 @@ void GameScene::Update() {
 	case THREE:
 		if (isGoal_)
 		{
-			scene_ = FOUR;
+			scene_ = GameClear;
 		}
 
 		if (player_->IsGetDead())
 		{
 			scene_ = GameOver;
 		}
+
+		if (input_->TriggerKey(DIK_R))
+		{
+			stage1_->Initialize();
+			player_->Initialize();
+			silverKey_->Initialize(65, 60);
+			door_->Initialize(110, 55);
+			isGetKey_ = false;
+			isKeyOpen_ = false;
+		}
+
 		CheckAllCollisions();
 
 		stage1_->Update();
@@ -376,8 +394,6 @@ void GameScene::Update() {
 
 		player_->IsDead();
 
-		debugText_->SetPos(50, 110);
-		debugText_->Printf("pLT[0]:(%d,%d,%d)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 		break;
 	case FOUR:
 		if (input_->TriggerKey(DIK_SPACE))
@@ -404,7 +420,13 @@ void GameScene::Update() {
 		stage5_->Update();
 		break;
 	case GameOver:
-		if (input_->TriggerKey(DIK_R))
+		if (input_->TriggerKey(DIK_SPACE))
+		{
+			scene_ = TITLE;
+		}
+		break;
+	case GameClear:
+		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = TITLE;
 		}
@@ -425,6 +447,34 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	switch (scene_)
+	{
+	case TITLE:
+		break;
+	case THREE:
+		backGround1_->Draw();
+		break;
+	case FOUR:
+		//stage2_->Draw();
+		break;
+	case FIVE:
+		//stage3_->Draw();
+		break;
+	case SIX:
+		//stage4_->Draw();
+		break;
+	case SEVEN:
+		//stage5_->Draw();
+		break;
+	case GameOver:
+		gameOver_->Draw();
+		break;
+	case GameClear:
+		gameClear_->Draw();
+		break;
+	}
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 	// 深度バッファクリア
@@ -527,10 +577,6 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 		}
 	}
 
-	debugText_->SetPos(50, 50);
-	debugText_->Printf("pLT[0]:(%d,%d)", pLT[0]);
-	debugText_->SetPos(50, 70);
-	debugText_->Printf("pLT[1]:(%d,%d)", pLT[1]);
 
 	return false;
 }
@@ -569,11 +615,6 @@ bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
 			}
 		}
 	}
-
-	debugText_->SetPos(50, 50);
-	debugText_->Printf("pLT[0]:(%d,%d)", pLT[0]);
-	debugText_->SetPos(50, 70);
-	debugText_->Printf("pLT[1]:(%d,%d)", pLT[1]);
 
 	return false;
 }

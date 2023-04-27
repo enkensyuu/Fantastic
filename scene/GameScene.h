@@ -79,12 +79,12 @@ private: // メンバ変数
 	uint32_t gameClearTexture_ = 0;
 
 	// 背景用
-	uint32_t backGroundTexture1 = 0;
-	uint32_t backGroundTexture2 = 0;
-	uint32_t backGroundTexture3 = 0;
-	uint32_t backGroundTexture4 = 0;
-	uint32_t backGroundTexture5 = 0;
-	uint32_t backGroundTexture6 = 0;
+	uint32_t backGroundStage1 = 0;
+	uint32_t backGroundStage2 = 0;
+	uint32_t backGroundStage3 = 0;
+	uint32_t backGroundStage4 = 0;
+	uint32_t backGroundStage5 = 0;
+
 	// スプライト
 	Sprite* title_ = nullptr;
 	Sprite* howtoplay_ = nullptr;
@@ -98,7 +98,6 @@ private: // メンバ変数
 	Sprite* backGround3_ = nullptr;
 	Sprite* backGround4_ = nullptr;
 	Sprite* backGround5_ = nullptr;
-	Sprite* backGround6_ = nullptr;
 
 	// サウンドデータハンドル
 	uint32_t titleBgm_ = 0;
@@ -160,7 +159,7 @@ private: // メンバ変数
 	size_t scene_ = TITLE;
 
 	bool isGoal_ = false;
-	bool isGetGoldKey_ = false;
+	bool isGetKey_ = false;
 	bool isOpen_;
 	bool isKeyOpen_;
 

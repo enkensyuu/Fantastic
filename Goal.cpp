@@ -3,12 +3,14 @@
 
 void Goal::Initialize(float x, float y)
 {
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("gate");
 	texture_ = TextureManager::Load("red.png");
 
 	worldTransform_.Initialize();
 
-	worldTransform_.scale_ = { 2,2,2 };
+	worldTransform_.scale_ = { 0.25f,0.25f,0.25f };
+
+	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
 
 	worldTransform_.translation_ = { x,y,-20.0f };
 
@@ -25,7 +27,7 @@ void Goal::Initialize(float x, float y)
 
 void Goal::Draw(ViewProjection& viewProjection)
 {
-	model_->Draw(worldTransform_, viewProjection, texture_);
+	model_->Draw(worldTransform_, viewProjection);
 }
 
 Vector3 Goal::GetPosition()
