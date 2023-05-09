@@ -30,6 +30,8 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	Vector3 GetVelocity() { return velocity_; }
+
 	bool IsDead() const { return isDead_; }
 
 	void Collision();

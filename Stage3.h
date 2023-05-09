@@ -25,14 +25,13 @@ public:
 
 	void WindOn(const Matrix4& position, const Vector3& velocity);
 
-	Vector3 GetSpeed() { return velocity; }
 
 private:
-	static const int num = 8;
+	static const int num = 5;
 	WorldTransform worldTransforms_[num];
-	bool isrotation_[num];
 
-	Vector3 rotationSpeed = { 0.0f,0.0f,1.0f };
+	Vector3 rotationSpeedX = { 1.0f,0.0f,0.0f };
+	Vector3 rotationSpeedY = { 0.0f,1.0f,0.0f };
 
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
@@ -43,7 +42,11 @@ private:
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
 
-	Vector3 velocity;
+	bool isLflag;
+	bool isRflag;
+	bool isUflag;
+	bool isDflag;
+
 	Vector3 Lvelocity;
 	Vector3 Rvelocity;
 	Vector3 Uvelocity;

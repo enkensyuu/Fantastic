@@ -29,7 +29,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (2.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			player_->Collision(stage1_->GetSpeed());
+			player_->Collision(wind->GetVelocity());
 			wind->Collision();
 		}
 	}
@@ -47,7 +47,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (1.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			balloon_->MoveCollision(stage1_->GetSpeed());
+			balloon_->MoveCollision(wind->GetVelocity());
 			wind->Collision();
 		}
 	}
@@ -82,7 +82,7 @@ void GameScene::CheckAllCollisions()
 				(posA.z - posB.z) * (posA.z - posB.z)
 				<= (1.0f + 1.0f) * (1.0f + 1.0f)
 				) {
-				goldKey->MoveCollision(stage1_->GetSpeed());
+				goldKey->MoveCollision(wind->GetVelocity());
 			}
 		}
 	}
@@ -121,7 +121,7 @@ void GameScene::CheckAllCollisions()
 			(posA.z - posB.z) * (posA.z - posB.z)
 			<= (2.0f + 1.0f) * (1.0f + 1.0f)
 			) {
-			silverKey_->MoveCollision(stage1_->GetSpeed());
+			silverKey_->MoveCollision(wind->GetVelocity());
 		}
 	}
 #pragma endregion

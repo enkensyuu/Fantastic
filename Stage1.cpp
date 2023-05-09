@@ -20,10 +20,10 @@ void Stage1::Initialize()
 	Uvelocity = { 0,+kBulletSpeed,0 };
 	Dvelocity = { 0,-kBulletSpeed,0 };
 
-	for (size_t i = 0; i < _countof(isrotation_); i++)
-	{
-		isrotation_[i] = false;
-	}
+	isLflag = false;
+	isRflag = false;
+	isUflag = false;
+	isDflag = false;
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
@@ -63,67 +63,32 @@ void Stage1::Update()
 
 	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
-		if (!isrotation_[3] && !isrotation_[4])
-		{
-			isrotation_[0] = false;
-			isrotation_[1] = false;
-			isrotation_[2] = false;
-			isrotation_[3] = true;
-			isrotation_[4] = true;
-			velocity = Uvelocity;
-		}
-		else
-		{
-			isrotation_[3] = false;
-			isrotation_[4] = false;
-		}
+		isRflag = false;
+		isUflag = true;
 	}
 
 	else if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
 	{
-		if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
-		{
-			isrotation_[0] = true;
-			isrotation_[1] = true;
-			isrotation_[2] = true;
-			isrotation_[3] = false;
-			isrotation_[4] = false;
-			velocity = Rvelocity;
-		}
-		else
-		{
-			isrotation_[0] = false;
-			isrotation_[1] = false;
-			isrotation_[2] = false;
-		}
+		isRflag = true;
+		isUflag = false;
 	}
 
-	if (isrotation_[0])
+	if (isRflag)
 	{
 		WindOn(worldTransforms_[0].matWorld_, Rvelocity);
 		worldTransforms_[0].rotation_ += rotationSpeedX;
-	}
 
-	if (isrotation_[1])
-	{
 		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
 		worldTransforms_[1].rotation_ += rotationSpeedX;
-	}
 
-	if (isrotation_[2])
-	{
 		WindOn(worldTransforms_[2].matWorld_, Rvelocity);
 		worldTransforms_[2].rotation_ += rotationSpeedX;
 	}
 
-	if (isrotation_[3])
+	if (isUflag)
 	{
 		WindOn(worldTransforms_[3].matWorld_, Uvelocity);
 		worldTransforms_[3].rotation_ += rotationSpeedY;
-	}
-
-	if (isrotation_[4])
-	{
 		WindOn(worldTransforms_[4].matWorld_, Uvelocity);
 		worldTransforms_[4].rotation_ += rotationSpeedY;
 	}
