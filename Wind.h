@@ -32,6 +32,8 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
+	Vector3 GetVelocity() { return velocity_; }
+
 	void Collision();
 
 private:
