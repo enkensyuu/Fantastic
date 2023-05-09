@@ -27,36 +27,41 @@ void Player::Initialize() {
 
 void Player::Update(bool collisionFlag) {
 
+	worldTransform_.translation_ += playerSpeed;
+
 	if (!stopG_)
 	{
-		worldTransform_.translation_.y -= 0.2f;
+		playerSpeed.y -= 0.01f;
 	}
-
+	else if (stopG_)
+	{
+		playerSpeed.y = 0.0f;
+	}
 
 	if (isMove_)
 	{
-		worldTransform_.translation_ += playerSpeed;
-		stoptimer--;
-	}
-	if (stoptimer <= 0)
-	{
-		isMove_ = false;
-		isMove2_ = true;
-		stoptimer = 18 * 5;
+		if (playerSpeed.x >= 0.004f)
+		{
+			playerSpeed.x -= 0.004f;
+		}
+		else if (playerSpeed.x <= -0.004f)
+		{
+			playerSpeed.x += 0.004f;
+		}
 
+		if (playerSpeed.y >= 0.01f)
+		{
+			playerSpeed.y -= 0.004f;
+		}
+
+		if (playerSpeed.x == 0.0f)
+		{
+			isMove_ = false;
+		}
 	}
 
-	if (isMove2_)
-	{
-		worldTransform_.translation_ += returnSpeed;
-		stoptimer2--;
-	}
-
-	if (stoptimer2 <= 0)
-	{
-		isMove2_ = false;
-		stoptimer2 = 20 * 5;
-	}
+	debugText_->SetPos(50, 80);
+	debugText_->Printf("playerSpeed.y:%f", playerSpeed.y);
 
 	// çsóÒçXêV
 	worldTransform_.matWorld_ = Mat_Identity();
@@ -84,7 +89,7 @@ void Player::Draw(ViewProjection& viewProjection) {
 
 void Player::IsDead()
 {
-	if (worldTransform_.translation_.x <= -5.0f || worldTransform_.translation_.x >= 154.0f 
+	if (worldTransform_.translation_.x <= -5.0f || worldTransform_.translation_.x >= 154.0f
 		|| worldTransform_.translation_.y <= -7.0f)
 	{
 		isDead_ = true;
@@ -95,8 +100,6 @@ void Player::Collision(Vector3 speed)
 {
 	isMove_ = true;
 	playerSpeed = speed;
-	returnSpeed = speed;
-	returnSpeed /= 2;
 }
 
 void Player::OnCollisionStage(bool collisionFlag) {

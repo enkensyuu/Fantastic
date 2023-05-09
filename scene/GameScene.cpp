@@ -275,6 +275,7 @@ GameScene::~GameScene() {
 	delete backGround4_;
 	delete backGround5_;
 }
+
 void GameScene::Initialize() {
 	// インスタンス取得
 	dxCommon_ = DirectXCommon::GetInstance();
