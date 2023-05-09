@@ -63,14 +63,30 @@ void Stage1::Update()
 
 	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
-		isRflag = false;
-		isUflag = true;
+		if (!isUflag)
+		{
+			isRflag = false;
+			isUflag = true;
+		}
+
+		else
+		{
+			isUflag = false;
+		}
 	}
 
 	else if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
 	{
-		isRflag = true;
-		isUflag = false;
+		if (!isRflag)
+		{
+			isRflag = true;
+			isUflag = false;
+		}
+
+		else
+		{
+			isRflag = false;
+		}
 	}
 
 	if (isRflag)

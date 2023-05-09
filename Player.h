@@ -44,6 +44,10 @@ private:
 	//モデル
 	Model* model_ = nullptr;
 
+	// プレイヤーの直前のスピード
+	float playerOldSpeedX;
+	float playerOldSpeedY;
+
 	// 前フレーム座標
 	Vector3 prePos_{};
 	// 半径

@@ -40,16 +40,16 @@ void Player::Update(bool collisionFlag) {
 
 	if (isMove_)
 	{
-		if (playerSpeed.x >= 0.004f)
+		if (playerSpeed.x >= 0.002f)
 		{
-			playerSpeed.x -= 0.004f;
+			playerSpeed.x -= 0.002f;
 		}
-		else if (playerSpeed.x <= -0.004f)
+		else if (playerSpeed.x <= -0.002f)
 		{
-			playerSpeed.x += 0.004f;
+			playerSpeed.x += 0.002f;
 		}
 
-		if (playerSpeed.y >= 0.01f)
+		if (playerSpeed.y >= 0.004f)
 		{
 			playerSpeed.y -= 0.004f;
 		}
@@ -61,6 +61,10 @@ void Player::Update(bool collisionFlag) {
 	}
 
 	debugText_->SetPos(50, 80);
+	debugText_->Printf("playerOldSpeedX:%f", playerOldSpeedX);
+	debugText_->SetPos(50, 100);
+	debugText_->Printf("playerOldSpeedY:%f", playerOldSpeedY);
+	debugText_->SetPos(50, 120);
 	debugText_->Printf("playerSpeed.y:%f", playerSpeed.y);
 
 	// çsóÒçXêV
@@ -103,9 +107,14 @@ void Player::Collision(Vector3 speed)
 }
 
 void Player::OnCollisionStage(bool collisionFlag) {
-	if (collisionFlag) {
+	if (collisionFlag)
+	{
 		worldTransform_.translation_ = prePos_;
 		worldTransform_.Update(worldTransform_);
+
+		playerOldSpeedX = playerSpeed.x;
+		playerOldSpeedY = playerSpeed.y;
+
 		stopG_ = true;
 	}
 	else
