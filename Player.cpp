@@ -33,7 +33,7 @@ void Player::Update(bool collisionFlag) {
 	{
 		playerSpeed.y -= 0.01f;
 	}
-	else if (stopG_)
+	else if (stopG_ && playerSpeed.x >= 0.01)
 	{
 		playerSpeed.y = 0.0f;
 	}
@@ -54,18 +54,21 @@ void Player::Update(bool collisionFlag) {
 			playerSpeed.y -= 0.004f;
 		}
 
+		if (playerSpeed.x <= 0.22f && playerSpeed.x >= 0.0f || playerSpeed.x >= -0.22f && playerSpeed.x <= 0.0f)
+		{
+			playerSpeed.x = 0.0f;
+		}
+
 		if (playerSpeed.x == 0.0f)
 		{
 			isMove_ = false;
 		}
 	}
 
-	debugText_->SetPos(50, 80);
-	debugText_->Printf("playerOldSpeedX:%f", playerOldSpeedX);
-	debugText_->SetPos(50, 100);
-	debugText_->Printf("playerOldSpeedY:%f", playerOldSpeedY);
-	debugText_->SetPos(50, 120);
-	debugText_->Printf("playerSpeed.y:%f", playerSpeed.y);
+	debugText_->SetPos(50, 50);
+	debugText_->Printf("playerSpeed.x:%f",playerSpeed.x);
+	debugText_->SetPos(50, 70);
+	debugText_->Printf("isMove_:%d", isMove_);
 
 	// çsóÒçXêV
 	worldTransform_.matWorld_ = Mat_Identity();
@@ -111,9 +114,6 @@ void Player::OnCollisionStage(bool collisionFlag) {
 	{
 		worldTransform_.translation_ = prePos_;
 		worldTransform_.Update(worldTransform_);
-
-		playerOldSpeedX = playerSpeed.x;
-		playerOldSpeedY = playerSpeed.y;
 
 		stopG_ = true;
 	}
