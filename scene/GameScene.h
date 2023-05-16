@@ -163,6 +163,8 @@ private: // メンバ変数
 	bool isOpen_;
 	bool isKeyOpen_;
 
+	int stageFlag;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

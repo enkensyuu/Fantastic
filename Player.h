@@ -14,7 +14,7 @@
 class Player
 {
 public:
-	void Initialize();
+	void Initialize(Vector3 pos = { 0.0f, 0.0f, 0.0f });
 
 	void Update(bool collisionFlag);
 

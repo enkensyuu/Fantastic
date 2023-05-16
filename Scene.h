@@ -3,6 +3,8 @@
 enum Scene
 {
 	TITLE,
+	ONE,
+	TWO,
 	THREE,
 	FOUR,
 	FIVE,

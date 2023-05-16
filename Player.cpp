@@ -2,8 +2,8 @@
 #include <cassert>
 #include "Procession.h"
 
-void Player::Initialize() {
-
+void Player::Initialize(Vector3 pos)
+{
 	debugText_ = DebugText::GetInstance();
 
 	model_ = Model::CreateFromOBJ("Player");
@@ -12,7 +12,7 @@ void Player::Initialize() {
 
 	worldTransform_.scale_ = { 2.0f,2.0f,2.0f };
 
-	worldTransform_.translation_ = { 10.0f,7.0f,-20.0f };
+	worldTransform_.translation_ = pos;
 	isMove_ = false;
 	isMove2_ = false;
 
