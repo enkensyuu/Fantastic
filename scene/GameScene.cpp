@@ -18,6 +18,17 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	debugText_ = DebugText::GetInstance();
 
+	closeGame_ = false;
+
+	scene_ = TITLE;
+	StageTimer = 1;
+	Select = 0;
+	RingFlag = 0;
+	PauseFlag = 0;
+	SelectFlag = 0;
+	SceneStageFlag1 = 0;
+	PauseFlag = 0;
+
 	//テクスチャを入れ込む
 	textureHandle_[0] = TextureManager::Load("exchange.png"); //ゲーム説明
 	textureHandle_[1] = TextureManager::Load("Title.png"); //タイトル
@@ -33,6 +44,7 @@ void GameScene::Initialize() {
 	textureHandle_[11] = TextureManager::Load("4.png"); //背景4
 	textureHandle_[12] = TextureManager::Load("Operation.png"); //操作説明
 	textureHandle_[13] = TextureManager::Load("5.png"); //背景5
+	textureHandle_[14] = TextureManager::Load("Game_Over.png"); //ゲームオーバー文字
 
 
 
@@ -53,13 +65,20 @@ void GameScene::Initialize() {
 	BackGroudStage5_ = Sprite::Create(textureHandle_[13], { 0,0 });
 	Pause_ = Sprite::Create(textureHandle_[8], { 10,10 });
 	PauseScene_ = Sprite::Create(textureHandle_[9], { 600,80 });
-	PauseSelect_ = Sprite::Create(textureHandle_[10], { 770,330 });
-	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,425 });
-	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 615,515 });
-	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 605,615 });
-	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 602,715 });
-	PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,810 });
+	PauseSelect_ = Sprite::Create(textureHandle_[10], { 770,290 });
+	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,403 });
+	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 610,530 });
+	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 600,655 });
+	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 660,791 });
+	//PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,830 });
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
+	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
+
+	//3Dモデル
+	/*PlayerModel_ = Model::CreateFromOBJ("Player");
+	worldTransform_.translation_ = { -25.0f,-10.0f,0 };
+
+	viewProjection_.Initialize();*/
 
 	//SEデータ
 	StageSelectSE_ = audio_->LoadWave("SE/StageSelection.mp3");
@@ -79,12 +98,7 @@ void GameScene::Initialize() {
 	stage5_ = new Stage5;
 	stage5_->Initialize();
 
-	scene_ = TITLE;
-	StageTimer = 1;
-	RingFlag = 0;
-	PauseFlag = 0;
-	SelectFlag = 0;
-	SceneStageFlag1 = 0;
+	
 }
 
 void GameScene::Update() {
@@ -111,6 +125,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = STAGECHOICE;
+			PauseFlag = 0;
 			StageTimer = 1;
 			if (SceneStageFlag1 == 1)
 			{
@@ -144,8 +159,9 @@ void GameScene::Update() {
 		}
 
 	case STAGECHOICE:
-		Select = 0;
-		
+		Select = 1;
+		PauseFlag = 0;
+
 		if (input_->TriggerKey(DIK_RIGHT))
 		{
 			StageTimer += 1;
@@ -292,12 +308,12 @@ void GameScene::Update() {
 			}
 		}
 
-		if (Select <= 1)
+		if (Select < 1)
 		{
-			Select = 1;
+			Select = 5;
 		}
 
-		if (Select > 6)
+		if (Select > 5)
 		{
 			Select = 1;
 		}
@@ -317,14 +333,8 @@ void GameScene::Update() {
 			PauseFlag = 0;
 		}
 
-		//画面の大きさ変更
-		/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-		{
-
-		}*/
-
 		//ゲーム説明の戻る
-		if (input_->TriggerKey(DIK_RETURN)&& Select == 4)
+		if (input_->TriggerKey(DIK_RETURN)&& Select == 3)
 		{
 			scene_ = EXPLANATION;
 			SceneStageFlag1 = 1;
@@ -332,17 +342,19 @@ void GameScene::Update() {
 		}
 
 		//ステージ選択に戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+		if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 		{
 			scene_ = STAGECHOICE;
 			PauseFlag = 0;
 		}
 
 		//ゲームをやめる
-		/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
 		{
+			closeGame_ = true;
+		}
 
-		}*/
+
 		break;
 
 	case FOUR: //ステージ2
@@ -387,12 +399,12 @@ void GameScene::Update() {
 				}
 			}
 
-			if (Select <= 1)
+			if (Select < 1)
 			{
-				Select = 1;
+				Select = 5;
 			}
 
-			if (Select > 6)
+			if (Select > 5)
 			{
 				Select = 1;
 			}
@@ -418,30 +430,24 @@ void GameScene::Update() {
 				PauseFlag = 0;
 			}
 
-			//画面の大きさ変更
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-			{
-
-			}*/
-
 			//ゲーム説明の戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 			{
 				SceneStageFlag2 = 1;
 				scene_ = EXPLANATION;
 			}
 
 			//ステージ選択に戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = STAGECHOICE;
 			}
 
 			//ゲームをやめる
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
 			{
-
-			}*/
+				closeGame_ = true;
+			}
 			break;
 		
 
@@ -487,12 +493,12 @@ void GameScene::Update() {
 				}
 			}
 
-			if (Select <= 1)
+			if (Select < 1)
 			{
-				Select = 1;
+				Select = 5;
 			}
 
-			if (Select > 6)
+			if (Select > 5)
 			{
 				Select = 1;
 			}
@@ -518,30 +524,24 @@ void GameScene::Update() {
 				PauseFlag = 0;
 			}
 
-			//画面の大きさ変更
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-			{
-
-			}*/
-
 			//ゲーム説明の戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 			{
 				scene_ = EXPLANATION;
 				SceneStageFlag3 = 1;
 			}
 
 			//ステージ選択に戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = STAGECHOICE;
 			}
 
 			//ゲームをやめる
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
 			{
-
-			}*/
+				closeGame_ = true;
+			}
 			break;
 	
 
@@ -587,12 +587,12 @@ void GameScene::Update() {
 				}
 			}
 
-			if (Select <= 1)
+			if (Select < 1)
 			{
-				Select = 1;
+				Select = 5;
 			}
 
-			if (Select > 6)
+			if (Select > 5)
 			{
 				Select = 1;
 			}
@@ -618,30 +618,24 @@ void GameScene::Update() {
 				PauseFlag = 0;
 			}
 
-			//画面の大きさ変更
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-			{
-
-			}*/
-
 			//ゲーム説明の戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 			{
 				scene_ = EXPLANATION;
 				SceneStageFlag4 = 1;
 			}
 
 			//ステージ選択に戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = STAGECHOICE;
 			}
 
 			//ゲームをやめる
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
 			{
-
-			}*/
+				closeGame_ = true;
+			}
 		break;
 
 	case SEVEN: //ステージ5//
@@ -686,12 +680,12 @@ void GameScene::Update() {
 				}
 			}
 
-			if (Select <= 1)
+			if (Select < 1)
 			{
-				Select = 1;
+				Select = 5;
 			}
 
-			if (Select > 6)
+			if (Select > 5)
 			{
 				Select = 1;
 			}
@@ -717,30 +711,24 @@ void GameScene::Update() {
 				PauseFlag = 0;
 			}
 
-			//画面の大きさ変更
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-			{
-
-			}*/
-
 			//ゲーム説明の戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 			{
 				scene_ = EXPLANATION;
 				SceneStageFlag5 = 1;
 			}
 
 			//ステージ選択に戻る
-			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
 				scene_ = STAGECHOICE;
 			}
 
 			//ゲームをやめる
-			/*if (input_->TriggerKey(DIK_RETURN) && Select == 6)
+			if (input_->TriggerKey(DIK_RETURN) && Select == 5)
 			{
-
-			}*/
+				closeGame_ = true;
+			}
 			break;
 	}
 }
@@ -766,6 +754,7 @@ void GameScene::Draw() {
 		{
 			Space_->Draw();
 		}
+
 		break;
 	case EXPLANATION:
 		Explanation_->Draw();
@@ -799,11 +788,13 @@ void GameScene::Draw() {
 	case THREE:
 		if (scene_ == THREE)
 		{
+			
 			BackGroudStage1_->Draw();
 			Pause_->Draw();
+			
 
-			/*DebugText::GetInstance()->SetPos(1700, 30);
-			DebugText::GetInstance()->Printf("Select:%d", Select);*/
+			DebugText::GetInstance()->SetPos(1700, 30);
+			DebugText::GetInstance()->Printf("Select:%d", Select);
 	    }
 		break;
 	case FOUR:
@@ -856,6 +847,7 @@ void GameScene::Draw() {
 	case TITLE:
 		break;
 	case EXPLANATION:
+		
 		break;
 	case STAGECHOICE:
 		break;
@@ -895,6 +887,7 @@ void GameScene::Draw() {
 	case STAGECHOICE:
 		break;
 	case THREE:
+		//GameOver_->Draw();
 		if (PauseFlag == 1)
 		{
 			PauseScene_->Draw();
@@ -928,10 +921,10 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				if (Select == 6)
+				/*if (Select == 6)
 				{
 					PauseSelect6_->Draw();
-				}
+				}*/
 			}
 		}
 		break;
@@ -970,10 +963,10 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				if (Select == 6)
+				/*if (Select == 6)
 				{
 					PauseSelect6_->Draw();
-				}
+				}*/
 			}
 		}
 		break;
@@ -1012,10 +1005,10 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				if (Select == 6)
+				/*if (Select == 6)
 				{
 					PauseSelect6_->Draw();
-				}
+				}*/
 			}
 		}
 		break;
@@ -1054,10 +1047,10 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				if (Select == 6)
+				/*if (Select == 6)
 				{
 					PauseSelect6_->Draw();
-				}
+				}*/
 			}
 		}
 		break;
@@ -1096,10 +1089,10 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				if (Select == 6)
+				/*if (Select == 6)
 				{
 					PauseSelect6_->Draw();
-				}
+				}*/
 			}
 		}
 		break;

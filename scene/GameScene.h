@@ -47,10 +47,16 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
+	bool GetClose() { return closeGame_; }
+
   private: // メンバ変数
+    WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	Model* PlayerModel_ = nullptr;
 	DebugText* debugText_ = nullptr;
 
 	Stage1* stage1_ = nullptr;
@@ -86,6 +92,7 @@ class GameScene {
 	Sprite* PauseSelect4_ = nullptr; //PauseSelect画面(4)
 	Sprite* PauseSelect5_ = nullptr; //PauseSelect画面(5)
 	Sprite* PauseSelect6_ = nullptr; //PauseSelect画面(6)
+	Sprite* GameOver_ = nullptr; //ゲームオーバー文字
 
 
 
@@ -107,6 +114,7 @@ class GameScene {
 	uint32_t StageSEHandle_ = 0;
 	uint32_t StageHandleFlag = false;
 
+	bool closeGame_;
 
 	/// <summary>
 	/// ゲームシーン用
