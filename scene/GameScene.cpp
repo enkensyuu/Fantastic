@@ -52,7 +52,7 @@ void GameScene::Initialize() {
 	player_->Initialize(modelPlayer_, { 10.0f,7.0f,-20.0f });
 
 	//初期化
-	Parameter({ 0.0f, 0.0f, 0.0f }, 0);
+	Parameter({ 0.0f, 0.0f, 0.0f }, 1);
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
