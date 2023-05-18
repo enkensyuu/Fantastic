@@ -354,6 +354,7 @@ void GameScene::Update() {
 	switch (scene_)
 	{
 		case TITLE:
+
 			Initialize();
 			isGoal_ = false;
 
@@ -409,6 +410,12 @@ void GameScene::Update() {
 				isKeyOpen_ = false;
 			}
 
+			// スキップ(後で消す)
+			if (input_->TriggerKey(DIK_SPACE)) 
+			{
+				scene_ = GameClear;
+			}
+
 			break;
 
 		case TWO:
@@ -452,24 +459,166 @@ void GameScene::Update() {
 				isKeyOpen_ = false;
 			}
 
+			// スキップ(後で消す)
+			if (input_->TriggerKey(DIK_SPACE))
+			{
+				scene_ = GameClear;
+			}
+
 			debugText_->SetPos(50, 120);
 			debugText_->Printf("stageFlag_:%d", stageFlag);
 
 			break;
 
 		case THREE:
-			
+
+			// プレイヤー
+			player_->Update(CollisionStageFlag(player_, stage_));
+			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+			player_->IsDead();
+
+			// ステージ
+			stage_->Update();
+			stage1_->Update();
+
+			// ギミック
+			silverKey_->Update();
+			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+			door_->Update(isOpen_, isKeyOpen_);
+
+			CheckAllCollisions();
+
+			// クリア
+			if (isGoal_)
+			{
+				scene_ = GameClear;
+			}
+
+			// ゲームオーバー
+			if (player_->IsGetDead())
+			{
+				scene_ = GameOver;
+			}
+
+			// リセット
+			if (input_->TriggerKey(DIK_R))
+			{
+				stage1_->Initialize();
+				silverKey_->Initialize(65, 60);
+				door_->Initialize(110, 55);
+				isGetKey_ = false;
+				isKeyOpen_ = false;
+			}
+
+			// スキップ(後で消す)
+			if (input_->TriggerKey(DIK_SPACE))
+			{
+				scene_ = GameClear;
+			}
+
 			break;
 
 		case FOUR:
+
+			// プレイヤー
+			player_->Update(CollisionStageFlag(player_, stage_));
+			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+			player_->IsDead();
+
+			// ステージ
+			stage_->Update();
+			stage1_->Update();
+
+			// ギミック
+			silverKey_->Update();
+			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+			door_->Update(isOpen_, isKeyOpen_);
+
+			CheckAllCollisions();
+
+			// クリア
+			if (isGoal_)
+			{
+				scene_ = GameClear;
+			}
+
+			// ゲームオーバー
+			if (player_->IsGetDead())
+			{
+				scene_ = GameOver;
+			}
+
+			// リセット
+			if (input_->TriggerKey(DIK_R))
+			{
+				stage1_->Initialize();
+				silverKey_->Initialize(65, 60);
+				door_->Initialize(110, 55);
+				isGetKey_ = false;
+				isKeyOpen_ = false;
+			}
+
+			// スキップ(後で消す)
+			if (input_->TriggerKey(DIK_SPACE))
+			{
+				scene_ = GameClear;
+			}
 
 			break;
 
 		case FIVE:
 
+			// プレイヤー
+			player_->Update(CollisionStageFlag(player_, stage_));
+			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+			player_->IsDead();
+
+			// ステージ
+			stage_->Update();
+			stage1_->Update();
+
+			// ギミック
+			silverKey_->Update();
+			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+			door_->Update(isOpen_, isKeyOpen_);
+
+			CheckAllCollisions();
+
+			// クリア
+			if (isGoal_)
+			{
+				scene_ = GameClear;
+			}
+
+			// ゲームオーバー
+			if (player_->IsGetDead())
+			{
+				scene_ = GameOver;
+			}
+
+			// リセット
+			if (input_->TriggerKey(DIK_R))
+			{
+				stage1_->Initialize();
+				silverKey_->Initialize(65, 60);
+				door_->Initialize(110, 55);
+				isGetKey_ = false;
+				isKeyOpen_ = false;
+			}
+
+			// スキップ(後で消す)
+			if (input_->TriggerKey(DIK_SPACE))
+			{
+				scene_ = GameClear;
+			}
+
 			break;
 
 		case GameOver:
+
 			if (input_->TriggerKey(DIK_SPACE))
 			{
 				scene_ = TITLE;
@@ -478,6 +627,7 @@ void GameScene::Update() {
 			break;
 
 		case GameClear:
+
 			if (input_->TriggerKey(DIK_SPACE) && stageFlag == 0)
 			{
 				Initialize();
@@ -491,20 +641,38 @@ void GameScene::Update() {
 			}
 			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 1)
 			{
+				Initialize();
+				isGoal_ = false;
+
 				stageFlag = 2;
+
+				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
+
 				scene_ = THREE;
+			}
+			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 2)
+			{
+				Initialize();
+				isGoal_ = false;
+
+				stageFlag = 3;
+
+				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
+
+				scene_ = FOUR;
 			}
 			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 3)
 			{
+				Initialize();
+				isGoal_ = false;
+
 				stageFlag = 4;
-				scene_ = FOUR;
-			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 4)
-			{
-				stageFlag = 5;
+
+				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
+
 				scene_ = FIVE;
 			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 5)
+			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 4)
 			{
 				scene_ = TITLE;
 			}
@@ -530,24 +698,43 @@ void GameScene::Draw() {
 	switch (scene_)
 	{
 		case TITLE:
+
 			break;
+
 		case ONE:
+
 			backGround1_->Draw();
+
 			break;
+
 		case TWO:
+
 			backGround1_->Draw();
+
 			break;
+
 		case THREE:
+
 			break;
+
 		case FOUR:
+
 			break;
+
 		case FIVE:
+
 			break;
+
 		case GameOver:
+
 			gameOver_->Draw();
+
 			break;
+
 		case GameClear:
+
 			gameClear_->Draw();
+
 			break;
 	}
 
@@ -567,29 +754,64 @@ void GameScene::Draw() {
 	switch (scene_)
 	{
 		case TITLE:
+
 			break;
+
 		case ONE:
+
 			stage_->Draw(viewProjection_);
 			stage1_->Draw(viewProjection_);
 			player_->Draw(viewProjection_);
 			silverKey_->Draw(viewProjection_);
 			door_->Draw(viewProjection_);
 			goal_->Draw(viewProjection_);
+
 			break;
+
 		case TWO:
+
 			stage_->Draw(viewProjection_);
 			stage1_->Draw(viewProjection_);
 			player_->Draw(viewProjection_);
 			silverKey_->Draw(viewProjection_);
 			door_->Draw(viewProjection_);
 			goal_->Draw(viewProjection_);
+
 			break;
+
 		case THREE:
+
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
+
 			break;
+
 		case FOUR:
+
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
+
 			break;
+
 		case FIVE:
+
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
+
 			break;
+
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

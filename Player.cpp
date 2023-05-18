@@ -29,14 +29,14 @@ void Player::Update(bool collisionFlag) {
 
 	worldTransform_.translation_ += playerSpeed;
 
-	if (!stopG_)
+	/*if (!stopG_)
 	{
 		playerSpeed.y -= 0.01f;
 	}
 	else if (stopG_ && playerSpeed.x >= 0.01)
 	{
 		playerSpeed.y = 0.0f;
-	}
+	}*/
 
 	if (isMove_)
 	{
