@@ -49,7 +49,12 @@ private:
 	//SE
 	uint32_t PropellerSE_ = 0;
 	uint32_t SEHandle_ = 0;
-	uint32_t HandleFlag = false;
+	uint32_t SEHandleFlag = false;
+
+	//BGM
+	uint32_t Stage1BGM_ = 0;
+	uint32_t BGMHandle_ = 0;
+	uint32_t BGMHandleFlag = false;
 
 	std::list<std::unique_ptr<Wind>> winds_;
 };

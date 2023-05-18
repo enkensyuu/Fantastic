@@ -110,9 +110,37 @@ class GameScene {
 	int SceneStageFlag5 = 0; //ステージ5フラグ
 	
 
+	//SE
 	uint32_t StageSelectSE_ = 0;
 	uint32_t StageSEHandle_ = 0;
 	uint32_t StageHandleFlag = false;
+
+
+	//BGM
+	uint32_t TitleBGM_ = 0;
+	uint32_t TitleBGMHandle_ = 0;
+	uint32_t TitleHandleFlag = false;
+
+	uint32_t Stage1BGM_ = 0;
+	uint32_t Stage1BGMHandle_ = 0;
+	uint32_t Stage1HandleFlag = false;
+
+	uint32_t Stage2BGM_ = 0;
+	uint32_t Stage2BGMHandle_ = 0;
+	uint32_t Stage2HandleFlag = false;
+
+	uint32_t Stage3BGM_ = 0;
+	uint32_t Stage3BGMHandle_ = 0;
+	uint32_t Stage3HandleFlag = false;
+
+	uint32_t Stage4BGM_ = 0;
+	uint32_t Stage4BGMHandle_ = 0;
+	uint32_t Stage4HandleFlag = false;
+
+	uint32_t Stage5BGM_ = 0;
+	uint32_t Stage5BGMHandle_ = 0;
+	uint32_t Stage5HandleFlag = false;
+
 
 	bool closeGame_;
 

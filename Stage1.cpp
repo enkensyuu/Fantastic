@@ -21,6 +21,9 @@ void Stage1::Initialize()
 	//SEデータ
 	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
 
+	//BGM
+	Stage1BGM_ = audio_->LoadWave("BGM/Stage1BGM.mp3");
+
 	for (size_t i = 0; i < _countof(isrotation_); i++)
 	{
 		isrotation_[i] = false;
@@ -43,6 +46,8 @@ void Stage1::Initialize()
 		worldTransforms_[i].TransferMatrix();
 
 	}
+
+	Stage1BGM_ = false;
 
 	viewProjection_.Initialize();
 }
@@ -107,6 +112,14 @@ void Stage1::Update()
 		isrotation_[2] = false;
 	}*/
 
+
+	//BGM
+	if (BGMHandleFlag == false)
+	{
+		BGMHandle_ = audio_->PlayWave(Stage1BGM_, false);
+		BGMHandleFlag = true;
+	}
+
 	//プロペラSE
 	if (isrotation_[0] || isrotation_[1] || isrotation_[2])
 	{
@@ -124,14 +137,15 @@ void Stage1::Update()
 		{
 			worldTransforms_[2].rotation_ += rotationSpeed;
 		}*/
-		if (HandleFlag == false)
+		if (SEHandleFlag == false)
 		{
 			if (isrotation_[0] || isrotation_[1] || isrotation_[2])
 			{
-				if (HandleFlag == false)
+				if (SEHandleFlag == false)
 				{
 					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
-					HandleFlag = true;
+
+					SEHandleFlag = true;
 				}
 			}
 		}
@@ -141,14 +155,16 @@ void Stage1::Update()
 	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
 	{
 		audio_->StopWave(SEHandle_);
-		HandleFlag = false;
+		SEHandleFlag = false;
 	}
 
 	//Pauseを押すとSE停止
 	if (input_->TriggerKey(DIK_ESCAPE))
 	{
 		audio_->StopWave(SEHandle_);
-		HandleFlag = true;
+		audio_->StopWave(BGMHandle_);
+		SEHandleFlag = true;
+		BGMHandleFlag = true;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)

@@ -28,6 +28,17 @@ void GameScene::Initialize() {
 	SelectFlag = 0;
 	SceneStageFlag1 = 0;
 	PauseFlag = 0;
+    //Stage1HandleFlag = true;
+   /*Stage2HandleFlag = true;
+	Stage3HandleFlag = true;
+	Stage4HandleFlag = true;
+	Stage5HandleFlag = true;*/
+	//BGM止める
+	audio_->StopWave(Stage1BGMHandle_);
+	audio_->StopWave(Stage2BGMHandle_);
+	audio_->StopWave(Stage3BGMHandle_);
+	audio_->StopWave(Stage4BGMHandle_);
+	audio_->StopWave(Stage5BGMHandle_);
 
 	//テクスチャを入れ込む
 	textureHandle_[0] = TextureManager::Load("exchange.png"); //ゲーム説明
@@ -69,7 +80,7 @@ void GameScene::Initialize() {
 	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,403 });
 	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 610,530 });
 	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 600,655 });
-	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 660,791 });
+	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 680,791 });
 	//PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,830 });
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
 	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
@@ -82,6 +93,15 @@ void GameScene::Initialize() {
 
 	//SEデータ
 	StageSelectSE_ = audio_->LoadWave("SE/StageSelection.mp3");
+
+	//BGM(ステージ1,2,3,4,5,タイトル)
+	TitleBGM_ = audio_->LoadWave("BGM/Title.mp3");
+	Stage1BGM_ = audio_->LoadWave("BGM/Stage1BGM.mp3");
+	Stage2BGM_ = audio_->LoadWave("BGM/Stage2BGM.mp3");
+	Stage3BGM_ = audio_->LoadWave("BGM/Stage3BGM.mp3");
+	Stage4BGM_ = audio_->LoadWave("BGM/Stage4BGM.mp3");
+	Stage5BGM_ = audio_->LoadWave("BGM/Stage5BGM.mp3");
+
 
 	stage1_ = new Stage1;
 	stage1_->Initialize();
@@ -107,6 +127,12 @@ void GameScene::Update() {
 	case TITLE:
 		Initialize();
 		GameTimer_ += 1;
+		if (TitleHandleFlag == false)
+		{
+         TitleBGMHandle_ = audio_->PlayWave(TitleBGM_, false);
+		 TitleHandleFlag = true;
+		}
+		
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = EXPLANATION;
@@ -114,6 +140,15 @@ void GameScene::Update() {
 		break;
 
 	case EXPLANATION:
+
+		//BGM止める
+		/*audio_->StopWave(TitleBGMHandle_);
+		audio_->StopWave(Stage1BGMHandle_);
+		audio_->StopWave(Stage2BGMHandle_);
+		audio_->StopWave(Stage3BGMHandle_);
+		audio_->StopWave(Stage4BGMHandle_);
+		audio_->StopWave(Stage5BGMHandle_);
+		*/
 		if (input_->TriggerKey(DIK_SPACE))
 		{
 			scene_ = OPERATION;
@@ -158,9 +193,14 @@ void GameScene::Update() {
 			}
 		}
 
-	case STAGECHOICE:
-		Select = 1;
-		PauseFlag = 0;
+	case STAGECHOICE: //ステージ選択
+		
+		//BGM止める
+		audio_->StopWave(Stage1BGMHandle_);
+		
+		
+		
+		
 
 		if (input_->TriggerKey(DIK_RIGHT))
 		{
@@ -192,6 +232,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 2)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			Stage2HandleFlag == false;
 			StageHandleFlag = true;
 			scene_ = FOUR;
 		}
@@ -199,6 +240,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			Stage3HandleFlag == false;
 			StageHandleFlag = true;
 			scene_ = FIVE;
 		}
@@ -206,6 +248,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 4)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			Stage4HandleFlag == false;
 			StageHandleFlag = true;
 			scene_ = SIX;
 		}
@@ -213,6 +256,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 5)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+			Stage5HandleFlag == false;
 			StageHandleFlag = true;
 			scene_ = SEVEN;
 		}
@@ -229,41 +273,21 @@ void GameScene::Update() {
 		{
 			StageTimer = 1;
 		}
+
+		Select = 1;
+		PauseFlag = 0;
 		
 
 	case THREE: //ステージ1//
+		stage1_->Update();
 
-		//ENTERキーを押したらステージ移動
-		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 1)
+		/*if (Stage1HandleFlag == false)
 		{
-			scene_ = THREE;
-		}
-
-		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 2)
-		{
-			scene_ = FOUR;
-		}
-
-		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 3)
-		{
-			scene_ = FIVE;
-		}
-
-		if (input_->TriggerKey(DIK_RETURN) && RingFlag == 4)
-		{
-			scene_ = SIX;
-		}
-
-		if (input_->TriggerKey(DIK_SPACE) && RingFlag == 5)
-		{
-			scene_ = SEVEN;
-		}
-
-		if(scene_ == THREE)
-		 {
-		    stage1_->Update();
-		 }
+			Stage1BGMHandle_ = audio_->PlayWave(Stage1BGM_, false);
+			Stage1HandleFlag = true;
+		}*/
 		
+
 		//Pause画面
 		if (input_->PushKey(DIK_ESCAPE))
 		{
@@ -345,6 +369,7 @@ void GameScene::Update() {
 		if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 		{
 			scene_ = STAGECHOICE;
+			
 			PauseFlag = 0;
 		}
 
@@ -360,6 +385,13 @@ void GameScene::Update() {
 	case FOUR: //ステージ2
 
 			stage2_->Update();
+			
+
+			if (Stage2HandleFlag==false)
+			{
+				Stage2BGMHandle_ = audio_->PlayWave(Stage2BGM_, false);
+				Stage2HandleFlag = true;
+			}
 
 			//Pause画面の下移動
 			if (input_->TriggerKey(DIK_DOWN))
@@ -440,6 +472,7 @@ void GameScene::Update() {
 			//ステージ選択に戻る
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
+				audio_->StopWave(Stage2BGMHandle_);
 				scene_ = STAGECHOICE;
 			}
 
@@ -454,6 +487,12 @@ void GameScene::Update() {
 	case FIVE: //ステージ3//
 
 			stage3_->Update();
+
+			if (Stage3HandleFlag == false)
+			{
+				Stage3BGMHandle_ = audio_->PlayWave(Stage3BGM_, false);
+				Stage3HandleFlag = true;
+			}
 
 			//Pause画面の下移動
 			if (input_->TriggerKey(DIK_DOWN))
@@ -534,6 +573,7 @@ void GameScene::Update() {
 			//ステージ選択に戻る
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
+				audio_->StopWave(Stage3BGMHandle_);
 				scene_ = STAGECHOICE;
 			}
 
@@ -548,6 +588,12 @@ void GameScene::Update() {
 	case SIX: //ステージ4//
 		
 			stage4_->Update();
+
+			if (Stage4HandleFlag == false)
+			{
+				Stage4BGMHandle_ = audio_->PlayWave(Stage4BGM_, false);
+				Stage4HandleFlag = true;
+			}
 
 			//Pause画面の下移動
 			if (input_->TriggerKey(DIK_DOWN))
@@ -628,6 +674,7 @@ void GameScene::Update() {
 			//ステージ選択に戻る
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
+				audio_->StopWave(Stage4BGMHandle_);
 				scene_ = STAGECHOICE;
 			}
 
@@ -641,6 +688,12 @@ void GameScene::Update() {
 	case SEVEN: //ステージ5//
 		
 			stage5_->Update();
+
+			if (Stage5HandleFlag == false)
+			{
+				Stage5BGMHandle_ = audio_->PlayWave(Stage5BGM_, false);
+				Stage5HandleFlag = true;
+			}
 
 			//Pause画面の下移動
 			if (input_->TriggerKey(DIK_DOWN))
@@ -721,6 +774,7 @@ void GameScene::Update() {
 			//ステージ選択に戻る
 			if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 			{
+				audio_->StopWave(Stage5BGMHandle_);
 				scene_ = STAGECHOICE;
 			}
 
