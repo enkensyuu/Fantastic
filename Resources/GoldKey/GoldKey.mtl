@@ -1,4 +1,4 @@
-# Blender 3.1.2 MTL File: '鍵金色データ(色あり).blend'
+# Blender 3.1.2 MTL File: '鍵修正(統合).blend'
 # www.blender.org
 
 newmtl マテリアル
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd  ..\テクスチャ\鍵画像2.png
+map_Kd GoldKey.png
