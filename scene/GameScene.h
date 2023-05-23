@@ -67,6 +67,12 @@ private: // メンバ変数
 
 	void CheckAllCollisions();
 
+	bool GetClose() { return closeGame_; }
+
+  private: // メンバ変数
+    WorldTransform worldTransform_;
+	ViewProjection viewProjection_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -156,6 +162,8 @@ private: // メンバ変数
 
 	Goal* goal_ = nullptr;
 
+	uint32_t textureHandle_[20];
+
 	size_t scene_ = TITLE;
 
 	bool isGoal_ = false;
@@ -164,6 +172,81 @@ private: // メンバ変数
 	bool isKeyOpen_;
 
 	int stageFlag;
+
+	Sprite* Explanation_ = nullptr; //説明 
+	Sprite* Operation_ = nullptr;  //ゲーム説明
+	Sprite* Title_ = nullptr;
+	Sprite* Space_ = nullptr; //SPACE文字
+	Sprite* StageChoice_ = nullptr; //ステージ選択
+	Sprite* BackGroudStage1_ = nullptr; //ステージ1(背景)
+	Sprite* BackGroudStage2_ = nullptr; //ステージ2(背景)
+	Sprite* BackGroudStage3_ = nullptr; //ステージ3(背景)
+	Sprite* BackGroudStage4_ = nullptr; //ステージ4(背景)
+	Sprite* BackGroudStage5_ = nullptr; //ステージ5(背景)
+	Sprite* Waku_ = nullptr; //ステージ選択の枠 
+	Sprite* Waku2_ = nullptr; //ステージ選択の枠(2) 
+	Sprite* Waku3_ = nullptr; //ステージ選択の枠(3) 
+	Sprite* Waku4_ = nullptr; //ステージ選択の枠(4) 
+	Sprite* Waku5_ = nullptr; //ステージ選択の枠(5) 
+	Sprite* Pause_ = nullptr; //Pause
+	Sprite* PauseScene_ = nullptr; //Pause画面
+	Sprite* PauseSelect_ = nullptr; //PauseSelect画面
+	Sprite* PauseSelect2_ = nullptr; //PauseSelect画面(2)
+	Sprite* PauseSelect3_ = nullptr; //PauseSelect画面(3)
+	Sprite* PauseSelect4_ = nullptr; //PauseSelect画面(4)
+	Sprite* PauseSelect5_ = nullptr; //PauseSelect画面(5)
+	Sprite* PauseSelect6_ = nullptr; //PauseSelect画面(6)
+	Sprite* GameOver_ = nullptr; //ゲームオーバー文字
+
+
+
+	int RingFlag = 0; //枠のフラグ
+	int PauseFlag = 0; //Pause画面のフラグ
+	int GameTimer_ = 0;
+	int StageTimer = 0;
+	int StageTimerUpDown = 0;
+	int Select = 0;
+	int SelectFlag = 0;
+	int SceneStageFlag1 = 0; //ステージ1フラグ
+	int SceneStageFlag2 = 0; //ステージ2フラグ
+	int SceneStageFlag3 = 0; //ステージ3フラグ
+	int SceneStageFlag4 = 0; //ステージ4フラグ
+	int SceneStageFlag5 = 0; //ステージ5フラグ
+	
+
+	//SE
+	uint32_t StageSelectSE_ = 0;
+	uint32_t StageSEHandle_ = 0;
+	uint32_t StageHandleFlag = false;
+
+
+	//BGM
+	uint32_t TitleBGM_ = 0;
+	uint32_t TitleBGMHandle_ = 0;
+	uint32_t TitleHandleFlag = false;
+
+	uint32_t Stage1BGM_ = 0;
+	uint32_t Stage1BGMHandle_ = 0;
+	uint32_t Stage1HandleFlag = false;
+
+	uint32_t Stage2BGM_ = 0;
+	uint32_t Stage2BGMHandle_ = 0;
+	uint32_t Stage2HandleFlag = false;
+
+	uint32_t Stage3BGM_ = 0;
+	uint32_t Stage3BGMHandle_ = 0;
+	uint32_t Stage3HandleFlag = false;
+
+	uint32_t Stage4BGM_ = 0;
+	uint32_t Stage4BGMHandle_ = 0;
+	uint32_t Stage4HandleFlag = false;
+
+	uint32_t Stage5BGM_ = 0;
+	uint32_t Stage5BGMHandle_ = 0;
+	uint32_t Stage5HandleFlag = false;
+
+
+	bool closeGame_;
 
 	/// <summary>
 	/// ゲームシーン用

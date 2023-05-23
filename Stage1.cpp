@@ -14,6 +14,15 @@ void Stage1::Initialize()
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::CreateFromOBJ("fan");
 	//model_ = Model::Create();
+	audio_ = Audio::GetInstance();
+
+	//BackGroud_ = Sprite::Create(textureHandle2_[0], { 0,0 });
+
+	//SEデータ
+	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
+
+	//BGM
+	Stage1BGM_ = audio_->LoadWave("BGM/Stage1BGM.mp3");
 
 	Lvelocity = { -kBulletSpeed,0,0 };
 	Rvelocity = { +kBulletSpeed,0,0 };
@@ -54,6 +63,7 @@ void Stage1::Initialize()
 
 void Stage1::Update()
 {
+	//SEHandle_ = audio_->PlayWave(PropellerSE_, true);
 	// デスフラグの立った弾を削除
 	winds_.remove_if([](std::unique_ptr<Wind>& wind)
 		{
@@ -96,9 +106,60 @@ void Stage1::Update()
 
 		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
 		worldTransforms_[1].rotation_ += rotationSpeedX;
+	//ESCを押したら停止
+	/*if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		isrotation_[0] = false;
+		isrotation_[1] = false;
+		isrotation_[2] = false;
+	}*/
+
+
+	//BGM
+	if (BGMHandleFlag == false)
+	{
+		BGMHandle_ = audio_->PlayWave(Stage1BGM_, false);
+		BGMHandleFlag = true;
+	}
+
+	//プロペラSE
+	if (isrotation_[0] || isrotation_[1] || isrotation_[2])
+	{
+		WindOn();
+		/*SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+		if (isrotation_[0])
+		{
+			worldTransforms_[0].rotation_ += rotationSpeed;
+		}
+		else if (isrotation_[1])
+		{
+			worldTransforms_[1].rotation_ += rotationSpeed;
+		}
+		else if (isrotation_[2])
+		{
+			worldTransforms_[2].rotation_ += rotationSpeed;
+		}*/
+		if (SEHandleFlag == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2])
+			{
+				if (SEHandleFlag == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
 
 		WindOn(worldTransforms_[2].matWorld_, Rvelocity);
 		worldTransforms_[2].rotation_ += rotationSpeedX;
+					SEHandleFlag = true;
+				}
+			}
+		}
+	}
+
+
+	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2])
+	{
+		audio_->StopWave(SEHandle_);
+		SEHandleFlag = false;
 	}
 
 	if (isUflag)
@@ -122,6 +183,7 @@ void Stage1::Update()
 	{
 		wind->Update();
 	}
+
 }
 
 void Stage1::Draw(ViewProjection& viewProjection)
@@ -135,6 +197,9 @@ void Stage1::Draw(ViewProjection& viewProjection)
 	{
 		wind->Draw(viewProjection);
 	}
+
+	/*DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage1", DebugText);*/
 }
 
 void Stage1::WindOn(const Matrix4& position, const Vector3& velocity)

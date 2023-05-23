@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include <list>
 #include "Wind.h"
+#include"Audio.h"
 
 class Stage1
 {
@@ -33,11 +34,27 @@ private:
 	Vector3 rotationSpeedX = { 1.0f,0.0f,0.0f };
 	Vector3 rotationSpeedY = { 0.0f,1.0f,0.0f };
 
+	//uint32_t textureHandle2_[10];
+
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
+	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
+	//Sprite* BackGroud_ = nullptr; 
+
+	int DebugText;
+
+	//SE
+	uint32_t PropellerSE_ = 0;
+	uint32_t SEHandle_ = 0;
+	uint32_t SEHandleFlag = false;
+
+	//BGM
+	uint32_t Stage1BGM_ = 0;
+	uint32_t BGMHandle_ = 0;
+	uint32_t BGMHandleFlag = false;
 
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;

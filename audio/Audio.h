@@ -2,7 +2,6 @@
 
 #include <array>
 #include <cstdint>
-#include <mutex>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -13,16 +12,36 @@
 /// オーディオ
 /// </summary>
 class Audio {
-  public:
+public:
 	// サウンドデータの最大数
 	static const int kMaxSoundData = 256;
+
+	// チャンクヘッダ
+	struct ChunkHeader {
+		char id[4];   // チャンク毎のID
+		int32_t size; // チャンクサイズ
+	};
+
+	// RIFFヘッダチャンク
+	struct RiffHeader {
+		ChunkHeader chunk; // "RIFF"
+		char type[4];      // "WAVE"
+	};
+
+	// FMTチャンク
+	struct FormatChunk {
+		ChunkHeader chunk; // "fmt "
+		WAVEFORMATEX fmt;  // 波形フォーマット
+	};
 
 	// 音声データ
 	struct SoundData {
 		// 波形フォーマット
 		WAVEFORMATEX wfex;
-		// バッファ
-		std::vector<uint8_t> buffer;
+		// バッファの先頭アドレス
+		BYTE* pBuffer;
+		// バッファのサイズ
+		unsigned int bufferSize;
 		// 名前
 		std::string name_;
 	};
@@ -37,21 +56,21 @@ class Audio {
 	/// オーディオコールバック
 	/// </summary>
 	class XAudio2VoiceCallback : public IXAudio2VoiceCallback {
-	  public:
+	public:
 		// ボイス処理パスの開始時
-		STDMETHOD_(void, OnVoiceProcessingPassStart)(THIS_ UINT32 BytesRequired){};
+		STDMETHOD_(void, OnVoiceProcessingPassStart)(THIS_ UINT32 BytesRequired) {};
 		// ボイス処理パスの終了時
-		STDMETHOD_(void, OnVoiceProcessingPassEnd)(THIS){};
+		STDMETHOD_(void, OnVoiceProcessingPassEnd)(THIS) {};
 		// バッファストリームの再生が終了した時
-		STDMETHOD_(void, OnStreamEnd)(THIS){};
+		STDMETHOD_(void, OnStreamEnd)(THIS) {};
 		// バッファの使用開始時
-		STDMETHOD_(void, OnBufferStart)(THIS_ void* pBufferContext){};
+		STDMETHOD_(void, OnBufferStart)(THIS_ void* pBufferContext) {};
 		// バッファの末尾に達した時
 		STDMETHOD_(void, OnBufferEnd)(THIS_ void* pBufferContext);
 		// 再生がループ位置に達した時
-		STDMETHOD_(void, OnLoopEnd)(THIS_ void* pBufferContext){};
+		STDMETHOD_(void, OnLoopEnd)(THIS_ void* pBufferContext) {};
 		// ボイスの実行エラー時
-		STDMETHOD_(void, OnVoiceError)(THIS_ void* pBufferContext, HRESULT Error){};
+		STDMETHOD_(void, OnVoiceError)(THIS_ void* pBufferContext, HRESULT Error) {};
 	};
 
 	static Audio* GetInstance();
@@ -103,18 +122,6 @@ class Audio {
 	bool IsPlaying(uint32_t voiceHandle);
 
 	/// <summary>
-	/// 音声一時停止
-	/// </summary>
-	/// <param name="voiceHandle">再生ハンドル</param>
-	void PauseWave(uint32_t voiceHandle);
-
-	/// <summary>
-	/// 音声一時停止からの再開
-	/// </summary>
-	/// <param name="voiceHandle">再生ハンドル</param>
-	void ResumeWave(uint32_t voiceHandle);
-
-	/// <summary>
 	/// 音量設定
 	/// </summary>
 	/// <param name="voiceHandle">再生ハンドル</param>
@@ -122,7 +129,7 @@ class Audio {
 	/// 0で無音、1がデフォルト音量。あまり大きくしすぎると音割れする</param>
 	void SetVolume(uint32_t voiceHandle, float volume);
 
-  private:
+private:
 	Audio() = default;
 	~Audio() = default;
 	Audio(const Audio&) = delete;
@@ -143,5 +150,4 @@ class Audio {
 	uint32_t indexVoice_ = 0u;
 	// オーディオコールバック
 	XAudio2VoiceCallback voiceCallback_;
-	std::mutex voiceMutex_;
 };

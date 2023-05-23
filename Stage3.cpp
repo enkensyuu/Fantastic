@@ -14,11 +14,20 @@ void Stage3::Initialize()
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::CreateFromOBJ("fan");
 	//model_ = Model::Create();
+	model_ = Model::Create();
+	audio_ = Audio::GetInstance();
 
 	Lvelocity = { -kBulletSpeed,0,0 };
 	Rvelocity = { +kBulletSpeed,0,0 };
 	Uvelocity = { 0,+kBulletSpeed,0 };
 	Dvelocity = { 0,-kBulletSpeed,0 };
+	//SEデータ
+	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
+
+	for (size_t i = 0; i < _countof(isrotation_); i++)
+	{
+		isrotation_[i] = false;
+	}
 
 	isLflag = false;
 	isRflag = false;
@@ -126,6 +135,41 @@ void Stage3::WindOn(const Matrix4& position, const Vector3& velocity)
 
 	// 弾を生成し、初期化
 	std::unique_ptr < Wind> newWind = std::make_unique<Wind>();
+
+	//プロペラSE
+	if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3]||isrotation_[4])
+	{
+		if (HandleFlag3 == false)
+		{
+			if (isrotation_[0] || isrotation_[1] || isrotation_[2] || isrotation_[3]||isrotation_[4])
+			{
+				if (HandleFlag3 == false)
+				{
+					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
+					HandleFlag3 = true;
+				}
+			}
+		}
+	}
+
+	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2] && !isrotation_[3]&&!isrotation_[4])
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag3 = false;
+	}
+
+	//Pauseを押すとSE停止
+	if (input_->TriggerKey(DIK_ESCAPE))
+	{
+		audio_->StopWave(SEHandle_);
+		HandleFlag3 = true;
+	}
+
+	for (size_t i = 0; i < _countof(worldTransforms_); i++)
+	{
+		// 行列更新
+		worldTransforms_[i].matWorld_ = Mat_Identity();
+		worldTransforms_[i].matWorld_ = MatWorld(worldTransforms_[i].scale_, worldTransforms_[i].rotation_, worldTransforms_[i].translation_);
 
 	newWind->Initialize(position, velocity);
 

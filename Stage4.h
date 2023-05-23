@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include <list>
 #include "Wind.h"
+#include"Audio.h"
 
 class Stage4
 {
@@ -37,6 +38,7 @@ private:
 	DebugText* debugText_ = nullptr;
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
+	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
 
 	// ’e‚Ì‘¬“x
@@ -53,5 +55,12 @@ private:
 	Vector3 Dvelocity;
 
 	std::list<std::unique_ptr<Wind>> winds_;
+
+	int DebugText4;
+
+	//SE
+	uint32_t PropellerSE_ = 0;
+	uint32_t SEHandle_ = 0;
+	uint32_t HandleFlag4 = false;
 };
 

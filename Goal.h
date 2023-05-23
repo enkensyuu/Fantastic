@@ -29,5 +29,8 @@ private:
 
 	uint32_t texture_ = 0;
 
+	void OnCollision() { isGoal = true; }
+	const Vector3 GetWorldPosition() { return worldTransform_.translation_; }
+	const Vector3 GetRadius() { return worldTransform_.scale_; }
 };
 
