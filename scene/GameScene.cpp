@@ -274,11 +274,6 @@ GameScene::~GameScene() {
 	delete backGround3_;
 	delete backGround4_;
 	delete backGround5_;
-GameScene::~GameScene()
-{
-	delete Title_;
-	delete Explanation_;
-	delete StageChoice_;
 }
 
 void GameScene::Initialize() {
@@ -302,7 +297,6 @@ void GameScene::Initialize() {
 
 	closeGame_ = false;
 
-	scene_ = TITLE;
 	StageTimer = 1;
 	Select = 0;
 	RingFlag = 0;
@@ -310,17 +304,6 @@ void GameScene::Initialize() {
 	SelectFlag = 0;
 	SceneStageFlag1 = 0;
 	PauseFlag = 0;
-	//Stage1HandleFlag = true;
-   /*Stage2HandleFlag = true;
-	Stage3HandleFlag = true;
-	Stage4HandleFlag = true;
-	Stage5HandleFlag = true;*/
-	//BGM止める
-	audio_->StopWave(Stage1BGMHandle_);
-	audio_->StopWave(Stage2BGMHandle_);
-	audio_->StopWave(Stage3BGMHandle_);
-	audio_->StopWave(Stage4BGMHandle_);
-	audio_->StopWave(Stage5BGMHandle_);
 
 	//テクスチャを入れ込む
 	textureHandle_[0] = TextureManager::Load("exchange.png"); //ゲーム説明
@@ -367,12 +350,6 @@ void GameScene::Initialize() {
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
 	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
 
-	//3Dモデル
-	/*PlayerModel_ = Model::CreateFromOBJ("Player");
-	worldTransform_.translation_ = { -25.0f,-10.0f,0 };
-
-	viewProjection_.Initialize();*/
-
 	//SEデータ
 	StageSelectSE_ = audio_->LoadWave("SE/StageSelection.mp3");
 
@@ -383,44 +360,6 @@ void GameScene::Initialize() {
 	Stage3BGM_ = audio_->LoadWave("BGM/Stage3BGM.mp3");
 	Stage4BGM_ = audio_->LoadWave("BGM/Stage4BGM.mp3");
 	Stage5BGM_ = audio_->LoadWave("BGM/Stage5BGM.mp3");
-
-
-	stage1_ = new Stage1;
-	stage1_->Initialize();
-
-	stage2_ = new Stage2;
-	stage2_->Initialize();
-
-	stage3_ = new Stage3;
-	stage3_->Initialize();
-
-	stage4_ = new Stage4;
-	stage4_->Initialize();
-
-	stage5_ = new Stage5;
-	stage5_->Initialize();
-
-	player_ = new Player;
-
-	balloon_ = new Balloon;
-	balloon_->Initialize(-5, 10);
-
-	silverKey_ = new SilverKey;
-	silverKey_->Initialize(65, 60);
-
-	windPower_ = new WindPower;
-	windPower_->Initialize(-5, -5);
-
-	magmaBlock_ = new MagmaBlock;
-	magmaBlock_->Initialize(0, -10);
-
-	door_ = new Door;
-	door_->Initialize(110, 55);
-
-	goal_ = new Goal;
-	goal_->Initialize(114, 7);
-
-	scene_ = TITLE;
 
 	// 3Dモデルの生成
 	model_ = Model::Create();
@@ -444,404 +383,60 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	switch (scene_)
 	{
-		case TITLE:
-
-			Initialize();
-			isGoal_ = false;
-
-			debugText_->SetPos(50, 50);
-			debugText_->Printf("PUSH_SPACE");
-
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
-				scene_ = ONE;
-			}
-
-			break;
-
-		case ONE:
-
-			// プレイヤー
-			player_->Update(CollisionStageFlag(player_, stage_));
-			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-			player_->IsDead();
-
-			// ステージ
-			stage_->Update();
-			stage1_->Update();
-
-			// ギミック
-			silverKey_->Update();
-			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
-
-			door_->Update(isOpen_, isKeyOpen_);
-
-			CheckAllCollisions();
-
-			// クリア
-			if (isGoal_)
-			{
-				scene_ = GameClear;
-			}
-
-			// ゲームオーバー
-			if (player_->IsGetDead())
-			{
-				scene_ = GameOver;
-			}
-
-			// リセット
-			if (input_->TriggerKey(DIK_R))
-			{
-				stage1_->Initialize();
-				silverKey_->Initialize(65, 60);
-				door_->Initialize(110, 55);
-				isGetKey_ = false;
-				isKeyOpen_ = false;
-			}
-
-			// スキップ(後で消す)
-			if (input_->TriggerKey(DIK_SPACE)) 
-			{
-				scene_ = GameClear;
-			}
-
-			break;
-
-		case TWO:
-
-			// プレイヤー
-			player_->Update(CollisionStageFlag(player_, stage_));
-			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-			player_->IsDead();
-
-			// ステージ
-			stage_->Update();
-			stage1_->Update();
-
-			// ギミック
-			silverKey_->Update();
-			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
-
-			door_->Update(isOpen_, isKeyOpen_);
-
-			CheckAllCollisions();
-
-			// クリア
-			if (isGoal_)
-			{
-				scene_ = GameClear;
-			}
-
-			// ゲームオーバー
-			if (player_->IsGetDead())
-			{
-				scene_ = GameOver;
-			}
-
-			// リセット
-			if (input_->TriggerKey(DIK_R))
-			{
-				stage1_->Initialize();
-				silverKey_->Initialize(65, 60);
-				door_->Initialize(110, 55);
-				isGetKey_ = false;
-				isKeyOpen_ = false;
-			}
-
-			// スキップ(後で消す)
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				scene_ = GameClear;
-			}
-
-			debugText_->SetPos(50, 120);
-			debugText_->Printf("stageFlag_:%d", stageFlag);
-
-			break;
-
-		case THREE:
-
-			// プレイヤー
-			player_->Update(CollisionStageFlag(player_, stage_));
-			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-			player_->IsDead();
-
-			// ステージ
-			stage_->Update();
-			stage1_->Update();
-
-			// ギミック
-			silverKey_->Update();
-			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
-
-			door_->Update(isOpen_, isKeyOpen_);
-
-			CheckAllCollisions();
-
-			// クリア
-			if (isGoal_)
-			{
-				scene_ = GameClear;
-			}
-
-			// ゲームオーバー
-			if (player_->IsGetDead())
-			{
-				scene_ = GameOver;
-			}
-
-			// リセット
-			if (input_->TriggerKey(DIK_R))
-			{
-				stage1_->Initialize();
-				silverKey_->Initialize(65, 60);
-				door_->Initialize(110, 55);
-				isGetKey_ = false;
-				isKeyOpen_ = false;
-			}
-
-			// スキップ(後で消す)
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				scene_ = GameClear;
-			}
-
-			break;
-
-		case FOUR:
-
-			// プレイヤー
-			player_->Update(CollisionStageFlag(player_, stage_));
-			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-			player_->IsDead();
-
-			// ステージ
-			stage_->Update();
-			stage1_->Update();
-
-			// ギミック
-			silverKey_->Update();
-			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
-
-			door_->Update(isOpen_, isKeyOpen_);
-
-			CheckAllCollisions();
-
-			// クリア
-			if (isGoal_)
-			{
-				scene_ = GameClear;
-			}
-
-			// ゲームオーバー
-			if (player_->IsGetDead())
-			{
-				scene_ = GameOver;
-			}
-
-			// リセット
-			if (input_->TriggerKey(DIK_R))
-			{
-				stage1_->Initialize();
-				silverKey_->Initialize(65, 60);
-				door_->Initialize(110, 55);
-				isGetKey_ = false;
-				isKeyOpen_ = false;
-			}
-
-			// スキップ(後で消す)
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				scene_ = GameClear;
-			}
-
-			break;
-
-		case FIVE:
-
-			// プレイヤー
-			player_->Update(CollisionStageFlag(player_, stage_));
-			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
-			player_->IsDead();
-
-			// ステージ
-			stage_->Update();
-			stage1_->Update();
-
-			// ギミック
-			silverKey_->Update();
-			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
-
-			door_->Update(isOpen_, isKeyOpen_);
-
-			CheckAllCollisions();
-
-			// クリア
-			if (isGoal_)
-			{
-				scene_ = GameClear;
-			}
-
-			// ゲームオーバー
-			if (player_->IsGetDead())
-			{
-				scene_ = GameOver;
-			}
-
-			// リセット
-			if (input_->TriggerKey(DIK_R))
-			{
-				stage1_->Initialize();
-				silverKey_->Initialize(65, 60);
-				door_->Initialize(110, 55);
-				isGetKey_ = false;
-				isKeyOpen_ = false;
-			}
-
-			// スキップ(後で消す)
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				scene_ = GameClear;
-			}
-
-			break;
-
-		case GameOver:
-
-			if (input_->TriggerKey(DIK_SPACE))
-			{
-				scene_ = TITLE;
-			}
-
-			break;
-
-		case GameClear:
-
-			if (input_->TriggerKey(DIK_SPACE) && stageFlag == 0)
-			{
-				Initialize();
-				isGoal_ = false;
-
-				stageFlag = 1;
-
-				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
-
-				scene_ = TWO;
-			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 1)
-			{
-				Initialize();
-				isGoal_ = false;
-
-				stageFlag = 2;
-
-				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
-
-				scene_ = THREE;
-			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 2)
-			{
-				Initialize();
-				isGoal_ = false;
-
-				stageFlag = 3;
-
-				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
-
-				scene_ = FOUR;
-			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 3)
-			{
-				Initialize();
-				isGoal_ = false;
-
-				stageFlag = 4;
-
-				Parameter({ 0.0f, 0.0f, -20.0f }, stageFlag);
-
-				scene_ = FIVE;
-			}
-			else if (input_->TriggerKey(DIK_SPACE) && stageFlag == 4)
-			{
-				scene_ = TITLE;
-			}
-
-			break;
-	}
-
 	case TITLE:
+
 		Initialize();
-		GameTimer_ += 1;
-		if (TitleHandleFlag == false)
-		{
-			TitleBGMHandle_ = audio_->PlayWave(TitleBGM_, false);
-			TitleHandleFlag = true;
-		}
+		isGoal_ = false;
 
 		if (input_->TriggerKey(DIK_SPACE))
 		{
-			scene_ = EXPLANATION;
-		}
-		break;
-
-	case EXPLANATION:
-
-		//BGM止める
-		/*audio_->StopWave(TitleBGMHandle_);
-		audio_->StopWave(Stage1BGMHandle_);
-		audio_->StopWave(Stage2BGMHandle_);
-		audio_->StopWave(Stage3BGMHandle_);
-		audio_->StopWave(Stage4BGMHandle_);
-		audio_->StopWave(Stage5BGMHandle_);
-		*/
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			scene_ = OPERATION;
+			scene_ = INSTRUCTIONS;
 			StageTimer = 0;
 		}
+
 		break;
 
-	case OPERATION:
+	case INSTRUCTIONS:
+
 		if (input_->TriggerKey(DIK_SPACE))
 		{
-			scene_ = STAGECHOICE;
+			scene_ = SELECT;
 			PauseFlag = 0;
 			StageTimer = 1;
 			if (SceneStageFlag1 == 1)
 			{
-				scene_ = THREE;
+				scene_ = STAGE1;
 				SceneStageFlag1 = 0;
 			}
 
 			if (SceneStageFlag2 == 1)
 			{
-				scene_ = FOUR;
+				scene_ = STAGE2;
 				SceneStageFlag2 = 0;
 			}
 
 			if (SceneStageFlag3 == 1)
 			{
-				scene_ = FIVE;
+				scene_ = STAGE3;
 				SceneStageFlag3 = 0;
 			}
 
 			if (SceneStageFlag4 == 1)
 			{
-				scene_ = SIX;
+				scene_ = STAGE4;
 				SceneStageFlag4 = 0;
 			}
 
 			if (SceneStageFlag5 == 1)
 			{
-				scene_ = SEVEN;
+				scene_ = STAGE5;
 				SceneStageFlag5 = 0;
 			}
 		}
 
-	case STAGECHOICE: //ステージ選択
+		break;
 
+	case SELECT:
 		if (input_->TriggerKey(DIK_RIGHT))
 		{
 			StageTimer += 1;
@@ -866,37 +461,36 @@ void GameScene::Update() {
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage1BGMHandle_ = audio_->PlayWave(Stage1BGM_, true);
-			scene_ = THREE;
+			scene_ = STAGE1;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 2)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage2BGMHandle_ = audio_->PlayWave(Stage2BGM_, true);
-			scene_ = FOUR;
+			scene_ = STAGE2;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage3BGMHandle_ = audio_->PlayWave(Stage3BGM_, true);
-			scene_ = FIVE;
+			scene_ = STAGE3;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 4)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage4BGMHandle_ = audio_->PlayWave(Stage4BGM_, true);
-			scene_ = SIX;
+			scene_ = STAGE4;
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 5)
 		{
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage5BGMHandle_ = audio_->PlayWave(Stage5BGM_, true);
-			scene_ = SEVEN;
+			scene_ = STAGE5;
 		}
-
 
 		//マイナスに行かないようにする
 		if (StageTimer < 1)
@@ -912,300 +506,27 @@ void GameScene::Update() {
 
 		Select = 1;
 		PauseFlag = 0;
+		break;
 
-
-	case THREE: //ステージ1//
-		stage1_->Update();
-
-		audio_->SetVolume(Stage1BGMHandle_, 0.25f);
-
-		//Pause画面
-		if (input_->PushKey(DIK_ESCAPE))
-		{
-			PauseFlag = 1;
-		}
-
-		//Pause画面の下移動
-		if (input_->TriggerKey(DIK_DOWN))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_S))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		//Pause画面の上移動
-		if (input_->TriggerKey(DIK_UP))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_W))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (Select < 1)
-		{
-			Select = 5;
-		}
-
-		if (Select > 5)
-		{
-			Select = 1;
-		}
-
-		//Pauseの処理//
-
-		//ゲームを続ける
-		if (input_->TriggerKey(DIK_RETURN) && Select == 1)
-		{
-			PauseFlag = 0;
-		}
-
-		//リセット
-		if (input_->TriggerKey(DIK_RETURN) && Select == 2)
-		{
-			stage1_->Initialize();
-			PauseFlag = 0;
-		}
-
-		//ゲーム説明の戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-		{
-			scene_ = EXPLANATION;
-			SceneStageFlag1 = 1;
-			PauseFlag = 0;
-		}
-
-		//ステージ選択に戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 4)
-		{
-			scene_ = STAGECHOICE;
-			audio_->StopWave(Stage1BGMHandle_);
-			PauseFlag = 0;
-		}
-
-		//ゲームをやめる
-		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
-		{
-			closeGame_ = true;
-		}
-
+	case STAGE1:
 
 		break;
 
-	case FOUR: //ステージ2
+	case STAGE2:
 
-		stage2_->Update();
-
-		audio_->SetVolume(Stage2BGMHandle_, 0.15f);
-
-		//Pause画面の下移動
-		if (input_->TriggerKey(DIK_DOWN))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_S))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		//Pause画面の上移動
-		if (input_->TriggerKey(DIK_UP))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_W))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (Select < 1)
-		{
-			Select = 5;
-		}
-
-		if (Select > 5)
-		{
-			Select = 1;
-		}
-
-		//Pauseの処理//
-
-			//Pause画面
-		if (input_->PushKey(DIK_ESCAPE))
-		{
-			PauseFlag = 1;
-		}
-
-		//ゲームを続ける
-		if (input_->TriggerKey(DIK_RETURN) && Select == 1)
-		{
-			PauseFlag = 0;
-		}
-
-		//リセット
-		if (input_->TriggerKey(DIK_RETURN) && Select == 2)
-		{
-			stage2_->Initialize();
-			PauseFlag = 0;
-		}
-
-		//ゲーム説明の戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-		{
-			SceneStageFlag2 = 1;
-			scene_ = EXPLANATION;
-		}
-
-		//ステージ選択に戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 4)
-		{
-			audio_->StopWave(Stage2BGMHandle_);
-			scene_ = STAGECHOICE;
-		}
-
-		//ゲームをやめる
-		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
-		{
-			closeGame_ = true;
-		}
 		break;
 
+	case STAGE3:
 
-	case FIVE: //ステージ3//
-
-		stage3_->Update();
-
-		audio_->SetVolume(Stage3BGMHandle_, 0.15f);
-
-		//Pause画面の下移動
-		if (input_->TriggerKey(DIK_DOWN))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_S))
-		{
-			if (PauseFlag == 1)
-			{
-				Select++;
-				SelectFlag = 1;
-			}
-		}
-
-		//Pause画面の上移動
-		if (input_->TriggerKey(DIK_UP))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (input_->TriggerKey(DIK_W))
-		{
-			if (PauseFlag == 1)
-			{
-				Select--;
-				SelectFlag = 1;
-			}
-		}
-
-		if (Select < 1)
-		{
-			Select = 5;
-		}
-
-		if (Select > 5)
-		{
-			Select = 1;
-		}
-
-		//Pauseの処理//
-
-		//Pause画面
-		if (input_->PushKey(DIK_ESCAPE))
-		{
-			PauseFlag = 1;
-		}
-
-		//ゲームを続ける
-		if (input_->TriggerKey(DIK_RETURN) && Select == 1)
-		{
-			PauseFlag = 0;
-		}
-
-		//リセット
-		if (input_->TriggerKey(DIK_RETURN) && Select == 2)
-		{
-			stage3_->Initialize();
-			PauseFlag = 0;
-		}
-
-		//ゲーム説明の戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 3)
-		{
-			scene_ = EXPLANATION;
-			SceneStageFlag3 = 1;
-		}
-
-		//ステージ選択に戻る
-		if (input_->TriggerKey(DIK_RETURN) && Select == 4)
-		{
-			audio_->StopWave(Stage3BGMHandle_);
-			scene_ = STAGECHOICE;
-		}
-
-		//ゲームをやめる
-		if (input_->TriggerKey(DIK_RETURN) && Select == 5)
-		{
-			closeGame_ = true;
-		}
 		break;
 
+	case STAGE4:
+
+		break;
+
+	case STAGE5:
+
+		break;
 
 	case SIX: //ステージ4//
 
@@ -1398,7 +719,7 @@ void GameScene::Update() {
 			closeGame_ = true;
 		}
 		break;
-	}
+}
 }
 
 void GameScene::Draw() {
@@ -1499,45 +820,45 @@ void GameScene::Draw() {
 
 	switch (scene_)
 	{
-		case TITLE:
+	case TITLE:
 
-			break;
+		break;
 
-		case ONE:
+	case ONE:
 
-			backGround1_->Draw();
+		backGround1_->Draw();
 
-			break;
+		break;
 
-		case TWO:
+	case TWO:
 
-			backGround1_->Draw();
+		backGround1_->Draw();
 
-			break;
+		break;
 
-		case THREE:
+	case THREE:
 
-			break;
+		break;
 
-		case FOUR:
+	case FOUR:
 
-			break;
+		break;
 
-		case FIVE:
+	case FIVE:
 
-			break;
+		break;
 
-		case GameOver:
+	case GameOver:
 
-			gameOver_->Draw();
+		gameOver_->Draw();
 
-			break;
+		break;
 
-		case GameClear:
+	case GameClear:
 
-			gameClear_->Draw();
+		gameClear_->Draw();
 
-			break;
+		break;
 	}
 
 	// スプライト描画後処理
@@ -1555,64 +876,64 @@ void GameScene::Draw() {
 	/// </summary>
 	switch (scene_)
 	{
-		case TITLE:
+	case TITLE:
 
-			break;
+		break;
 
-		case ONE:
+	case ONE:
 
-			stage_->Draw(viewProjection_);
-			stage1_->Draw(viewProjection_);
-			player_->Draw(viewProjection_);
-			silverKey_->Draw(viewProjection_);
-			door_->Draw(viewProjection_);
-			goal_->Draw(viewProjection_);
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 
-			break;
+		break;
 
-		case TWO:
+	case TWO:
 
-			stage_->Draw(viewProjection_);
-			stage1_->Draw(viewProjection_);
-			player_->Draw(viewProjection_);
-			silverKey_->Draw(viewProjection_);
-			door_->Draw(viewProjection_);
-			goal_->Draw(viewProjection_);
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 
-			break;
+		break;
 
-		case THREE:
+	case THREE:
 
-			stage_->Draw(viewProjection_);
-			stage1_->Draw(viewProjection_);
-			player_->Draw(viewProjection_);
-			silverKey_->Draw(viewProjection_);
-			door_->Draw(viewProjection_);
-			goal_->Draw(viewProjection_);
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 
-			break;
+		break;
 
-		case FOUR:
+	case FOUR:
 
-			stage_->Draw(viewProjection_);
-			stage1_->Draw(viewProjection_);
-			player_->Draw(viewProjection_);
-			silverKey_->Draw(viewProjection_);
-			door_->Draw(viewProjection_);
-			goal_->Draw(viewProjection_);
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 
-			break;
+		break;
 
-		case FIVE:
+	case FIVE:
 
-			stage_->Draw(viewProjection_);
-			stage1_->Draw(viewProjection_);
-			player_->Draw(viewProjection_);
-			silverKey_->Draw(viewProjection_);
-			door_->Draw(viewProjection_);
-			goal_->Draw(viewProjection_);
+		stage_->Draw(viewProjection_);
+		stage1_->Draw(viewProjection_);
+		player_->Draw(viewProjection_);
+		silverKey_->Draw(viewProjection_);
+		door_->Draw(viewProjection_);
+		goal_->Draw(viewProjection_);
 
-			break;
+		break;
 
 	case TITLE:
 		break;
@@ -1926,41 +1247,406 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 	return false;
 }
 
-bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
+
+void GameScene::STage1Initialize()
 {
-	// 各座標変数の宣言
-	Vector3 pPos = p->GetWorldPosition();
-	float pRadius = 3.0f;
-	float pX1, pX2, pY1, pY2;
-	// プレイヤーの矩形座標
-	pX1 = pPos.x - pRadius;
-	pX2 = pPos.x + pRadius;
-	pY1 = pPos.y - pRadius;
-	pY2 = pPos.y + pRadius;
+	stage1_ = new Stage1;
+	stage1_->Initialize();
 
-	// プレイヤーLeftTop座標
-	int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
-	int isFloor = 0;
+	player_ = new Player;
+	Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
 
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 2; j++) {
-			// 各座標変数の宣言
-			Vector3 bPos = s->GetBlockPosition(pLT[0] + i, pLT[1] + j);
-			float bRadius = s->GetRadius();
-			float bX1, bX2, bY1, bY2;
-			// ブロックの矩形座標
-			bX1 = bPos.x - bRadius;
-			bX2 = bPos.x + bRadius;
-			bY1 = bPos.y - bRadius;
-			bY2 = bPos.y + bRadius;
+	silverKey_ = new SilverKey;
+	silverKey_->Initialize(65, 60);
 
-			// 当たり判定
-			if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
-				return true;
-			}
+	door_ = new Door;
+	door_->Initialize(110, 55);
+
+	goal_ = new Goal;
+	goal_->Initialize(114, 7);
+}
+void GameScene::STage2Initialize()
+{
+	stage2_ = new Stage2;
+	stage2_->Initialize();
+
+	player_ = new Player;
+
+	balloon_ = new Balloon;
+	balloon_->Initialize(-5, 10);
+
+	silverKey_ = new SilverKey;
+	silverKey_->Initialize(65, 60);
+
+	windPower_ = new WindPower;
+	windPower_->Initialize(-5, -5);
+
+	magmaBlock_ = new MagmaBlock;
+	magmaBlock_->Initialize(0, -10);
+
+	door_ = new Door;
+	door_->Initialize(110, 55);
+
+	goal_ = new Goal;
+	goal_->Initialize(114, 7);
+
+}
+void GameScene::STage3Initialize()
+{
+	stage1_ = new Stage1;
+	stage1_->Initialize();
+
+	stage2_ = new Stage2;
+	stage2_->Initialize();
+
+	stage3_ = new Stage3;
+	stage3_->Initialize();
+
+	stage4_ = new Stage4;
+	stage4_->Initialize();
+
+	stage5_ = new Stage5;
+	stage5_->Initialize();
+
+	player_ = new Player;
+
+	balloon_ = new Balloon;
+	balloon_->Initialize(-5, 10);
+
+	silverKey_ = new SilverKey;
+	silverKey_->Initialize(65, 60);
+
+	windPower_ = new WindPower;
+	windPower_->Initialize(-5, -5);
+
+	magmaBlock_ = new MagmaBlock;
+	magmaBlock_->Initialize(0, -10);
+
+	door_ = new Door;
+	door_->Initialize(110, 55);
+
+	goal_ = new Goal;
+	goal_->Initialize(114, 7);
+
+	scene_ = TITLE;
+}
+void GameScene::STage4Initialize()
+{
+}
+void GameScene::STage5Initialize()
+{
+}
+
+void GameScene::Stage1Update()
+{
+	// プレイヤー
+	player_->Update(CollisionStageFlag(player_, stage_));
+	player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+	player_->IsDead();
+
+	// ステージ
+	stage_->Update();
+
+	// ギミック
+	silverKey_->Update();
+	silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+	door_->Update(isOpen_, isKeyOpen_);
+
+	stage1_->Update();
+
+	audio_->SetVolume(Stage1BGMHandle_, 0.25f);
+
+	//Pause画面
+	if (input_->PushKey(DIK_ESCAPE))
+	{
+		PauseFlag = 1;
+	}
+
+	//Pause画面の下移動
+	if (input_->TriggerKey(DIK_DOWN))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
 		}
 	}
 
-	return false;
+	if (input_->TriggerKey(DIK_S))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
+		}
+	}
+
+	//Pause画面の上移動
+	if (input_->TriggerKey(DIK_UP))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_W))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (Select < 1)
+	{
+		Select = 5;
+	}
+
+	if (Select > 5)
+	{
+		Select = 1;
+	}
+
+	//Pauseの処理//
+
+	//ゲームを続ける
+	if (input_->TriggerKey(DIK_RETURN) && Select == 1)
+	{
+		PauseFlag = 0;
+	}
+
+	//リセット
+	if (input_->TriggerKey(DIK_RETURN) && Select == 2)
+	{
+		stage1_->Initialize();
+		PauseFlag = 0;
+	}
+
+	//ゲーム説明の戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 3)
+	{
+		scene_ = INSTRUCTIONS;
+		SceneStageFlag1 = 1;
+		PauseFlag = 0;
+	}
+
+	//ステージ選択に戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+	{
+		scene_ = SELECT;
+		audio_->StopWave(Stage1BGMHandle_);
+		PauseFlag = 0;
+	}
+
+	//ゲームをやめる
+	if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+	{
+		closeGame_ = true;
+	}
 }
+
+void GameScene::Stage2Update()
+{
+	stage2_->Update();
+
+	audio_->SetVolume(Stage2BGMHandle_, 0.15f);
+
+	//Pause画面の下移動
+	if (input_->TriggerKey(DIK_DOWN))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_S))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
+		}
+	}
+
+	//Pause画面の上移動
+	if (input_->TriggerKey(DIK_UP))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_W))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (Select < 1)
+	{
+		Select = 5;
+	}
+
+	if (Select > 5)
+	{
+		Select = 1;
+	}
+
+	//Pauseの処理//
+
+		//Pause画面
+	if (input_->PushKey(DIK_ESCAPE))
+	{
+		PauseFlag = 1;
+	}
+
+	//ゲームを続ける
+	if (input_->TriggerKey(DIK_RETURN) && Select == 1)
+	{
+		PauseFlag = 0;
+	}
+
+	//リセット
+	if (input_->TriggerKey(DIK_RETURN) && Select == 2)
+	{
+		stage2_->Initialize();
+		PauseFlag = 0;
+	}
+
+	//ゲーム説明の戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 3)
+	{
+		SceneStageFlag2 = 1;
+		scene_ = INSTRUCTIONS;
+	}
+
+	//ステージ選択に戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+	{
+		audio_->StopWave(Stage2BGMHandle_);
+		scene_ = SELECT;
+	}
+
+	//ゲームをやめる
+	if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+	{
+		closeGame_ = true;
+	}
+}
+
+void GameScene::Stage3Update()
+{
+	stage3_->Update();
+
+	audio_->SetVolume(Stage3BGMHandle_, 0.15f);
+
+	//Pause画面の下移動
+	if (input_->TriggerKey(DIK_DOWN))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_S))
+	{
+		if (PauseFlag == 1)
+		{
+			Select++;
+			SelectFlag = 1;
+		}
+	}
+
+	//Pause画面の上移動
+	if (input_->TriggerKey(DIK_UP))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_W))
+	{
+		if (PauseFlag == 1)
+		{
+			Select--;
+			SelectFlag = 1;
+		}
+	}
+
+	if (Select < 1)
+	{
+		Select = 5;
+	}
+
+	if (Select > 5)
+	{
+		Select = 1;
+	}
+
+	//Pauseの処理//
+
+	//Pause画面
+	if (input_->PushKey(DIK_ESCAPE))
+	{
+		PauseFlag = 1;
+	}
+
+	//ゲームを続ける
+	if (input_->TriggerKey(DIK_RETURN) && Select == 1)
+	{
+		PauseFlag = 0;
+	}
+
+	//リセット
+	if (input_->TriggerKey(DIK_RETURN) && Select == 2)
+	{
+		stage3_->Initialize();
+		PauseFlag = 0;
+	}
+
+	//ゲーム説明の戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 3)
+	{
+		scene_ = EXPLANATION;
+		SceneStageFlag3 = 1;
+	}
+
+	//ステージ選択に戻る
+	if (input_->TriggerKey(DIK_RETURN) && Select == 4)
+	{
+		audio_->StopWave(Stage3BGMHandle_);
+		scene_ = STAGECHOICE;
+	}
+
+	//ゲームをやめる
+	if (input_->TriggerKey(DIK_RETURN) && Select == 5)
+	{
+		closeGame_ = true;
+	}
+}
+
+void GameScene::Stage4Update()
+{
+
+}
+
+void GameScene::Stage5Update()
+{
+
 }

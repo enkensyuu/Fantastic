@@ -60,6 +60,18 @@ public: // メンバ関数
 	bool CollisionStageFlag(Player* p, stage* s);
 	bool CollisionKeyFlag(SilverKey* p, stage* s);
 
+	void STage1Initialize();
+	void STage2Initialize();
+	void STage3Initialize();
+	void STage4Initialize();
+	void STage5Initialize();
+
+	void Stage1Update();
+	void Stage2Update();
+	void Stage3Update();
+	void Stage4Update();
+	void Stage5Update();
+
 private: // メンバ変数
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
