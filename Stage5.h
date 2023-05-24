@@ -34,11 +34,17 @@ private:
 	Vector3 rotationSpeedX = { 1.0f,0.0f,0.0f };
 	Vector3 rotationSpeedY = { 0.0f,1.0f,0.0f };
 
+	//uint32_t textureHandle2_[10];
+
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
 	Input* input_ = nullptr;
 	Model* model_ = nullptr;
+	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
+	//Sprite* BackGroud_ = nullptr; 
+
+	int DebugText;
 
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
@@ -55,19 +61,4 @@ private:
 
 	std::list<std::unique_ptr<Wind>> winds_;
 };
-		ViewProjection viewProjection_;
-		DebugText* debugText_ = nullptr;
-		Input* input_ = nullptr;
-		Model* model_ = nullptr;
-		Audio* audio_ = nullptr;
-		uint32_t texture_ = 0;
-
-		int DebugText5;
-
-		//SE
-		uint32_t PropellerSE_ = 0;
-		uint32_t SEHandle_ = 0;
-		uint32_t HandleFlag5 = false;
-
-	};
 

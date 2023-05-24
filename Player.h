@@ -24,6 +24,8 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	bool GetStopMove() { return isMove_; }
+
 	// “–‚½‚è”»’è
 	void OnCollisionStage(bool collisionFlag);
 	void Collision(Vector3 speed);

@@ -14,20 +14,15 @@ void Stage2::Initialize()
 	texture_ = TextureManager::Load("white.png");
 	model_ = Model::CreateFromOBJ("fan");
 	//model_ = Model::Create();
-	model_ = Model::Create();
 	audio_ = Audio::GetInstance();
+
+	//BackGroud_ = Sprite::Create(textureHandle2_[0], { 0,0 });
+
 
 	Lvelocity = { -kBulletSpeed,0,0 };
 	Rvelocity = { +kBulletSpeed,0,0 };
 	Uvelocity = { 0,+kBulletSpeed,0 };
 	Dvelocity = { 0,-kBulletSpeed,0 };
-	//SEデータ
-	PropellerSE_ = audio_->LoadWave("SE/Wind.mp3");
-
-	for (size_t i = 0; i < _countof(isrotation_); i++)
-	{
-		isrotation_[i] = false;
-	}
 
 	isLflag = false;
 	isRflag = false;
@@ -63,6 +58,7 @@ void Stage2::Initialize()
 
 void Stage2::Update()
 {
+	//SEHandle_ = audio_->PlayWave(PropellerSE_, true);
 	// デスフラグの立った弾を削除
 	winds_.remove_if([](std::unique_ptr<Wind>& wind)
 		{
@@ -72,14 +68,30 @@ void Stage2::Update()
 
 	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
-		isRflag = false;
-		isUflag = true;
+		if (!isUflag)
+		{
+			isRflag = false;
+			isUflag = true;
+		}
+
+		else
+		{
+			isUflag = false;
+		}
 	}
 
 	else if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
 	{
-		isRflag = true;
-		isUflag = false;
+		if (!isRflag)
+		{
+			isRflag = true;
+			isUflag = false;
+		}
+
+		else
+		{
+			isRflag = false;
+		}
 	}
 
 	if (isRflag)
@@ -90,8 +102,7 @@ void Stage2::Update()
 		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
 		worldTransforms_[1].rotation_ += rotationSpeedX;
 
-		WindOn(worldTransforms_[2].matWorld_, Rvelocity);
-		worldTransforms_[2].rotation_ += rotationSpeedX;
+
 	}
 
 	if (isUflag)
@@ -116,43 +127,6 @@ void Stage2::Update()
 		wind->Update();
 	}
 
-	//ESCを押したら停止
-	/*if (input_->TriggerKey(DIK_ESCAPE))
-	{
-		isrotation_[0] = false;
-		isrotation_[1] = false;
-		isrotation_[2] = false;
-		isrotation_[3] = false;
-	}*/
-
-	//プロペラSE
-	if (isrotation_[0] || isrotation_[1] || isrotation_[2]||isrotation_[3])
-	{
-		if (HandleFlag2 == false)
-		{
-			if (isrotation_[0] || isrotation_[1] || isrotation_[2]||isrotation_[3])
-			{
-				if (HandleFlag2 == false)
-				{
-					SEHandle_ = audio_->PlayWave(PropellerSE_, false);
-					HandleFlag2 = true;
-				}
-			}
-		}
-	}
-
-	if (!isrotation_[0] && !isrotation_[1] && !isrotation_[2]&&!isrotation_[3])
-	{
-		audio_->StopWave(SEHandle_);
-		HandleFlag2 = false;
-	}
-
-	//Pauseを押すとSE停止
-	if (input_->TriggerKey(DIK_ESCAPE))
-	{
-		audio_->StopWave(SEHandle_);
-		HandleFlag2 = true;
-	}
 }
 
 void Stage2::Draw(ViewProjection& viewProjection)
@@ -166,6 +140,9 @@ void Stage2::Draw(ViewProjection& viewProjection)
 	{
 		wind->Draw(viewProjection);
 	}
+
+	/*DebugText::GetInstance()->SetPos(900, 180);
+	DebugText::GetInstance()->Printf("Stage1", DebugText);*/
 }
 
 void Stage2::WindOn(const Matrix4& position, const Vector3& velocity)

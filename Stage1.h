@@ -46,16 +46,6 @@ private:
 
 	int DebugText;
 
-	//SE
-	uint32_t PropellerSE_ = 0;
-	uint32_t SEHandle_ = 0;
-	uint32_t SEHandleFlag = false;
-
-	//BGM
-	uint32_t Stage1BGM_ = 0;
-	uint32_t BGMHandle_ = 0;
-	uint32_t BGMHandleFlag = false;
-
 	// ’e‚Ì‘¬“x
 	const float kBulletSpeed = 0.5f;
 

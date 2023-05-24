@@ -6,7 +6,8 @@ void Player::Initialize(Vector3 pos)
 {
 	debugText_ = DebugText::GetInstance();
 
-	model_ = Model::CreateFromOBJ("Player");
+	model_ = Model::CreateFromOBJ("player");
+	playerSpeed.x = 0.0f;
 
 	worldTransform_.Initialize();
 
@@ -14,7 +15,6 @@ void Player::Initialize(Vector3 pos)
 
 	worldTransform_.translation_ = pos;
 	isMove_ = false;
-	isMove2_ = false;
 
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
@@ -29,14 +29,14 @@ void Player::Update(bool collisionFlag) {
 
 	worldTransform_.translation_ += playerSpeed;
 
-	/*if (!stopG_)
+	if (!stopG_)
 	{
 		playerSpeed.y -= 0.01f;
 	}
 	else if (stopG_ && playerSpeed.x >= 0.01)
 	{
 		playerSpeed.y = 0.0f;
-	}*/
+	}
 
 	if (isMove_)
 	{
@@ -65,10 +65,6 @@ void Player::Update(bool collisionFlag) {
 		}
 	}
 
-	debugText_->SetPos(50, 50);
-	debugText_->Printf("playerSpeed.x:%f",playerSpeed.x);
-	debugText_->SetPos(50, 70);
-	debugText_->Printf("isMove_:%d", isMove_);
 
 	// 行列更新
 	worldTransform_.matWorld_ = Mat_Identity();
@@ -133,5 +129,4 @@ void Player::DethCollision()
 void Player::GetStop()
 {
 	isMove_ = false;
-	isMove2_ = false;
 }

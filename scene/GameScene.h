@@ -55,6 +55,10 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	bool GetClose() { return closeGame_; }
+
+	void CheckAllCollisions();
+
 	void Parameter(const Vector3& playerPos1, const int& stageNum);
 
 	bool CollisionStageFlag(Player* p, stage* s);
@@ -76,15 +80,6 @@ private: // メンバ変数
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
-
-	void CheckAllCollisions();
-
-	bool GetClose() { return closeGame_; }
-
-  private: // メンバ変数
-    WorldTransform worldTransform_;
-	ViewProjection viewProjection_;
-
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -95,13 +90,6 @@ private: // メンバ変数
 	uint32_t stageClearTexture_ = 0;
 	uint32_t gameOverTexture_ = 0;
 	uint32_t gameClearTexture_ = 0;
-
-	// 背景用
-	uint32_t backGroundStage1 = 0;
-	uint32_t backGroundStage2 = 0;
-	uint32_t backGroundStage3 = 0;
-	uint32_t backGroundStage4 = 0;
-	uint32_t backGroundStage5 = 0;
 
 	// スプライト
 	Sprite* title_ = nullptr;
@@ -182,7 +170,7 @@ private: // メンバ変数
 	bool isGetKey_ = false;
 	bool isOpen_;
 	bool isKeyOpen_;
-
+	bool closeGame_;
 	int stageFlag;
 
 	Sprite* Explanation_ = nullptr; //説明 
@@ -213,7 +201,7 @@ private: // メンバ変数
 
 
 	int RingFlag = 0; //枠のフラグ
-	int PauseFlag = 0; //Pause画面のフラグ
+	bool PauseFlag; //Pause画面のフラグ
 	int GameTimer_ = 0;
 	int StageTimer = 0;
 	int StageTimerUpDown = 0;
@@ -224,6 +212,7 @@ private: // メンバ変数
 	int SceneStageFlag3 = 0; //ステージ3フラグ
 	int SceneStageFlag4 = 0; //ステージ4フラグ
 	int SceneStageFlag5 = 0; //ステージ5フラグ
+	bool stopPlay;
 	
 
 	//SE
@@ -257,8 +246,8 @@ private: // メンバ変数
 	uint32_t Stage5BGMHandle_ = 0;
 	uint32_t Stage5HandleFlag = false;
 
+	bool changScene;
 
-	bool closeGame_;
 
 	/// <summary>
 	/// ゲームシーン用

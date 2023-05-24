@@ -8,7 +8,7 @@ void Goal::Initialize(float x, float y)
 
 	worldTransform_.Initialize();
 
-	worldTransform_.scale_ = { 0.25f,0.25f,0.25f };
+	worldTransform_.scale_ = { 0.45f,0.45f,0.45f };
 
 	worldTransform_.rotation_ = { 0,XMConvertToRadians(90),0 };
 
