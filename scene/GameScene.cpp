@@ -1381,174 +1381,174 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	switch (scene_)
 	{
-	case TITLE:
+		case TITLE:
 
-		Initialize();
+			Initialize();
 
-		isGoal_ = false;
+			isGoal_ = false;
 
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			scene_ = INSTRUCTIONS;
-			StageTimer = 0;
-		}
-
-		break;
-
-	case INSTRUCTIONS:
-
-
-		if (input_->TriggerKey(DIK_SPACE))
-		{
-			if (!changScene)
+			if (input_->TriggerKey(DIK_SPACE))
 			{
-				changScene = true;
+				scene_ = INSTRUCTIONS;
+				StageTimer = 0;
 			}
-			else
+
+			break;
+
+		case INSTRUCTIONS:
+
+
+			if (input_->TriggerKey(DIK_SPACE))
 			{
-				scene_ = SELECT;
-				PauseFlag = 0;
+				if (!changScene)
+				{
+					changScene = true;
+				}
+				else
+				{
+					scene_ = SELECT;
+					PauseFlag = 0;
+					StageTimer = 1;
+					if (SceneStageFlag1 == 1)
+					{
+						scene_ = STAGE1;
+						SceneStageFlag1 = 0;
+					}
+
+					else if (SceneStageFlag2 == 1)
+					{
+						scene_ = STAGE2;
+						SceneStageFlag2 = 0;
+					}
+
+					else if (SceneStageFlag3 == 1)
+					{
+						scene_ = STAGE3;
+						SceneStageFlag3 = 0;
+					}
+
+					else if (SceneStageFlag4 == 1)
+					{
+						scene_ = STAGE4;
+						SceneStageFlag4 = 0;
+					}
+
+					else if (SceneStageFlag5 == 1)
+					{
+						scene_ = STAGE5;
+						SceneStageFlag5 = 0;
+					}
+				}
+			}
+
+			break;
+
+		case SELECT:
+			if (input_->TriggerKey(DIK_RIGHT))
+			{
+				StageTimer += 1;
+			}
+
+			if (input_->TriggerKey(DIK_LEFT))
+			{
+				StageTimer -= 1;
+			}
+
+			if (input_->TriggerKey(DIK_D))
+			{
+				StageTimer += 1;
+			}
+
+			if (input_->TriggerKey(DIK_A))
+			{
+				StageTimer -= 1;
+			}
+
+			if (input_->TriggerKey(DIK_RETURN) && StageTimer == 1)
+			{
+				STage1Initialize();
+				StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+				Stage1BGMHandle_ = audio_->PlayWave(Stage1BGM_, true);
+				scene_ = STAGE1;
+			}
+
+			if (input_->TriggerKey(DIK_RETURN) && StageTimer == 2)
+			{
+				StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+				Stage2BGMHandle_ = audio_->PlayWave(Stage2BGM_, true);
+				scene_ = STAGE2;
+				STage2Initialize();
+			}
+
+			if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
+			{
+				StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+				Stage3BGMHandle_ = audio_->PlayWave(Stage3BGM_, true);
+				scene_ = STAGE3;
+			}
+
+			if (input_->TriggerKey(DIK_RETURN) && StageTimer == 4)
+			{
+				StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+				Stage4BGMHandle_ = audio_->PlayWave(Stage4BGM_, true);
+				scene_ = STAGE4;
+			}
+
+			if (input_->TriggerKey(DIK_RETURN) && StageTimer == 5)
+			{
+				StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
+				Stage5BGMHandle_ = audio_->PlayWave(Stage5BGM_, true);
+				scene_ = STAGE5;
+			}
+
+			//マイナスに行かないようにする
+			if (StageTimer < 1)
+			{
+				StageTimer = 5;
+			}
+
+			//右端まで行ったら1に戻す
+			if (StageTimer > 5)
+			{
 				StageTimer = 1;
-				if (SceneStageFlag1 == 1)
-				{
-					scene_ = STAGE1;
-					SceneStageFlag1 = 0;
-				}
-
-				else if (SceneStageFlag2 == 1)
-				{
-					scene_ = STAGE2;
-					SceneStageFlag2 = 0;
-				}
-
-				else if (SceneStageFlag3 == 1)
-				{
-					scene_ = STAGE3;
-					SceneStageFlag3 = 0;
-				}
-
-				else if (SceneStageFlag4 == 1)
-				{
-					scene_ = STAGE4;
-					SceneStageFlag4 = 0;
-				}
-
-				else if (SceneStageFlag5 == 1)
-				{
-					scene_ = STAGE5;
-					SceneStageFlag5 = 0;
-				}
 			}
-		}
 
-		break;
+			Select = 1;
+			PauseFlag = 0;
+			break;
 
-	case SELECT:
-		if (input_->TriggerKey(DIK_RIGHT))
-		{
-			StageTimer += 1;
-		}
+		case STAGE1:
+			Stage1Update();
+			CheckAllCollisions1();
 
-		if (input_->TriggerKey(DIK_LEFT))
-		{
-			StageTimer -= 1;
-		}
+			if (isGoal_ || player_->IsGetDead())
+			{
+				stopPlay = true;
+			}
 
-		if (input_->TriggerKey(DIK_D))
-		{
-			StageTimer += 1;
-		}
+			break;
 
-		if (input_->TriggerKey(DIK_A))
-		{
-			StageTimer -= 1;
-		}
+		case STAGE2:
+			Stage2Update();
+			CheckAllCollisions2();
 
-		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 1)
-		{
-			STage1Initialize();
-			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
-			Stage1BGMHandle_ = audio_->PlayWave(Stage1BGM_, true);
-			scene_ = STAGE1;
-		}
+			if (isGoal_ || player_->IsGetDead())
+			{
+				stopPlay = true;
+			}
+			break;
 
-		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 2)
-		{
-			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
-			Stage2BGMHandle_ = audio_->PlayWave(Stage2BGM_, true);
-			scene_ = STAGE2;
-			STage2Initialize();
-		}
+		case STAGE3:
+			CheckAllCollisions3();
+			break;
 
-		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
-		{
-			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
-			Stage3BGMHandle_ = audio_->PlayWave(Stage3BGM_, true);
-			scene_ = STAGE3;
-		}
+		case STAGE4:
+			CheckAllCollisions4();
+			break;
 
-		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 4)
-		{
-			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
-			Stage4BGMHandle_ = audio_->PlayWave(Stage4BGM_, true);
-			scene_ = STAGE4;
-		}
-
-		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 5)
-		{
-			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
-			Stage5BGMHandle_ = audio_->PlayWave(Stage5BGM_, true);
-			scene_ = STAGE5;
-		}
-
-		//マイナスに行かないようにする
-		if (StageTimer < 1)
-		{
-			StageTimer = 5;
-		}
-
-		//右端まで行ったら1に戻す
-		if (StageTimer > 5)
-		{
-			StageTimer = 1;
-		}
-
-		Select = 1;
-		PauseFlag = 0;
-		break;
-
-	case STAGE1:
-		Stage1Update();
-		CheckAllCollisions1();
-
-		if (isGoal_ || player_->IsGetDead())
-		{
-			stopPlay = true;
-		}
-
-		break;
-
-	case STAGE2:
-		Stage2Update();
-		CheckAllCollisions2();
-
-		if (isGoal_ || player_->IsGetDead())
-		{
-			stopPlay = true;
-		}
-		break;
-
-	case STAGE3:
-		CheckAllCollisions3();
-		break;
-
-	case STAGE4:
-		CheckAllCollisions4();
-		break;
-
-	case STAGE5:
-		CheckAllCollisions5();
-		break;
+		case STAGE5:
+			CheckAllCollisions5();
+			break;
 	}
 }
 
@@ -1567,87 +1567,87 @@ void GameScene::Draw() {
 	/// 
 	switch (scene_)
 	{
-	case TITLE:
-		Title_->Draw();
-		if (GameTimer_ % 30 >= 20)
-		{
-			Space_->Draw();
-		}
+		case TITLE:
+			Title_->Draw();
+			if (GameTimer_ % 30 >= 20)
+			{
+				Space_->Draw();
+			}
 
-		break;
-	case INSTRUCTIONS:
-		if (!changScene)
-		{
-			Explanation_->Draw();
-		}
-		else
-		{
-			Operation_->Draw();
-		}
+			break;
+		case INSTRUCTIONS:
+			if (!changScene)
+			{
+				Explanation_->Draw();
+			}
+			else
+			{
+				Operation_->Draw();
+			}
 
-		break;
+			break;
 
-	case SELECT:
-		StageChoice_->Draw();
-		if (StageTimer == 1)
-		{
-			Waku_->Draw();
-		}
-		if (StageTimer == 2)
-		{
-			Waku2_->Draw();
-		}
-		if (StageTimer == 3)
-		{
-			Waku3_->Draw();
-		}
-		if (StageTimer == 4)
-		{
-			Waku4_->Draw();
-		}
-		if (StageTimer == 5)
-		{
-			Waku5_->Draw();
-		}
-		break;
-	case STAGE1:
-		if (scene_ == STAGE1)
-		{
+		case SELECT:
+			StageChoice_->Draw();
+			if (StageTimer == 1)
+			{
+				Waku_->Draw();
+			}
+			if (StageTimer == 2)
+			{
+				Waku2_->Draw();
+			}
+			if (StageTimer == 3)
+			{
+				Waku3_->Draw();
+			}
+			if (StageTimer == 4)
+			{
+				Waku4_->Draw();
+			}
+			if (StageTimer == 5)
+			{
+				Waku5_->Draw();
+			}
+			break;
+		case STAGE1:
+			if (scene_ == STAGE1)
+			{
 
-			BackGroudStage1_->Draw();
-			Pause_->Draw();
+				BackGroudStage1_->Draw();
+				Pause_->Draw();
 
-			/*DebugText::GetInstance()->SetPos(1700, 30);
-			DebugText::GetInstance()->Printf("Select:%d", Select);*/
-		}
-		break;
-	case STAGE2:
-		if (scene_ == STAGE2)
-		{
-			BackGroudStage2_->Draw();
-			Pause_->Draw();
-		}
-		break;
-	case STAGE3:
-		if (scene_ == STAGE3)
-		{
-			BackGroudStage3_->Draw();
-			Pause_->Draw();
-		}
-		break;
-	case STAGE4:
-		if (scene_ == STAGE4)
-		{
-			BackGroudStage4_->Draw();
-			Pause_->Draw();
-		}
-	case STAGE5:
-		if (scene_ == STAGE5)
-		{
-			BackGroudStage5_->Draw();
-			Pause_->Draw();
-		}
-		break;
+				/*DebugText::GetInstance()->SetPos(1700, 30);
+				DebugText::GetInstance()->Printf("Select:%d", Select);*/
+			}
+			break;
+		case STAGE2:
+			if (scene_ == STAGE2)
+			{
+				BackGroudStage2_->Draw();
+				Pause_->Draw();
+			}
+			break;
+		case STAGE3:
+			if (scene_ == STAGE3)
+			{
+				BackGroudStage3_->Draw();
+				Pause_->Draw();
+			}
+			break;
+		case STAGE4:
+			if (scene_ == STAGE4)
+			{
+				BackGroudStage4_->Draw();
+				Pause_->Draw();
+			}
+		case STAGE5:
+			if (scene_ == STAGE5)
+			{
+				BackGroudStage5_->Draw();
+				Pause_->Draw();
+			}
+			break;
 	}
 
 	// スプライト描画後処理
@@ -1665,70 +1665,70 @@ void GameScene::Draw() {
 	/// </summary>
 	switch (scene_)
 	{
-	case TITLE:
+		case TITLE:
 
-		break;
+			break;
 
-	case INSTRUCTIONS:
-		break;
+		case INSTRUCTIONS:
+			break;
 
-	case SELECT:
-		break;
+		case SELECT:
+			break;
 
-	case STAGE1:
+		case STAGE1:
 
-		stage_->Draw(viewProjection_);
-		stage1_->Draw(viewProjection_);
-		player_->Draw(viewProjection_);
-		silverKey_->Draw(viewProjection_);
-		door_->Draw(viewProjection_);
-		goal_->Draw(viewProjection_);
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
 
-		break;
+			break;
 
-	case STAGE2:
+		case STAGE2:
 
-		stage_->Draw(viewProjection_);
-		stage2_->Draw(viewProjection_);
-		player_->Draw(viewProjection_);
-		silverKey_->Draw(viewProjection_);
-		door_->Draw(viewProjection_);
-		goal_->Draw(viewProjection_);
+			stage_->Draw(viewProjection_);
+			stage2_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
 
-		break;
+			break;
 
-	case STAGE3:
+		case STAGE3:
 
-		stage_->Draw(viewProjection_);
-		stage1_->Draw(viewProjection_);
-		player_->Draw(viewProjection_);
-		silverKey_->Draw(viewProjection_);
-		door_->Draw(viewProjection_);
-		goal_->Draw(viewProjection_);
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
 
-		break;
+			break;
 
-	case STAGE4:
+		case STAGE4:
 
-		stage_->Draw(viewProjection_);
-		stage1_->Draw(viewProjection_);
-		player_->Draw(viewProjection_);
-		silverKey_->Draw(viewProjection_);
-		door_->Draw(viewProjection_);
-		goal_->Draw(viewProjection_);
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
 
-		break;
+			break;
 
-	case STAGE5:
+		case STAGE5:
 
-		stage_->Draw(viewProjection_);
-		stage1_->Draw(viewProjection_);
-		player_->Draw(viewProjection_);
-		silverKey_->Draw(viewProjection_);
-		door_->Draw(viewProjection_);
-		goal_->Draw(viewProjection_);
+			stage_->Draw(viewProjection_);
+			stage1_->Draw(viewProjection_);
+			player_->Draw(viewProjection_);
+			silverKey_->Draw(viewProjection_);
+			door_->Draw(viewProjection_);
+			goal_->Draw(viewProjection_);
 
-		break;
+			break;
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -1743,226 +1743,226 @@ void GameScene::Draw() {
 	/// </summary>
 	switch (scene_)
 	{
-	case TITLE:
-		break;
-	case INSTRUCTIONS:
-		break;
-	case SELECT:
-		break;
-	case STAGE1:
-		if (isGoal_)
-		{
-			gameClear_->Draw();
-		}
-
-		if (player_->IsGetDead())
-		{
-			gameOver_->Draw();
-		}
-
-		if (PauseFlag == 1)
-		{
-			PauseScene_->Draw();
-		}
-		if (PauseFlag == 1)
-		{
-			if (SelectFlag == 1)
+		case TITLE:
+			break;
+		case INSTRUCTIONS:
+			break;
+		case SELECT:
+			break;
+		case STAGE1:
+			if (isGoal_)
 			{
-				if (Select == 1)
-				{
-					PauseSelect_->Draw();
-				}
-
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
-
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
-
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
-
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
-				}
-
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
+				gameClear_->Draw();
 			}
-		}
-		break;
 
-	case STAGE2:
-		if (PauseFlag == 1)
-		{
-			PauseScene_->Draw();
-		}
-		if (PauseFlag == 1)
-		{
-			if (SelectFlag == 1)
+			if (player_->IsGetDead())
 			{
-				if (Select == 1)
-				{
-					PauseSelect_->Draw();
-				}
-
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
-
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
-
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
-
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
-				}
-
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
+				gameOver_->Draw();
 			}
-		}
-		break;
 
-	case STAGE3:
-		if (PauseFlag == 1)
-		{
-			PauseScene_->Draw();
-		}
-		if (PauseFlag == 1)
-		{
-			if (SelectFlag == 1)
+			if (PauseFlag == 1)
 			{
-				if (Select == 1)
-				{
-					PauseSelect_->Draw();
-				}
-
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
-
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
-
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
-
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
-				}
-
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
+				PauseScene_->Draw();
 			}
-		}
-		break;
-
-	case STAGE4:
-		if (PauseFlag == 1)
-		{
-			PauseScene_->Draw();
-		}
-		if (PauseFlag == 1)
-		{
-			if (SelectFlag == 1)
+			if (PauseFlag == 1)
 			{
-				if (Select == 1)
+				if (SelectFlag == 1)
 				{
-					PauseSelect_->Draw();
-				}
+					if (Select == 1)
+					{
+						PauseSelect_->Draw();
+					}
 
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
+					if (Select == 2)
+					{
+						PauseSelect2_->Draw();
+					}
 
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
+					if (Select == 3)
+					{
+						PauseSelect3_->Draw();
+					}
 
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
+					if (Select == 4)
+					{
+						PauseSelect4_->Draw();
+					}
 
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
-				}
+					if (Select == 5)
+					{
+						PauseSelect5_->Draw();
+					}
 
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
-			}
-		}
-		break;
-
-	case STAGE5:
-		if (PauseFlag == 1)
-		{
-			PauseScene_->Draw();
-		}
-		if (PauseFlag == 1)
-		{
-			if (SelectFlag == 1)
-			{
-				if (Select == 1)
-				{
-					PauseSelect_->Draw();
-				}
-
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
-
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
-
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
-
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
+					/*if (Select == 6)
+					{
+						PauseSelect6_->Draw();
+					}*/
 				}
 			}
-		}
-		break;
+			break;
+
+		case STAGE2:
+			if (PauseFlag == 1)
+			{
+				PauseScene_->Draw();
+			}
+			if (PauseFlag == 1)
+			{
+				if (SelectFlag == 1)
+				{
+					if (Select == 1)
+					{
+						PauseSelect_->Draw();
+					}
+
+					if (Select == 2)
+					{
+						PauseSelect2_->Draw();
+					}
+
+					if (Select == 3)
+					{
+						PauseSelect3_->Draw();
+					}
+
+					if (Select == 4)
+					{
+						PauseSelect4_->Draw();
+					}
+
+					if (Select == 5)
+					{
+						PauseSelect5_->Draw();
+					}
+
+					/*if (Select == 6)
+					{
+						PauseSelect6_->Draw();
+					}*/
+				}
+			}
+			break;
+
+		case STAGE3:
+			if (PauseFlag == 1)
+			{
+				PauseScene_->Draw();
+			}
+			if (PauseFlag == 1)
+			{
+				if (SelectFlag == 1)
+				{
+					if (Select == 1)
+					{
+						PauseSelect_->Draw();
+					}
+
+					if (Select == 2)
+					{
+						PauseSelect2_->Draw();
+					}
+
+					if (Select == 3)
+					{
+						PauseSelect3_->Draw();
+					}
+
+					if (Select == 4)
+					{
+						PauseSelect4_->Draw();
+					}
+
+					if (Select == 5)
+					{
+						PauseSelect5_->Draw();
+					}
+
+					/*if (Select == 6)
+					{
+						PauseSelect6_->Draw();
+					}*/
+				}
+			}
+			break;
+
+		case STAGE4:
+			if (PauseFlag == 1)
+			{
+				PauseScene_->Draw();
+			}
+			if (PauseFlag == 1)
+			{
+				if (SelectFlag == 1)
+				{
+					if (Select == 1)
+					{
+						PauseSelect_->Draw();
+					}
+
+					if (Select == 2)
+					{
+						PauseSelect2_->Draw();
+					}
+
+					if (Select == 3)
+					{
+						PauseSelect3_->Draw();
+					}
+
+					if (Select == 4)
+					{
+						PauseSelect4_->Draw();
+					}
+
+					if (Select == 5)
+					{
+						PauseSelect5_->Draw();
+					}
+
+					/*if (Select == 6)
+					{
+						PauseSelect6_->Draw();
+					}*/
+				}
+			}
+			break;
+
+		case STAGE5:
+			if (PauseFlag == 1)
+			{
+				PauseScene_->Draw();
+			}
+			if (PauseFlag == 1)
+			{
+				if (SelectFlag == 1)
+				{
+					if (Select == 1)
+					{
+						PauseSelect_->Draw();
+					}
+
+					if (Select == 2)
+					{
+						PauseSelect2_->Draw();
+					}
+
+					if (Select == 3)
+					{
+						PauseSelect3_->Draw();
+					}
+
+					if (Select == 4)
+					{
+						PauseSelect4_->Draw();
+					}
+
+					if (Select == 5)
+					{
+						PauseSelect5_->Draw();
+					}
+				}
+			}
+			break;
 	}
 
 	// デバッグテキストの描画
@@ -2022,7 +2022,6 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 	return false;
 }
 
-
 bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
 {
 	// 各座標変数の宣言
@@ -2070,6 +2069,8 @@ void GameScene::STage1Initialize()
 
 	stage1_->Initialize();
 
+	stageFlag = 0;
+
 	Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
 
 	silverKey_->Initialize(65, 60);
@@ -2095,7 +2096,9 @@ void GameScene::STage2Initialize()
 
 	stage2_->Initialize();
 
-	Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
+	stageFlag = 1;
+
+	Parameter({ 42.0f,43.0f,-20.0f }, stageFlag);
 
 	silverKey_->Initialize(65, 60);
 

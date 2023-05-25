@@ -36,6 +36,9 @@ public:
 
 	void Collision();
 
+	// 当たり判定
+	void OnCollisionStage(bool collisionFlag);
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -58,5 +61,11 @@ private:
 	// デスフラグ
 	bool isDead_ = false;
 
+	// 半径
+	float radius_ = 2.0f;
+
 	XMFLOAT4 color = { 1,1,1,0.5f };
+
+public:
+	float GetRadius() const { return radius_; }
 };

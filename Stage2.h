@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include <list>
 #include "Wind.h"
+#include "stage.h"
 #include"Audio.h"
 
 class Stage2
@@ -23,6 +24,8 @@ public:
 
 	std::list<std::unique_ptr<Wind>>wind_;
 	const std::list<std::unique_ptr<Wind>>& GetBullets() { return winds_; }
+
+	bool CollisionFanFlag(Wind* w, stage* s);
 
 	void WindOn(const Matrix4& position, const Vector3& velocity);
 
@@ -42,6 +45,8 @@ private:
 	Model* model_ = nullptr;
 	Audio* audio_ = nullptr;
 	uint32_t texture_ = 0;
+	// ステージ
+	stage* stage_ = nullptr;
 	//Sprite* BackGroud_ = nullptr; 
 
 	int DebugText;

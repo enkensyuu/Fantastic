@@ -94,25 +94,6 @@ void Stage2::Update()
 		}
 	}
 
-	if (isRflag)
-	{
-		WindOn(worldTransforms_[0].matWorld_, Rvelocity);
-		worldTransforms_[0].rotation_ += rotationSpeedX;
-
-		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
-		worldTransforms_[1].rotation_ += rotationSpeedX;
-
-
-	}
-
-	if (isUflag)
-	{
-		WindOn(worldTransforms_[3].matWorld_, Uvelocity);
-		worldTransforms_[3].rotation_ += rotationSpeedY;
-		WindOn(worldTransforms_[4].matWorld_, Uvelocity);
-		worldTransforms_[4].rotation_ += rotationSpeedY;
-	}
-
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
 		// 行列更新
@@ -125,6 +106,28 @@ void Stage2::Update()
 	for (std::unique_ptr<Wind>& wind : winds_)
 	{
 		wind->Update();
+
+		if (isRflag)
+		{
+			WindOn(worldTransforms_[0].matWorld_, Rvelocity);
+			worldTransforms_[0].rotation_ += rotationSpeedX;
+
+			WindOn(worldTransforms_[1].matWorld_, Rvelocity);
+			worldTransforms_[1].rotation_ += rotationSpeedX;
+
+			wind->OnCollisionStage(CollisionFanFlag(wind, stage_));
+		}
+
+		if (isUflag)
+		{
+			WindOn(worldTransforms_[3].matWorld_, Uvelocity);
+			worldTransforms_[3].rotation_ += rotationSpeedY;
+
+			WindOn(worldTransforms_[4].matWorld_, Uvelocity);
+			worldTransforms_[4].rotation_ += rotationSpeedY;
+
+			wind->OnCollisionStage(CollisionFanFlag(wind, stage_));
+		}
 	}
 
 }
@@ -155,4 +158,42 @@ void Stage2::WindOn(const Matrix4& position, const Vector3& velocity)
 
 	// 弾を登録する
 	winds_.push_back(std::move(newWind));
+}
+
+bool Stage2::CollisionFanFlag(Wind* w, stage* s) {
+	// 各座標変数の宣言
+	Vector3 wPos = w->GetWorldPosition();
+	float wRadius = w->GetRadius();
+	float wX1, wX2, wY1, wY2;
+	// プレイヤーの矩形座標
+	wX1 = wPos.x - wRadius;
+	wX2 = wPos.x + wRadius;
+	wY1 = wPos.y - wRadius;
+	wY2 = wPos.y + wRadius;
+
+	// プレイヤーLeftTop座標
+	int wLT[2] = { static_cast<int>(wX1 / 4), static_cast<int>(((wY1 / 4) - 17) * -1) };
+	int isFloor = 0;
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			// 各座標変数の宣言
+			Vector3 bPos = s->GetBlockPosition(wLT[0] + i, wLT[1] + j);
+			float bRadius = s->GetRadius();
+			float bX1, bX2, bY1, bY2;
+			// ブロックの矩形座標
+			bX1 = bPos.x - bRadius;
+			bX2 = bPos.x + bRadius;
+			bY1 = bPos.y - bRadius;
+			bY2 = bPos.y + bRadius;
+
+			// 当たり判定
+			if (wX1 < bX2 && wX2 > bX1 && wY1 < bY2 && wY2 > bY1) {
+				return true;
+			}
+		}
+	}
+
+
+	return false;
 }

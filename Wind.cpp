@@ -73,3 +73,10 @@ void Wind::Collision()
 {
 	isDead_ = true;
 }
+
+void Wind::OnCollisionStage(bool collisionFlag)
+{
+	if (collisionFlag) {
+		isDead_ = true;
+	}
+}
