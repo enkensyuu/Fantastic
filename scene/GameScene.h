@@ -57,7 +57,11 @@ public: // メンバ関数
 
 	bool GetClose() { return closeGame_; }
 
-	void CheckAllCollisions();
+	void CheckAllCollisions1();
+	void CheckAllCollisions2();
+	void CheckAllCollisions3();
+	void CheckAllCollisions4();
+	void CheckAllCollisions5();
 
 	void Parameter(const Vector3& playerPos1, const int& stageNum);
 

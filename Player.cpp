@@ -15,6 +15,7 @@ void Player::Initialize(Vector3 pos)
 
 	worldTransform_.translation_ = pos;
 	isMove_ = false;
+	isDead_ = false;
 
 	// s—ñXV
 	worldTransform_.matWorld_ = Mat_Identity();

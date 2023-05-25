@@ -10,11 +10,983 @@
 
 GameScene::GameScene() {}
 
-void GameScene::CheckAllCollisions()
+void GameScene::CheckAllCollisions1()
 {
 	Vector3 posA, posB;
 
 	const std::list<std::unique_ptr<Wind>>& wind_ = stage1_->GetBullets();
+	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
+
+#pragma region Player&Wind
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			player_->Collision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+	posA = balloon_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			balloon_->MoveCollision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+
+	posA = player_->GetWorldPosition();
+
+	posB = balloon_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		balloon_->DeadCollision();
+	}
+#pragma endregion
+
+#pragma region GoldKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+			posA = wind->GetWorldPosition();
+			posB = goldKey->GetWorldPosition();
+
+			if (
+				(posA.x - posB.x) * (posA.x - posB.x) +
+				(posA.y - posB.y) * (posA.y - posB.y) +
+				(posA.z - posB.z) * (posA.z - posB.z)
+				<= (1.0f + 1.0f) * (1.0f + 1.0f)
+				) {
+				goldKey->MoveCollision(wind->GetVelocity());
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region Player&GoldKey
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+		posB = goldKey->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
+			) {
+			goldKey->GetCollision();
+			isGetKey_ = true;
+			isKeyOpen_ = true;
+		}
+	}
+#pragma endregion
+
+#pragma region SilverKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+
+		posA = wind->GetWorldPosition();
+		posB = silverKey_->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			silverKey_->MoveCollision(wind->GetVelocity());
+		}
+	}
+#pragma endregion
+
+#pragma region Player&SilverKey
+
+	posA = player_->GetWorldPosition();
+	posB = silverKey_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (2.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		silverKey_->GetCollision();
+		isGetKey_ = true;
+		isKeyOpen_ = true;
+	}
+#pragma endregion
+
+#pragma region WindPower&Wind
+	posA = windPower_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			windPower_->Collision();
+			wind->Collision();
+			isOpen_ = true;
+		}
+	}
+
+	if (!windPower_->IsStop())
+	{
+		isOpen_ = false;
+	}
+#pragma endregion
+
+#pragma region Magma&Wind
+	posA = magmaBlock_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			magmaBlock_->Collision();
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Player&MagmaBlock
+
+	posA = player_->GetWorldPosition();
+	posB = magmaBlock_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		if (!magmaBlock_->IsGetCool())
+		{
+			player_->DethCollision();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Door
+	posA = player_->GetWorldPosition();
+	posB = door_->GetPosition();
+
+	if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+	{
+		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+		{
+			player_->GetStop();
+		}
+	}
+#pragma endregion
+
+#pragma region Wind&Door
+
+	posA = door_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+		{
+			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+			{
+				wind->Collision();
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+	posB = goal_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		isGoal_ = true;
+	}
+#pragma endregion
+
+}
+
+void GameScene::CheckAllCollisions2()
+{
+	Vector3 posA, posB;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage2_->GetBullets();
+	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
+
+#pragma region Player&Wind
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			player_->Collision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+	posA = balloon_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			balloon_->MoveCollision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+
+	posA = player_->GetWorldPosition();
+
+	posB = balloon_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		balloon_->DeadCollision();
+	}
+#pragma endregion
+
+#pragma region GoldKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+			posA = wind->GetWorldPosition();
+			posB = goldKey->GetWorldPosition();
+
+			if (
+				(posA.x - posB.x) * (posA.x - posB.x) +
+				(posA.y - posB.y) * (posA.y - posB.y) +
+				(posA.z - posB.z) * (posA.z - posB.z)
+				<= (1.0f + 1.0f) * (1.0f + 1.0f)
+				) {
+				goldKey->MoveCollision(wind->GetVelocity());
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region Player&GoldKey
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+		posB = goldKey->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
+			) {
+			goldKey->GetCollision();
+			isGetKey_ = true;
+			isKeyOpen_ = true;
+		}
+	}
+#pragma endregion
+
+#pragma region SilverKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+
+		posA = wind->GetWorldPosition();
+		posB = silverKey_->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			silverKey_->MoveCollision(wind->GetVelocity());
+		}
+	}
+#pragma endregion
+
+#pragma region Player&SilverKey
+
+	posA = player_->GetWorldPosition();
+	posB = silverKey_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (2.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		silverKey_->GetCollision();
+		isGetKey_ = true;
+		isKeyOpen_ = true;
+	}
+#pragma endregion
+
+#pragma region WindPower&Wind
+	posA = windPower_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			windPower_->Collision();
+			wind->Collision();
+			isOpen_ = true;
+		}
+	}
+
+	if (!windPower_->IsStop())
+	{
+		isOpen_ = false;
+	}
+#pragma endregion
+
+#pragma region Magma&Wind
+	posA = magmaBlock_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			magmaBlock_->Collision();
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Player&MagmaBlock
+
+	posA = player_->GetWorldPosition();
+	posB = magmaBlock_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		if (!magmaBlock_->IsGetCool())
+		{
+			player_->DethCollision();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Door
+	posA = player_->GetWorldPosition();
+	posB = door_->GetPosition();
+
+	if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+	{
+		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+		{
+			player_->GetStop();
+		}
+	}
+#pragma endregion
+
+#pragma region Wind&Door
+
+	posA = door_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+		{
+			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+			{
+				wind->Collision();
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+	posB = goal_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		isGoal_ = true;
+	}
+#pragma endregion
+
+}
+
+void GameScene::CheckAllCollisions3()
+{
+	Vector3 posA, posB;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage3_->GetBullets();
+	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
+
+#pragma region Player&Wind
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			player_->Collision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+	posA = balloon_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			balloon_->MoveCollision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+
+	posA = player_->GetWorldPosition();
+
+	posB = balloon_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		balloon_->DeadCollision();
+	}
+#pragma endregion
+
+#pragma region GoldKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+			posA = wind->GetWorldPosition();
+			posB = goldKey->GetWorldPosition();
+
+			if (
+				(posA.x - posB.x) * (posA.x - posB.x) +
+				(posA.y - posB.y) * (posA.y - posB.y) +
+				(posA.z - posB.z) * (posA.z - posB.z)
+				<= (1.0f + 1.0f) * (1.0f + 1.0f)
+				) {
+				goldKey->MoveCollision(wind->GetVelocity());
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region Player&GoldKey
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+		posB = goldKey->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
+			) {
+			goldKey->GetCollision();
+			isGetKey_ = true;
+			isKeyOpen_ = true;
+		}
+	}
+#pragma endregion
+
+#pragma region SilverKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+
+		posA = wind->GetWorldPosition();
+		posB = silverKey_->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			silverKey_->MoveCollision(wind->GetVelocity());
+		}
+	}
+#pragma endregion
+
+#pragma region Player&SilverKey
+
+	posA = player_->GetWorldPosition();
+	posB = silverKey_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (2.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		silverKey_->GetCollision();
+		isGetKey_ = true;
+		isKeyOpen_ = true;
+	}
+#pragma endregion
+
+#pragma region WindPower&Wind
+	posA = windPower_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			windPower_->Collision();
+			wind->Collision();
+			isOpen_ = true;
+		}
+	}
+
+	if (!windPower_->IsStop())
+	{
+		isOpen_ = false;
+	}
+#pragma endregion
+
+#pragma region Magma&Wind
+	posA = magmaBlock_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			magmaBlock_->Collision();
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Player&MagmaBlock
+
+	posA = player_->GetWorldPosition();
+	posB = magmaBlock_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		if (!magmaBlock_->IsGetCool())
+		{
+			player_->DethCollision();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Door
+	posA = player_->GetWorldPosition();
+	posB = door_->GetPosition();
+
+	if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+	{
+		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+		{
+			player_->GetStop();
+		}
+	}
+#pragma endregion
+
+#pragma region Wind&Door
+
+	posA = door_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+		{
+			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+			{
+				wind->Collision();
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+	posB = goal_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		isGoal_ = true;
+	}
+#pragma endregion
+
+}
+
+void GameScene::CheckAllCollisions4()
+{
+	Vector3 posA, posB;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage4_->GetBullets();
+	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
+
+#pragma region Player&Wind
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			player_->Collision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+	posA = balloon_->GetWorldPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			balloon_->MoveCollision(wind->GetVelocity());
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Balloon&Wind
+
+	posA = player_->GetWorldPosition();
+
+	posB = balloon_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		balloon_->DeadCollision();
+	}
+#pragma endregion
+
+#pragma region GoldKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+			posA = wind->GetWorldPosition();
+			posB = goldKey->GetWorldPosition();
+
+			if (
+				(posA.x - posB.x) * (posA.x - posB.x) +
+				(posA.y - posB.y) * (posA.y - posB.y) +
+				(posA.z - posB.z) * (posA.z - posB.z)
+				<= (1.0f + 1.0f) * (1.0f + 1.0f)
+				) {
+				goldKey->MoveCollision(wind->GetVelocity());
+			}
+		}
+	}
+#pragma endregion
+
+#pragma region Player&GoldKey
+
+	posA = player_->GetWorldPosition();
+
+	for (const std::unique_ptr<GoldKey>& goldKey : goldKey_) {
+
+		posB = goldKey->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 0.5f) * (1.0f + 1.0f)
+			) {
+			goldKey->GetCollision();
+			isGetKey_ = true;
+			isKeyOpen_ = true;
+		}
+	}
+#pragma endregion
+
+#pragma region SilverKey&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+
+		posA = wind->GetWorldPosition();
+		posB = silverKey_->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (2.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			silverKey_->MoveCollision(wind->GetVelocity());
+		}
+	}
+#pragma endregion
+
+#pragma region Player&SilverKey
+
+	posA = player_->GetWorldPosition();
+	posB = silverKey_->GetWorldPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (2.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		silverKey_->GetCollision();
+		isGetKey_ = true;
+		isKeyOpen_ = true;
+	}
+#pragma endregion
+
+#pragma region WindPower&Wind
+	posA = windPower_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			windPower_->Collision();
+			wind->Collision();
+			isOpen_ = true;
+		}
+	}
+
+	if (!windPower_->IsStop())
+	{
+		isOpen_ = false;
+	}
+#pragma endregion
+
+#pragma region Magma&Wind
+	posA = magmaBlock_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (
+			(posA.x - posB.x) * (posA.x - posB.x) +
+			(posA.y - posB.y) * (posA.y - posB.y) +
+			(posA.z - posB.z) * (posA.z - posB.z)
+			<= (1.0f + 1.0f) * (1.0f + 1.0f)
+			) {
+			magmaBlock_->Collision();
+			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region Player&MagmaBlock
+
+	posA = player_->GetWorldPosition();
+	posB = magmaBlock_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		if (!magmaBlock_->IsGetCool())
+		{
+			player_->DethCollision();
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Door
+	posA = player_->GetWorldPosition();
+	posB = door_->GetPosition();
+
+	if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+	{
+		if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+		{
+			player_->GetStop();
+		}
+	}
+#pragma endregion
+
+#pragma region Wind&Door
+
+	posA = door_->GetPosition();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+
+		if (posA.x - 2 < posB.x + 1.5f && posA.x + 2 > posB.x - 1.5f)
+		{
+			if (posA.y - 1 < posB.y + 1.5f && posA.y + 1 > posB.y - 1.5f)
+			{
+				wind->Collision();
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region Player&Goal
+
+	posA = player_->GetWorldPosition();
+
+	posB = goal_->GetPosition();
+
+	if (
+		(posA.x - posB.x) * (posA.x - posB.x) +
+		(posA.y - posB.y) * (posA.y - posB.y) +
+		(posA.z - posB.z) * (posA.z - posB.z)
+		<= (1.0f + 1.0f) * (1.0f + 1.0f)
+		) {
+		isGoal_ = true;
+	}
+#pragma endregion
+
+}
+
+void GameScene::CheckAllCollisions5()
+{
+	Vector3 posA, posB;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage5_->GetBullets();
 	const std::list<std::unique_ptr<GoldKey>>& goldKey_ = balloon_->GetGoldKey();
 
 #pragma region Player&Wind
@@ -288,7 +1260,7 @@ void GameScene::Initialize() {
 	isKeyOpen_ = false;
 
 	gameOverTexture_ = TextureManager::Load("Game_Over.png");
-	gameClearTexture_ = TextureManager::Load("GameClear.png");
+	gameClearTexture_ = TextureManager::Load("Game_Clear.png");
 
 	gameOver_ = Sprite::Create(gameOverTexture_, { 0,0 });
 	gameClear_ = Sprite::Create(gameClearTexture_, { 0,0 });
@@ -505,6 +1477,7 @@ void GameScene::Update() {
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage2BGMHandle_ = audio_->PlayWave(Stage2BGM_, true);
 			scene_ = STAGE2;
+			STage2Initialize();
 		}
 
 		if (input_->TriggerKey(DIK_RETURN) && StageTimer == 3)
@@ -546,9 +1519,9 @@ void GameScene::Update() {
 
 	case STAGE1:
 		Stage1Update();
-		CheckAllCollisions();
+		CheckAllCollisions1();
 
-		if (isGoal_)
+		if (isGoal_ || player_->IsGetDead())
 		{
 			stopPlay = true;
 		}
@@ -556,19 +1529,25 @@ void GameScene::Update() {
 		break;
 
 	case STAGE2:
-		CheckAllCollisions();
+		Stage2Update();
+		CheckAllCollisions2();
+
+		if (isGoal_ || player_->IsGetDead())
+		{
+			stopPlay = true;
+		}
 		break;
 
 	case STAGE3:
-		CheckAllCollisions();
+		CheckAllCollisions3();
 		break;
 
 	case STAGE4:
-		CheckAllCollisions();
+		CheckAllCollisions4();
 		break;
 
 	case STAGE5:
-		CheckAllCollisions();
+		CheckAllCollisions5();
 		break;
 	}
 }
@@ -710,7 +1689,7 @@ void GameScene::Draw() {
 	case STAGE2:
 
 		stage_->Draw(viewProjection_);
-		stage1_->Draw(viewProjection_);
+		stage2_->Draw(viewProjection_);
 		player_->Draw(viewProjection_);
 		silverKey_->Draw(viewProjection_);
 		door_->Draw(viewProjection_);
@@ -771,7 +1750,16 @@ void GameScene::Draw() {
 	case SELECT:
 		break;
 	case STAGE1:
-		//GameOver_->Draw();
+		if (isGoal_)
+		{
+			gameClear_->Draw();
+		}
+
+		if (player_->IsGetDead())
+		{
+			gameOver_->Draw();
+		}
+
 		if (PauseFlag == 1)
 		{
 			PauseScene_->Draw();
@@ -1091,24 +2079,33 @@ void GameScene::STage1Initialize()
 	goal_->Initialize(114, 7);
 
 	isGoal_ = false;
+
+	stopPlay = false;
+
+	const std::list<std::unique_ptr<Wind>>& wind_ = stage1_->GetBullets();
+
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		wind->Collision();
+	}
 }
 void GameScene::STage2Initialize()
 {
+	isGetKey_ = false;
+	isKeyOpen_ = false;
+
 	stage2_->Initialize();
 
-	balloon_->Initialize(-5, 10);
+	Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
 
 	silverKey_->Initialize(65, 60);
-
-	windPower_->Initialize(-5, -5);
-
-	magmaBlock_->Initialize(0, -10);
 
 	door_->Initialize(110, 55);
 
 	goal_->Initialize(114, 7);
 
 	isGoal_ = false;
+
+	stopPlay = false;
 
 }
 void GameScene::STage3Initialize()
@@ -1220,6 +2217,7 @@ void GameScene::Stage1Update()
 	//ゲーム説明の戻る
 	if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 	{
+		changScene = false;
 		scene_ = INSTRUCTIONS;
 		SceneStageFlag1 = 1;
 		PauseFlag = false;
@@ -1242,42 +2240,49 @@ void GameScene::Stage1Update()
 
 void GameScene::Stage2Update()
 {
-	stage2_->Update();
-
-	audio_->SetVolume(Stage2BGMHandle_, 0.15f);
-
-	//Pause画面の下移動
-	if (input_->TriggerKey(DIK_DOWN))
+	if (!stopPlay)
 	{
-		if (PauseFlag == 1)
+		if (!PauseFlag)
+		{
+			// プレイヤー
+			player_->Update(CollisionStageFlag(player_, stage_));
+			player_->OnCollisionStage(CollisionStageFlag(player_, stage_));
+			player_->IsDead();
+
+			// ステージ
+			stage_->Update();
+
+			// ギミック
+			silverKey_->Update();
+			silverKey_->OnCollisionStage(CollisionKeyFlag(silverKey_, stage_));
+
+			door_->Update(isOpen_, isKeyOpen_);
+
+			stage2_->Update();
+		}
+
+		audio_->SetVolume(Stage1BGMHandle_, 0.25f);
+	}
+
+
+
+	//Pause画面
+	if (input_->PushKey(DIK_ESCAPE))
+	{
+		PauseFlag = true;
+	}
+
+	if (PauseFlag)
+	{
+		//Pause画面の下移動
+		if (input_->TriggerKey(DIK_DOWN) || input_->TriggerKey(DIK_S))
 		{
 			Select++;
 			SelectFlag = 1;
 		}
-	}
 
-	if (input_->TriggerKey(DIK_S))
-	{
-		if (PauseFlag == 1)
-		{
-			Select++;
-			SelectFlag = 1;
-		}
-	}
-
-	//Pause画面の上移動
-	if (input_->TriggerKey(DIK_UP))
-	{
-		if (PauseFlag == 1)
-		{
-			Select--;
-			SelectFlag = 1;
-		}
-	}
-
-	if (input_->TriggerKey(DIK_W))
-	{
-		if (PauseFlag == 1)
+		//Pause画面の上移動
+		if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 		{
 			Select--;
 			SelectFlag = 1;
@@ -1296,37 +2301,36 @@ void GameScene::Stage2Update()
 
 	//Pauseの処理//
 
-		//Pause画面
-	if (input_->PushKey(DIK_ESCAPE))
-	{
-		PauseFlag = 1;
-	}
-
 	//ゲームを続ける
 	if (input_->TriggerKey(DIK_RETURN) && Select == 1)
 	{
-		PauseFlag = 0;
+		PauseFlag = false;
 	}
 
 	//リセット
 	if (input_->TriggerKey(DIK_RETURN) && Select == 2)
 	{
-		stage2_->Initialize();
-		PauseFlag = 0;
+		STage2Initialize();
+		PauseFlag = false;
+		isGoal_ = false;
+		stopPlay = false;
 	}
 
 	//ゲーム説明の戻る
 	if (input_->TriggerKey(DIK_RETURN) && Select == 3)
 	{
-		SceneStageFlag2 = 1;
+		changScene = false;
 		scene_ = INSTRUCTIONS;
+		SceneStageFlag1 = 1;
+		PauseFlag = false;
 	}
 
 	//ステージ選択に戻る
 	if (input_->TriggerKey(DIK_RETURN) && Select == 4)
 	{
-		audio_->StopWave(Stage2BGMHandle_);
 		scene_ = SELECT;
+		audio_->StopWave(Stage1BGMHandle_);
+		PauseFlag = false;
 	}
 
 	//ゲームをやめる
