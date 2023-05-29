@@ -94,6 +94,24 @@ void Stage2::Update()
 		}
 	}
 
+	if (isRflag)
+	{
+		WindOn(worldTransforms_[0].matWorld_, Rvelocity);
+		worldTransforms_[0].rotation_ += rotationSpeedX;
+
+		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
+		worldTransforms_[1].rotation_ += rotationSpeedX;
+	}
+
+	if (isUflag)
+	{
+		WindOn(worldTransforms_[3].matWorld_, Uvelocity);
+		worldTransforms_[3].rotation_ += rotationSpeedY;
+
+		WindOn(worldTransforms_[4].matWorld_, Uvelocity);
+		worldTransforms_[4].rotation_ += rotationSpeedY;
+	}
+
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)
 	{
 		// s—ñXV
@@ -106,28 +124,6 @@ void Stage2::Update()
 	for (std::unique_ptr<Wind>& wind : winds_)
 	{
 		wind->Update();
-
-		if (isRflag)
-		{
-			WindOn(worldTransforms_[0].matWorld_, Rvelocity);
-			worldTransforms_[0].rotation_ += rotationSpeedX;
-
-			WindOn(worldTransforms_[1].matWorld_, Rvelocity);
-			worldTransforms_[1].rotation_ += rotationSpeedX;
-
-			wind->OnCollisionStage(CollisionFanFlag(wind, stage_));
-		}
-
-		if (isUflag)
-		{
-			WindOn(worldTransforms_[3].matWorld_, Uvelocity);
-			worldTransforms_[3].rotation_ += rotationSpeedY;
-
-			WindOn(worldTransforms_[4].matWorld_, Uvelocity);
-			worldTransforms_[4].rotation_ += rotationSpeedY;
-
-			wind->OnCollisionStage(CollisionFanFlag(wind, stage_));
-		}
 	}
 
 }
