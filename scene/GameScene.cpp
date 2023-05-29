@@ -35,6 +35,39 @@ void GameScene::CheckAllCollisions1()
 	}
 #pragma endregion
 
+#pragma region stage&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+		float pRadius = wind->GetRadius();
+		float pX1, pX2, pY1, pY2;
+		// プレイヤーの矩形座標
+		pX1 = posB.x - pRadius;
+		pX2 = posB.x + pRadius;
+		pY1 = posB.y - pRadius;
+		pY2 = posB.y + pRadius;
+
+		int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				// 各座標変数の宣言
+				Vector3 bPos = stage_->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+				float bRadius = stage_->GetRadius();
+				float bX1, bX2, bY1, bY2;
+				// ブロックの矩形座標
+				bX1 = bPos.x - bRadius;
+				bX2 = bPos.x + bRadius;
+				bY1 = bPos.y - bRadius;
+				bY2 = bPos.y + bRadius;
+
+				if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+					wind->Collision();
+				}
+			}
+		}
+	}
+#pragma endregion
+
 #pragma region Balloon&Wind
 	posA = balloon_->GetWorldPosition();
 
@@ -274,6 +307,39 @@ void GameScene::CheckAllCollisions2()
 			) {
 			player_->Collision(wind->GetVelocity());
 			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region stage&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+		float pRadius = wind->GetRadius();
+		float pX1, pX2, pY1, pY2;
+		// プレイヤーの矩形座標
+		pX1 = posB.x - pRadius;
+		pX2 = posB.x + pRadius;
+		pY1 = posB.y - pRadius;
+		pY2 = posB.y + pRadius;
+
+		int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				// 各座標変数の宣言
+				Vector3 bPos = stage_->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+				float bRadius = stage_->GetRadius();
+				float bX1, bX2, bY1, bY2;
+				// ブロックの矩形座標
+				bX1 = bPos.x - bRadius;
+				bX2 = bPos.x + bRadius;
+				bY1 = bPos.y - bRadius;
+				bY2 = bPos.y + bRadius;
+
+				if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+					wind->Collision();
+				}
+			}
 		}
 	}
 #pragma endregion
@@ -521,6 +587,39 @@ void GameScene::CheckAllCollisions3()
 	}
 #pragma endregion
 
+#pragma region stage&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+		float pRadius = wind->GetRadius();
+		float pX1, pX2, pY1, pY2;
+		// プレイヤーの矩形座標
+		pX1 = posB.x - pRadius;
+		pX2 = posB.x + pRadius;
+		pY1 = posB.y - pRadius;
+		pY2 = posB.y + pRadius;
+
+		int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				// 各座標変数の宣言
+				Vector3 bPos = stage_->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+				float bRadius = stage_->GetRadius();
+				float bX1, bX2, bY1, bY2;
+				// ブロックの矩形座標
+				bX1 = bPos.x - bRadius;
+				bX2 = bPos.x + bRadius;
+				bY1 = bPos.y - bRadius;
+				bY2 = bPos.y + bRadius;
+
+				if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+					wind->Collision();
+				}
+			}
+		}
+	}
+#pragma endregion
+
 #pragma region Balloon&Wind
 	posA = balloon_->GetWorldPosition();
 
@@ -764,6 +863,39 @@ void GameScene::CheckAllCollisions4()
 	}
 #pragma endregion
 
+#pragma region stage&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+		float pRadius = wind->GetRadius();
+		float pX1, pX2, pY1, pY2;
+		// プレイヤーの矩形座標
+		pX1 = posB.x - pRadius;
+		pX2 = posB.x + pRadius;
+		pY1 = posB.y - pRadius;
+		pY2 = posB.y + pRadius;
+
+		int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				// 各座標変数の宣言
+				Vector3 bPos = stage_->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+				float bRadius = stage_->GetRadius();
+				float bX1, bX2, bY1, bY2;
+				// ブロックの矩形座標
+				bX1 = bPos.x - bRadius;
+				bX2 = bPos.x + bRadius;
+				bY1 = bPos.y - bRadius;
+				bY2 = bPos.y + bRadius;
+
+				if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+					wind->Collision();
+				}
+			}
+		}
+	}
+#pragma endregion
+
 #pragma region Balloon&Wind
 	posA = balloon_->GetWorldPosition();
 
@@ -1003,6 +1135,39 @@ void GameScene::CheckAllCollisions5()
 			) {
 			player_->Collision(wind->GetVelocity());
 			wind->Collision();
+		}
+	}
+#pragma endregion
+
+#pragma region stage&Wind
+	for (const std::unique_ptr<Wind>& wind : wind_) {
+		posB = wind->GetWorldPosition();
+		float pRadius = wind->GetRadius();
+		float pX1, pX2, pY1, pY2;
+		// プレイヤーの矩形座標
+		pX1 = posB.x - pRadius;
+		pX2 = posB.x + pRadius;
+		pY1 = posB.y - pRadius;
+		pY2 = posB.y + pRadius;
+
+		int pLT[2] = { static_cast<int>(pX1 / 4), static_cast<int>(((pY1 / 4) - 17) * -1) };
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				// 各座標変数の宣言
+				Vector3 bPos = stage_->GetBlockPosition(pLT[0] + i, pLT[1] + j);
+				float bRadius = stage_->GetRadius();
+				float bX1, bX2, bY1, bY2;
+				// ブロックの矩形座標
+				bX1 = bPos.x - bRadius;
+				bX2 = bPos.x + bRadius;
+				bY1 = bPos.y - bRadius;
+				bY2 = bPos.y + bRadius;
+
+				if (pX1 < bX2 && pX2 > bX1 && pY1 < bY2 && pY2 > bY1) {
+					wind->Collision();
+				}
+			}
 		}
 	}
 #pragma endregion
@@ -2022,7 +2187,6 @@ bool GameScene::CollisionStageFlag(Player* p, stage* s) {
 	return false;
 }
 
-
 bool GameScene::CollisionKeyFlag(SilverKey* p, stage* s)
 {
 	// 各座標変数の宣言
@@ -2094,6 +2258,8 @@ void GameScene::STage2Initialize()
 	isKeyOpen_ = false;
 
 	stage2_->Initialize();
+
+	stageFlag = 1;
 
 	Parameter({ 10.0f,7.0f,-20.0f }, stageFlag);
 

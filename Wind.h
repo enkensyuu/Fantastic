@@ -50,6 +50,8 @@ private:
 	// ‘¬“x
 	Vector3 velocity_;
 
+	float radius = 2.0f;
+
 	// Žõ–½<frm>
 	static const int32_t kLifeTime = 10 * 5;
 
@@ -59,4 +61,7 @@ private:
 	bool isDead_ = false;
 
 	XMFLOAT4 color = { 1,1,1,0.5f };
+
+public:
+	float GetRadius() { return radius; }
 };
