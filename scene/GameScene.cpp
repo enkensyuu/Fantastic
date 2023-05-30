@@ -1482,7 +1482,7 @@ void GameScene::Initialize() {
 	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,403 });
 	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 610,530 });
 	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 600,655 });
-	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 660,791 });
+	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 645,780 });
 	//PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,830 });
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
 	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
@@ -1551,6 +1551,7 @@ void GameScene::Update() {
 		Initialize();
 
 		isGoal_ = false;
+		GameTimer_ += 1;
 
 		if (input_->TriggerKey(DIK_SPACE))
 		{
@@ -1782,8 +1783,8 @@ void GameScene::Draw() {
 			BackGroudStage1_->Draw();
 			Pause_->Draw();
 
-			/*DebugText::GetInstance()->SetPos(1700, 30);
-			DebugText::GetInstance()->Printf("Select:%d", Select);*/
+			DebugText::GetInstance()->SetPos(1700, 30);
+			DebugText::GetInstance()->Printf("Select:%d", Select);
 		}
 		break;
 	case STAGE2:
@@ -1931,7 +1932,7 @@ void GameScene::Draw() {
 		}
 		if (PauseFlag == 1)
 		{
-			if (SelectFlag == 1)
+			/*if (SelectFlag == 1)*/
 			{
 				if (Select == 1)
 				{
@@ -1958,10 +1959,6 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
 			}
 		}
 		break;
@@ -2000,10 +1997,6 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
 			}
 		}
 		break;
@@ -2042,10 +2035,6 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
 			}
 		}
 		break;
@@ -2084,10 +2073,6 @@ void GameScene::Draw() {
 					PauseSelect5_->Draw();
 				}
 
-				/*if (Select == 6)
-				{
-					PauseSelect6_->Draw();
-				}*/
 			}
 		}
 		break;
@@ -2101,30 +2086,30 @@ void GameScene::Draw() {
 		{
 			if (SelectFlag == 1)
 			{
-				if (Select == 1)
-				{
-					PauseSelect_->Draw();
-				}
+			if (Select == 1)
+			{
+				PauseSelect_->Draw();
+			}
 
-				if (Select == 2)
-				{
-					PauseSelect2_->Draw();
-				}
+			if (Select == 2)
+			{
+				PauseSelect2_->Draw();
+			}
 
-				if (Select == 3)
-				{
-					PauseSelect3_->Draw();
-				}
+			if (Select == 3)
+			{
+				PauseSelect3_->Draw();
+			}
 
-				if (Select == 4)
-				{
-					PauseSelect4_->Draw();
-				}
+			if (Select == 4)
+			{
+				PauseSelect4_->Draw();
+			}
 
-				if (Select == 5)
-				{
-					PauseSelect5_->Draw();
-				}
+			if (Select == 5)
+			{
+				PauseSelect5_->Draw();
+			}
 			}
 		}
 		break;
