@@ -37,12 +37,15 @@ void Stage3::Initialize()
 		worldTransforms_[0].rotation_ = { 0,0,XMConvertToRadians(90) };
 		worldTransforms_[1].rotation_ = { 0,0,XMConvertToRadians(90) };
 		worldTransforms_[2].rotation_ = { 0,0,XMConvertToRadians(90) };
+		worldTransforms_[3].rotation_ = { 0,0,XMConvertToRadians(90) };
+		worldTransforms_[4].rotation_ = { 0,0,XMConvertToRadians(90) };
 
-		worldTransforms_[0].translation_ = { 2.0f,7.0f,-20.0f };
-		worldTransforms_[1].translation_ = { 38.0f,32.0f,-20.0f };
-		worldTransforms_[2].translation_ = { 58.0f,55.0f,-20.0f };
-		worldTransforms_[3].translation_ = { 42.0f,3.0f,-20.0f };
-		worldTransforms_[4].translation_ = { 82.0f,27.0f,-20.0f };
+		worldTransforms_[0].translation_ = { 62.0f,67.0f,-20.0f };
+		worldTransforms_[1].translation_ = { 118.0f,31.0f,-20.0f };
+		worldTransforms_[2].translation_ = { 6.0f,47.0f,-20.0f };
+		worldTransforms_[3].translation_ = { 38.0f,31.0f,-20.0f };
+		worldTransforms_[4].translation_ = { 66.0f,47.0f,-20.0f };
+		worldTransforms_[5].translation_ = { 70.0f,27.0f,-20.0f };
 
 		// s—ñXV
 		worldTransforms_[i].matWorld_ = Mat_Identity();
@@ -65,17 +68,18 @@ void Stage3::Update()
 		}
 	);
 
-	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
+	if (input_->TriggerKey(DIK_LEFT) || input_->TriggerKey(DIK_A))
 	{
-		if (!isUflag)
+		if (!isLflag)
 		{
+			isLflag = true;
 			isRflag = false;
-			isUflag = true;
+			isUflag = false;
 		}
 
 		else
 		{
-			isUflag = false;
+			isLflag = false;
 		}
 	}
 
@@ -83,6 +87,7 @@ void Stage3::Update()
 	{
 		if (!isRflag)
 		{
+			isLflag = false;
 			isRflag = true;
 			isUflag = false;
 		}
@@ -93,22 +98,47 @@ void Stage3::Update()
 		}
 	}
 
-	if (isRflag)
+	else if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
-		WindOn(worldTransforms_[0].matWorld_, Rvelocity);
+		if (!isUflag)
+		{
+			isLflag = false;
+			isRflag = false;
+			isUflag = true;
+		}
+
+		else
+		{
+			isUflag = false;
+		}
+	}
+
+	if (isLflag)
+	{
+		WindOn(worldTransforms_[0].matWorld_, Lvelocity);
 		worldTransforms_[0].rotation_ += rotationSpeedX;
 
-		WindOn(worldTransforms_[1].matWorld_, Rvelocity);
+		WindOn(worldTransforms_[1].matWorld_, Lvelocity);
 		worldTransforms_[1].rotation_ += rotationSpeedX;
 
 	}
 
+	if (isRflag)
+	{
+		WindOn(worldTransforms_[2].matWorld_, Rvelocity);
+		worldTransforms_[2].rotation_ += rotationSpeedX;
+
+		WindOn(worldTransforms_[3].matWorld_, Rvelocity);
+		worldTransforms_[3].rotation_ += rotationSpeedX;
+
+		WindOn(worldTransforms_[4].matWorld_, Rvelocity);
+		worldTransforms_[4].rotation_ += rotationSpeedX;
+	}
+
 	if (isUflag)
 	{
-		WindOn(worldTransforms_[3].matWorld_, Uvelocity);
-		worldTransforms_[3].rotation_ += rotationSpeedY;
-		WindOn(worldTransforms_[4].matWorld_, Uvelocity);
-		worldTransforms_[4].rotation_ += rotationSpeedY;
+		WindOn(worldTransforms_[5].matWorld_, Uvelocity);
+		worldTransforms_[5].rotation_ += rotationSpeedY;
 	}
 
 	for (size_t i = 0; i < _countof(worldTransforms_); i++)

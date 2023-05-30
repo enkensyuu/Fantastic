@@ -64,6 +64,8 @@ void Player::Update(bool collisionFlag) {
 		{
 			isMove_ = false;
 		}
+
+		
 	}
 
 
@@ -129,5 +131,5 @@ void Player::DethCollision()
 
 void Player::GetStop()
 {
-	isMove_ = false;
+	playerSpeed.x = 0.0f;
 }

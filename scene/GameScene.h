@@ -14,9 +14,6 @@
 #include "Scene.h"
 #include "Stage1.h"
 #include "Stage2.h"
-#include "Stage3.h"
-#include "Stage4.h"
-#include "Stage5.h"
 #include "Balloon.h"
 #include "SilverKey.h"
 #include "WindPower.h"
@@ -59,9 +56,6 @@ public: // メンバ関数
 
 	void CheckAllCollisions1();
 	void CheckAllCollisions2();
-	void CheckAllCollisions3();
-	void CheckAllCollisions4();
-	void CheckAllCollisions5();
 
 	void Parameter(const Vector3& playerPos1, const int& stageNum);
 
@@ -70,15 +64,9 @@ public: // メンバ関数
 
 	void STage1Initialize();
 	void STage2Initialize();
-	void STage3Initialize();
-	void STage4Initialize();
-	void STage5Initialize();
 
 	void Stage1Update();
 	void Stage2Update();
-	void Stage3Update();
-	void Stage4Update();
-	void Stage5Update();
 
 private: // メンバ変数
 	WorldTransform worldTransform_;
@@ -145,9 +133,6 @@ private: // メンバ変数
 	bool isClear = false;
 	Stage1* stage1_ = nullptr;
 	Stage2* stage2_ = nullptr;
-	Stage3* stage3_ = nullptr;
-	Stage4* stage4_ = nullptr;
-	Stage5* stage5_ = nullptr;
 
 	Balloon* balloon_ = nullptr;
 

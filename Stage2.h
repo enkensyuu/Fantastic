@@ -28,7 +28,7 @@ public:
 
 
 private:
-	static const int num = 5;
+	static const int num = 8;
 	WorldTransform worldTransforms_[num];
 
 	Vector3 rotationSpeedX = { 1.0f,0.0f,0.0f };

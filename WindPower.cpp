@@ -15,8 +15,10 @@ void WindPower::Initialize(float x, float y)
 
 		worldTransform_[i].Initialize();
 
-		worldTransform_[0].translation_ = { x,y+2.5f,0 };
-		worldTransform_[1].translation_ = { x,y,3.5f };
+		worldTransform_[i].scale_ = { 2,2,2 };
+
+		worldTransform_[0].translation_ = { x,y + 5.0f,-23.5f };
+		worldTransform_[1].translation_ = { x,y,-20.0f };
 
 		worldTransform_[i].matWorld_ = Mat_Identity();
 		worldTransform_[i].matWorld_ = MatWorld(worldTransform_[i].scale_, worldTransform_[i].rotation_, worldTransform_[i].translation_);
@@ -29,7 +31,7 @@ void WindPower::Initialize(float x, float y)
 
 void WindPower::Update()
 {
-	Vector3 RotationSpeed = { 0,0,0.1f};
+	Vector3 RotationSpeed = { 0,0,0.1f };
 
 	if (isMove_)
 	{
@@ -37,7 +39,7 @@ void WindPower::Update()
 		stopTimer_--;
 	}
 
-	if (stopTimer_<=0)
+	if (stopTimer_ <= 0)
 	{
 		isMove_ = false;
 	}
@@ -54,8 +56,8 @@ void WindPower::Update()
 
 void WindPower::Draw(ViewProjection& viewProjection)
 {
-		model_->Draw(worldTransform_[0], viewProjection);
-		model2_->Draw(worldTransform_[1], viewProjection);
+	model_->Draw(worldTransform_[0], viewProjection);
+	model2_->Draw(worldTransform_[1], viewProjection);
 }
 
 void WindPower::Collision()

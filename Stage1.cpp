@@ -67,7 +67,21 @@ void Stage1::Update()
 		}
 	);
 
-	if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
+	if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
+	{
+		if (!isRflag)
+		{
+			isRflag = true;
+			isUflag = false;
+		}
+
+		else
+		{
+			isRflag = false;
+		}
+	}
+
+	else if (input_->TriggerKey(DIK_UP) || input_->TriggerKey(DIK_W))
 	{
 		if (!isUflag)
 		{
@@ -81,19 +95,7 @@ void Stage1::Update()
 		}
 	}
 
-	else if (input_->TriggerKey(DIK_RIGHT) || input_->TriggerKey(DIK_D))
-	{
-		if (!isRflag)
-		{
-			isRflag = true;
-			isUflag = false;
-		}
-
-		else
-		{
-			isRflag = false; 
-		}
-	}
+	
 
 	if (isRflag)
 	{
