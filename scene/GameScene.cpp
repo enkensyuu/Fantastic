@@ -747,6 +747,16 @@ void GameScene::Draw() {
 		break;
 
 	case STAGE2:
+		if (isGoal_)
+		{
+			gameClear_->Draw();
+		}
+
+		if (player_->IsGetDead())
+		{
+			gameOver_->Draw();
+		}
+
 		if (PauseFlag == 1)
 		{
 			PauseScene_->Draw();
