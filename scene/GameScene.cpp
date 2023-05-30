@@ -357,8 +357,8 @@ void GameScene::Initialize() {
 	Title_ = Sprite::Create(textureHandle_[1], { 0,0 });
 	Space_ = Sprite::Create(textureHandle_[2], { 550,600 });
 	StageChoice_ = Sprite::Create(textureHandle_[3], { 0,0 });
-	Waku_ = Sprite::Create(textureHandle_[4], { 102,200 });
-	Waku2_ = Sprite::Create(textureHandle_[4], { 700,200 });
+	Waku_ = Sprite::Create(textureHandle_[4], { 393,290 });
+	Waku2_ = Sprite::Create(textureHandle_[4], { 990,290 });
 	Waku3_ = Sprite::Create(textureHandle_[4], { 1300,200 });
 	Waku4_ = Sprite::Create(textureHandle_[4], { 104,604 });
 	Waku5_ = Sprite::Create(textureHandle_[4], { 705,600 });
@@ -373,7 +373,7 @@ void GameScene::Initialize() {
 	PauseSelect2_ = Sprite::Create(textureHandle_[10], { 770,403 });
 	PauseSelect3_ = Sprite::Create(textureHandle_[10], { 610,530 });
 	PauseSelect4_ = Sprite::Create(textureHandle_[10], { 600,655 });
-	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 660,791 });
+	PauseSelect5_ = Sprite::Create(textureHandle_[10], { 640,780 });
 	//PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,830 });
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
 	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
@@ -708,8 +708,8 @@ void GameScene::Draw() {
 		}
 		if (PauseFlag == 1)
 		{
-			if (SelectFlag == 1)
-			{
+			/*if (SelectFlag == 1)
+			{*/
 				if (Select == 1)
 				{
 					PauseSelect_->Draw();
@@ -739,7 +739,7 @@ void GameScene::Draw() {
 				{
 					PauseSelect6_->Draw();
 				}*/
-			}
+			//}
 		}
 
 		Pause_->Draw();
@@ -753,8 +753,8 @@ void GameScene::Draw() {
 		}
 		if (PauseFlag == 1)
 		{
-			if (SelectFlag == 1)
-			{
+			/*if (SelectFlag == 1)
+			{*/
 				if (Select == 1)
 				{
 					PauseSelect_->Draw();
@@ -784,7 +784,7 @@ void GameScene::Draw() {
 				{
 					PauseSelect6_->Draw();
 				}*/
-			}
+			//}
 		}
 
 		Pause_->Draw();
