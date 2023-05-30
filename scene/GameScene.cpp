@@ -1434,7 +1434,7 @@ void GameScene::Initialize() {
 
 	StageTimer = 1;
 	Select = 0;
-	RingFlag = 0;
+	HomeSelect = 0;
 	PauseFlag = false;
 	SelectFlag = 0;
 	SceneStageFlag1 = 0;
@@ -1458,6 +1458,7 @@ void GameScene::Initialize() {
 	textureHandle_[12] = TextureManager::Load("Operation.png"); //操作説明
 	textureHandle_[13] = TextureManager::Load("5.png"); //背景5
 	textureHandle_[14] = TextureManager::Load("Game_Over.png"); //ゲームオーバー文字
+	textureHandle_[15] = TextureManager::Load("ScenePausehome.png"); 
 
 
 
@@ -1486,6 +1487,10 @@ void GameScene::Initialize() {
 	//PauseSelect6_ = Sprite::Create(textureHandle_[10], { 661,830 });
 	Operation_ = Sprite::Create(textureHandle_[12], { 0,0 });
 	GameOver_ = Sprite::Create(textureHandle_[14], { 0,0 });
+	PauseHome_ = Sprite::Create(textureHandle_[15], { 600,80 });
+	PauseHomeSelect = Sprite::Create(textureHandle_[10], { 100,400 });
+	PauseHomeSelect2 = Sprite::Create(textureHandle_[10], { 100,600 });
+	
 
 	//SEデータ
 	StageSelectSE_ = audio_->LoadWave("SE/StageSelection.mp3");
@@ -1559,6 +1564,25 @@ void GameScene::Update() {
 			StageTimer = 0;
 		}
 
+		if (PauseHomeFlag == 1)
+		{
+			if (input_->TriggerKey(DIK_UP))
+			{
+				PauseHomeSelect++;
+			}
+
+			if (input_->TriggerKey(DIK_DOWN))
+			{
+				PauseHomeSelect2--;
+			}
+		}
+
+		if (input_->TriggerKey(DIK_ESCAPE))
+		{
+			PauseHomeFlag = 1;
+			RingHomeFlag = 1;
+		}
+
 		break;
 
 	case INSTRUCTIONS:
@@ -1605,6 +1629,12 @@ void GameScene::Update() {
 					SceneStageFlag5 = 0;
 				}
 			}
+		}
+
+		if (input_->TriggerKey(DIK_ESCAPE))
+		{
+			PauseHomeFlag = 1;
+			RingHomeFlag = 1;
 		}
 
 		break;
@@ -1665,6 +1695,12 @@ void GameScene::Update() {
 			StageSEHandle_ = audio_->PlayWave(StageSelectSE_, false);
 			Stage5BGMHandle_ = audio_->PlayWave(Stage5BGM_, true);
 			scene_ = STAGE5;
+		}
+
+		if (input_->TriggerKey(DIK_ESCAPE))
+		{
+			PauseHomeFlag = 1;
+			RingHomeFlag = 1;
 		}
 
 		//マイナスに行かないようにする
@@ -1735,9 +1771,28 @@ void GameScene::Draw() {
 	{
 	case TITLE:
 		Title_->Draw();
+		Pause_->Draw();
 		if (GameTimer_ % 30 >= 20)
 		{
 			Space_->Draw();
+		}
+	
+		if (PauseHomeFlag == 1)
+		{
+			if (scene_ == TITLE)
+			{
+				PauseHome_->Draw();
+			}
+
+			if (HomeSelect == 1)
+			{
+				PauseHomeSelect->Draw();
+			}
+
+			if (HomeSelect == 2)
+			{
+				PauseHomeSelect2->Draw();
+			}
 		}
 
 		break;
@@ -1745,12 +1800,28 @@ void GameScene::Draw() {
 		if (!changScene)
 		{
 			Explanation_->Draw();
+			Pause_->Draw();
+			if (PauseHomeFlag == 1)
+			{
+				if (scene_ == TITLE)
+				{
+					PauseHome_->Draw();
+				}
+
+				if (HomeSelect == 1)
+				{
+
+				}
+			}
 		}
 		else
 		{
 			Operation_->Draw();
+			Pause_->Draw();
 		}
 
+
+		
 		break;
 
 	case SELECT:
@@ -1970,8 +2041,8 @@ void GameScene::Draw() {
 		}
 		if (PauseFlag == 1)
 		{
-			if (SelectFlag == 1)
-			{
+			//if (SelectFlag == 1)
+			//{
 				if (Select == 1)
 				{
 					PauseSelect_->Draw();
@@ -1996,8 +2067,7 @@ void GameScene::Draw() {
 				{
 					PauseSelect5_->Draw();
 				}
-
-			}
+			//}
 		}
 		break;
 

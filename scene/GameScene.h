@@ -200,11 +200,20 @@ private: // メンバ変数
 	Sprite* PauseSelect4_ = nullptr; //PauseSelect画面(4)
 	Sprite* PauseSelect5_ = nullptr; //PauseSelect画面(5)
 	Sprite* PauseSelect6_ = nullptr; //PauseSelect画面(6)
+	Sprite* PauseTitleSelect_ = nullptr;
+	Sprite* PauseExplanationSelect_ = nullptr;
+	Sprite* PauseStageSelect_ = nullptr;
+	Sprite* TitlePause_ = nullptr;
+	Sprite* PauseHomeSelect = nullptr;
+	Sprite* PauseHomeSelect2 = nullptr;
+
+
 	Sprite* GameOver_ = nullptr; //ゲームオーバー文字
+	Sprite* PauseHome_ = nullptr; //　タイトル,ゲーム説明,操作説明,ステージ選択
 
 
 
-	int RingFlag = 0; //枠のフラグ
+	int HomeSelect = 0; //枠のフラグ
 	bool PauseFlag; //Pause画面のフラグ
 	int GameTimer_ = 0;
 	int StageTimer = 0;
@@ -217,6 +226,10 @@ private: // メンバ変数
 	int SceneStageFlag4 = 0; //ステージ4フラグ
 	int SceneStageFlag5 = 0; //ステージ5フラグ
 	bool stopPlay;
+
+	bool PauseHomeFlag = 0; //Pauseスラグ(titleなど)
+	int RingHomeFlag = 0;   //枠フラグ
+
 	
 
 	//SE
